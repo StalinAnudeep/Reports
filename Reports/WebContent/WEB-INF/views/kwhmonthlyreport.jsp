@@ -1,0 +1,165 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:include page="header.jsp"></jsp:include>
+<div class="row row-cards row-deck">
+		<form class="card" action="kwhmonthlyreport" method="post">
+			<div class="card-body">
+				<h3 class="card-title"><strong><span class="text-danger">HT13</span> -Category-wise Monthly Electricity Consumption </strong></h3>
+				<div class="row">
+				    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label">Circle</label>
+                        <select class="form-control" name="circle" id="circle" required="required">
+						    <option value="">Select Circle</option>
+						</select>
+                      </div>
+                    </div>
+					<div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label">Year</label>
+                       <select id="inputyear" class="form-control" name="year" required="required">
+					      <option value="">Select Financial Year</option>
+					      </select>
+                      </div>
+                    </div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">GET Report</label>
+							<button type="submit" class="btn btn-success">GET Report</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<c:if test="${ not empty fn:trim(fail)}">
+			<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
+		</c:if>
+		<c:if test="${ not empty fn:trim(vol)}">
+			<div class="card ">
+		    <div class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
+		    <h4 class="text-center">${title} </h4>
+			<table class="table card-table table-vcenter text-nowrap datatable" style="width: 100%;">
+						<thead>
+							<tr>
+								<th>S.NO</th>
+								<th  class="text-center">MONTH YEAR</th>
+								<th  class="text-center">DOMESTIC</th>
+								<th  class="text-center">COMMERCIAL</th>
+								<th  class="text-center">INDUSTRIAL_LOW_MED_V</th>
+								<th  class="text-center">INDUSTRIAL_HV</th>
+								<th  class="text-center">INDUSTRIAL_EHV</th>
+								<th  class="text-center">TRACTION</th>
+								<th  class="text-center">IRRIGATION</th>
+								<th  class="text-center">PUBLIC_UTILITIES</th>
+								<th  class="text-center">OTHERS</th>
+								<th  class="text-center">TOTAL</th>
+								
+
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="mtrblc" items="${vol}" varStatus="tagStatus">
+								<tr>
+									<td>${tagStatus.index + 1}</td>
+									<td>${mtrblc.MON_YEAR}</td>
+									<td class="text-right">${mtrblc.DOMESTIC}</td>
+									<td class="text-right">${mtrblc.COMMERCIAL}</td>
+									<td class="text-right">${mtrblc.INDUSTRIAL_LOW_MED_V}</td>
+									<td class="text-right">${mtrblc.INDUSTRIAL_HV}</td>
+									<td class="text-right">${mtrblc.INDUSTRIAL_EHV}</td>
+									<td class="text-right">${mtrblc.RAILWAYS}</td>
+									<td class="text-right">${mtrblc.IRRIGATION}</td>
+									<td class="text-right">${mtrblc.PUBLIC_UTILITIES}</td>
+									<td class="text-right">${mtrblc.OTHERS}</td>
+									<td class="text-right">
+									${mtrblc.DOMESTIC + mtrblc.COMMERCIAL + mtrblc.INDUSTRIAL_LOW_MED_V + mtrblc.INDUSTRIAL_HV + mtrblc.INDUSTRIAL_EHV + mtrblc.RAILWAYS+ mtrblc.IRRIGATION+ mtrblc.PUBLIC_UTILITIES + mtrblc.OTHERS}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+						<tfoot>
+						<tr>
+							<th colspan="2">Grand Total</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.DOMESTIC).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.COMMERCIAL).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_LOW_MED_V).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_HV).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_EHV).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.RAILWAYS).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.IRRIGATION).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.PUBLIC_UTILITIES).sum()}</th>
+							<th class="text-right">${vol.stream().map(mtrblc -> mtrblc.OTHERS).sum()}</th>
+							<th class="text-right">${
+							vol.stream().map(mtrblc -> mtrblc.DOMESTIC).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.COMMERCIAL).sum() 
+							+ vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_LOW_MED_V).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_HV).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.INDUSTRIAL_EHV).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.RAILWAYS).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.IRRIGATION).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.PUBLIC_UTILITIES).sum()
+							+ vol.stream().map(mtrblc -> mtrblc.OTHERS).sum()
+
+							}</th>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</c:if>
+		
+
+</div>
+<script>
+	requirejs([ 'jquery' ], function($) {
+		$("#circle").append("<option value=ALL>ALL</option>");
+		$(document).ready(function() {
+			
+			$.ajax({
+				type : "POST",
+				url : "getCircles",
+				success : function(data) {
+					var saptype = jQuery.parseJSON(data);
+					$.each(saptype, function(k, v) {
+						$("#circle").append(
+								"<option value="+k+">" + v
+										+ "</option>");
+
+					});
+				}
+			  
+			});
+			var currentYear = (new Date()).getFullYear();
+			for (var j = currentYear+1; j > 2019; j--) {
+				var jj = j - 1 + "-" + j;
+				$("#inputyear").append("<option value="+jj+">" + jj + "</option>");
+			}
+				 $('#mon option:eq('+currnetMonth+')').prop('selected', true);
+				 $('#year option[value="'+currentYear+'"]').prop('selected', true);
+		});
+
+	});
+</script>
+
+<script>
+	require([  'jquery','datatables.net','datatables.net-jszip','datatables.net-buttons','datatables.net-buttons-flash','datatables.net-buttons-html5'], function($,datatable,jszip ) {
+	
+		window.JSZip = jszip;
+		$('.datatable').DataTable({
+			"scrollX": true,
+			"paging": false,
+	        dom: 'Bfrltip',
+	        buttons: {
+	            buttons: [
+	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: 'Voltage wise demand Report' },
+	                { extend: 'excel', className: 'btn btn-xs btn-primary',title: 'Voltage wise demand Report' }
+	            ]
+	        }
+	    });
+	});
+</script>
+<jsp:include page="footer.jsp"></jsp:include>
