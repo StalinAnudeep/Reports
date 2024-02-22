@@ -168,7 +168,7 @@
 							Abstract</a></td>
 					<td></td>
 				</tr>
-					<tr>
+				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT122</span></td>
 					<td><a href="pvtcoll">Private Department Collection</a></td>
@@ -180,7 +180,7 @@
 						style="color: #fff !important; font-weight: bold !important;">HT-RJ</th>
 
 				</tr>
-<tr>
+				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT113</span></td>
 					<td><a href="journalhistory">RJ History</a></td>
@@ -237,8 +237,8 @@
 							<li class="list-group-item"><a href="dlist"><img
 									src="./demo/brand/new.gif" style="width: 40px;"> 1)D-
 									List Report</a></li>
-							<li class="list-group-item"><a href="dlistappeared">2) Division Wise D-
-									List Appeared</a></li>
+							<li class="list-group-item"><a href="dlistappeared">2)
+									Division Wise D- List Appeared</a></li>
 							<li class="list-group-item"><a href="dlistDivision">2.1)D-
 									List Division Wise Abstract</a></li>
 							<li class="list-group-item"><a href="acddlist">3)ACD D-
@@ -272,7 +272,7 @@
 					<td><a href="acdReport">ACD Review Report(ALL)</a></td>
 					<td></td>
 				</tr>
-			<!-- 	<tr>
+				<!-- 	<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT37</span></td>
 					<td><a href="acdReport2022">ACD Review Report(ALL) -
@@ -285,7 +285,7 @@
 					<td><a href="ACDAbstract">ACD Notices Issued Abstract</a></td>
 					<td></td>
 				</tr>
-			<!-- 	<tr>
+				<!-- 	<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT37A</span></td>
 					<td><a href="ACDAbstract2022">ACD Notices Issued Abstract
@@ -350,6 +350,14 @@
 					<td><span>HT23</span></td>
 					<td><a href="emailsent">Number of services for which
 							EMAILS & SMS sent</a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT</span></td>
+					<td><a href="sentEmails">Number Of Services For Which
+							Emails And SMS Sent</a></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -448,12 +456,12 @@
 					<td></td>
 				</tr>
 
-				 <tr>
-                      <td><span ><img
-							src="./demo/brand/new.gif" style=" width: 40px;">HT99</span></td>
-                      <td><a href="TrueUpCollection">True-Up Charges DCB </a></td>
-                      <td></td>
-                    </tr>
+				<tr>
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT99</span></td>
+					<td><a href="TrueUpCollection">True-Up Charges DCB </a></td>
+					<td></td>
+				</tr>
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
@@ -470,15 +478,15 @@
 							Revenue Report </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT100B</span></td>
-					<td><a href="servicetypecatwiseabstract">Service Type ,Category Wise
-							DCB Abstract </a></td>
+					<td><a href="servicetypecatwiseabstract">Service Type
+							,Category Wise DCB Abstract </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT102</span></td>
@@ -608,7 +616,7 @@
 					<td><a href="msmetypewisedcb">MSME Type Wise DCB Abstract</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT114</span></td>
@@ -678,17 +686,18 @@
 
 				<tr>
 					<td><span>HT93A</span></td>
-					<td><a href="energysalesoa">Energy Audit Sales Report(Open Access 2021-23)</a></td>
+					<td><a href="energysalesoa">Energy Audit Sales Report(Open
+							Access 2021-23)</a></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td><span>HT93B</span></td>
-					<td><a href="energysalesoamw">Energy Audit Sales Report Open Access 30 % Month Wise</a></td>
+					<td><a href="energysalesoamw">Energy Audit Sales Report
+							Open Access 30 % Month Wise</a></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td><img src="./demo/brand/new.gif"
-							style="width: 40px;"><span>HT121</span></td>
+					<td><img src="./demo/brand/new.gif" style="width: 40px;"><span>HT121</span></td>
 					<td><a href="servicewiseledgersplit">Service Wise CB Split</a></td>
 					<td></td>
 				</tr>
@@ -770,8 +779,8 @@
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT02D</span></td>
-					<td><a href="BillStopServicesStatus">HT Bill Stop
-							Services Report</a></td>
+					<td><a href="BillStopServicesStatus">HT Bill Stop Services
+							Report</a></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -992,97 +1001,114 @@
 					<td><a href="EDAbstract">ED Abstract</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT112</span></td>
-					<td><a href="trueupchg">Service Wise True Up Charges (2014 -2019)</a></td>
+					<td><a href="trueupchg">Service Wise True Up Charges (2014
+							-2019)</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT112A</span></td>
-					<td><a href="TrueUpAbstract">True Up Abstract (2014 -2019) </a></td>
+					<td><a href="TrueUpAbstract">True Up Abstract (2014 -2019)
+					</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT112B</span></td>
-					<td><a href="trueupkvahhistory">Service Wise True Up Billed Units History (2014 -2019) </a></td>
+					<td><a href="trueupkvahhistory">Service Wise True Up
+							Billed Units History (2014 -2019) </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT120</span></td>
-					<td><a href="lthttrueupchg">LT - HT Service Wise True Up Charges(2014 -2019) </a></td>
+					<td><a href="lthttrueupchg">LT - HT Service Wise True Up
+							Charges(2014 -2019) </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;"></span></td>
 					<td><a href="isucufiledownload">ISU CU File Download</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;"></span></td>
 					<td><a href="kyc">Know Your Details Report</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT115</span></td>
-					<td><a href="metersreport">Existing Meter Details Entry  Report</a></td>
+					<td><a href="metersreport">Existing Meter Details Entry
+							Report</a></td>
 					<td></td>
 				</tr>
-					<tr>
+				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT116</span></td>
-					<td><a href="masterreport">Master Details Entry  Report</a></td>
+					<td><a href="masterreport">Master Details Entry Report</a></td>
 					<td></td>
 				</tr>
 
-<tr>
+				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT117</span></td>
-					<td><a href="lthtfppcachg">LT - HT Service Wise FPPCA Charges (2021-2022)</a></td>
+					<td><a href="lthtfppcachg">LT - HT Service Wise FPPCA
+							Charges (2021-2022)</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT117A</span></td>
-					<td><a href="htbsfppcachg"> HT Bill StopServices FPPCA Charges (2021-2022)</a></td>
+					<td><a href="htbsfppcachg"> HT Bill StopServices FPPCA
+							Charges (2021-2022)</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT118</span></td>
 					<td><a href="oahistory">HT Old Open Access History</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT119</span></td>
 					<td><a href="oldcolonyrdng">HT Old Colony History</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT119 A</span></td>
-					<td><a href="oldcolonyrdngtu">HT Old Colony True Up Charges (2014-2019)</a></td>
+					<td><a href="oldcolonyrdngtu">HT Old Colony True Up
+							Charges (2014-2019)</a></td>
 					<td></td>
 				</tr>
+
+				<tr>
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT120</span></td>
+					<td><a href="fyConsumption">Financial Consumption Report</a></td>
+					<td></td>
+				</tr>
+
 				
+
 
 			</table>
 		</div>
@@ -1090,34 +1116,62 @@
 
 </div>
 <script>
-	requirejs([ 'jquery' ], function($) {
-		$(document).ready(function() {
-			$(".on-page-search").on("keyup", function () {
-				var v = $(this).val();
-				$(".results").removeClass("results");
-				$("a.demo-links").each(function () {
-				if (v != "" && $(this).text().search(new RegExp(v,'gi')) != -1) {
-				$(this).addClass("results");
-				}
-				});
-				});
-		});
-	});
+	requirejs(
+			[ 'jquery' ],
+			function($) {
+				$(document)
+						.ready(
+								function() {
+									$(".on-page-search")
+											.on(
+													"keyup",
+													function() {
+														var v = $(this).val();
+														$(".results")
+																.removeClass(
+																		"results");
+														$("a.demo-links")
+																.each(
+																		function() {
+																			if (v != ""
+																					&& $(
+																							this)
+																							.text()
+																							.search(
+																									new RegExp(
+																											v,
+																											'gi')) != -1) {
+																				$(
+																						this)
+																						.addClass(
+																								"results");
+																			}
+																		});
+													});
+								});
+			});
 </script>
 
 <script>
-	require([  'jquery','datatables.net','datatables.net-jszip','datatables.net-buttons','datatables.net-buttons-flash','datatables.net-buttons-html5'], function($,datatable,jszip ) {
-	
+	require([ 'jquery', 'datatables.net', 'datatables.net-jszip',
+			'datatables.net-buttons', 'datatables.net-buttons-flash',
+			'datatables.net-buttons-html5' ], function($, datatable, jszip) {
+
 		window.JSZip = jszip;
 		$('.datatable').DataTable({
-	        dom: 'Bfrltip',
-	        buttons: {
-	            buttons: [
-	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: 'ISD_Details' },
-	                { extend: 'excel', className: 'btn btn-xs btn-primary',title: 'ISD_Details' }
-	            ]
-	        }
-	    });
+			dom : 'Bfrltip',
+			buttons : {
+				buttons : [ {
+					extend : 'csv',
+					className : 'btn btn-xs btn-primary',
+					title : 'ISD_Details'
+				}, {
+					extend : 'excel',
+					className : 'btn btn-xs btn-primary',
+					title : 'ISD_Details'
+				} ]
+			}
+		});
 	});
 </script>
 
