@@ -257,8 +257,8 @@ color: #fff !important;
 	        "ordering": false,
 	        buttons: {
 	            buttons: [
-	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: 'Services Wise ledger Closing Balance',footer: true },
-	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'Services Wise ledger Closing Balance',footer: true }
+	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: '${title}',footer: true },
+	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'${title}',footer: true }
 	            ]
 	        }
 	    });

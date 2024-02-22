@@ -269,7 +269,7 @@ $(document).ready(function() {
 	        "ordering": false,
 	        buttons: {
 	            buttons: [
-	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'CB Split (Arrear, Demand Part)  Abstract',footer: true }
+	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'${title}',footer: true }
 	            ]
 	        }
 	    });

@@ -101,7 +101,6 @@ public class ReportController {
 	public String showLoginPage() {
 		return "home";
 	}
-
 	@PostMapping("/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model) {
@@ -1308,7 +1307,7 @@ public class ReportController {
 			mav.addObject("tp", tp_sales);
 			mav.addObject("CIRCOUNT",countFrequencies(tp_sales));
 			mav.addObject("TYPECOUNT",countFrequencies(tp_sales));
-			mav.addObject("title",circle+" Category Wise Ledger Closing Balances Abstract");
+			mav.addObject("title",circle+" Category Wise Ledger Closing Balances Abstract For"+(circle.equals("ALL")?"APCPDCL":circle)+"  the month of "+request.getParameter("fmonth") + "-" + request.getParameter("fyear"));
 			mav.addObject("mon", request.getParameter("fmonth") + "-" + request.getParameter("fyear"));
 			mav.addObject("status", request.getParameter("status"));
 		}
@@ -5381,7 +5380,7 @@ public class ReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
-			mav.addObject("title", "Ledger Closing Balance Abstract For "+(circle.equals("ALL")?"APCPDCL ":circle)+" , "+monthYear);
+			mav.addObject("title", "Status Wise DCB Report  For "+(circle.equals("ALL")?"APCPDCL ":circle)+"  the month of "+monthYear);
 			mav.addObject("circle", circle);
 			mav.addObject("mon", monthYear);
 		}
