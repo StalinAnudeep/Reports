@@ -30,7 +30,6 @@ public class NewReportController {
 		ModelAndView mav = new ModelAndView("fyConsumption");
 		List<Map<String, Object>> fyConsumptionReport = newReportDao.getFinancialConsumption(request);
 		String type = request.getParameter("circle");
-
 		String year = request.getParameter("year");
 
 		if (fyConsumptionReport.isEmpty()) {
