@@ -17,7 +17,6 @@ import com.spdcl.dao.NewReportDao;
 @Controller
 public class NewReportController {
 	private static Logger log = Logger.getLogger(ReportController.class);
-
 	@Autowired
 	NewReportDao newReportDao;
 
