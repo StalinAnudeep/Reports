@@ -31,7 +31,6 @@ public class NewReportController {
 		List<Map<String, Object>> fyConsumptionReport = newReportDao.getFinancialConsumption(request);
 		String type = request.getParameter("circle");
 		String year = request.getParameter("year");
-
 		if (fyConsumptionReport.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
