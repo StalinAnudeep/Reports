@@ -29,7 +29,6 @@ public class NewReportController {
 	public ModelAndView getFinancialConsumption(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("fyConsumption");
 		List<Map<String, Object>> fyConsumptionReport = newReportDao.getFinancialConsumption(request);
-
 		String type = request.getParameter("circle");
 
 		String year = request.getParameter("year");
