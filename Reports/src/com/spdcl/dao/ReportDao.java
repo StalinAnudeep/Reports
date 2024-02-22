@@ -2200,12 +2200,20 @@ public class ReportDao {
 	public List<Map<String, Object>> getEDAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String levi_month = "01-"+request.getParameter("fmonth") + "-" + request.getParameter("fyear");
+		System.out.println(levi_month);
 		String edflag = request.getParameter("edflag");
+		System.out.println(edflag);
 		if (circle.equalsIgnoreCase("ALL")) {
 		try {
-			String sql = "select * from (select to_char(BTBLDT,'MON-YYYY') BDT,NVL(substr(BTSCNO,1,3),'TOTAL') CIRCLE,sum(BTBKVAH) KVAH,sum(BTED) ED_AMT from  (select * from bill_hist union all select * from bill) ,cons where BTSCNO=CTUSCNO\r\n" + 
-					"and NVL(CTEDFLAG,'N')=? and BTBLDT >=  to_date(?,'DD-MON-YYYY') group by ROLLUP(to_char(BTBLDT,'MON-YYYY'),substr(BTSCNO,1,3)) order by TO_DATE(BDT,'MON-YYYY'),\r\n" + 
-					"case when CIRCLE = 'VJA' then '001' when CIRCLE = 'GNT' then '002' when CIRCLE = 'ONG' then '003'  when CIRCLE = 'CRD' then '009' else CIRCLE end ) where BDT IS NOT NULL";
+			String sql = "select * from \n"
+					+ "(select to_char(BTBLDT,'MON-YYYY') BDT,NVL(substr(BTSCNO,1,3),'TOTAL') CIRCLE,sum(BTBKVAH) KVAH,sum(BTED) ED_AMT from \n"
+					+ "(select * from bill_hist union all select * from bill) ,cons \n"
+					+ "where BTSCNO=CTUSCNO\n"
+					+ "and NVL(CTEDFLAG,'N')='Y' \n"
+					+ "and BTBLDT >=  to_date(?,'DD-MON-YYYY')\n"
+					+ "group by ROLLUP(to_char(BTBLDT,'MON-YYYY'),substr(BTSCNO,1,3))\n"
+					+ "order by TO_DATE(BDT,'MON-YYYY'),\n"
+					+ "case when CIRCLE = 'VJA' then '001' when CIRCLE = 'GNT' then '002' when CIRCLE = 'ONG' then '003'  when CIRCLE = ? then '009' else CIRCLE end ) where BDT IS NOT NULL;\n";
 					log.info(sql);
 			return jdbcTemplate.queryForList(sql,new Object[] {edflag,levi_month});
 		} 	
@@ -2218,7 +2226,7 @@ public class ReportDao {
 		}
 		else {
 			try {
-				String sql = "select * from ( select BTBLDT,'MON-YYYY') BDT,NVL(substr(BTSCNO,1,3),'TOTAL') CIRCLE,sum(BTEDKVAH) KVAH,sum(BTED) ED_AMT from  (select * from bill_hist union all select * from bill) ,cons where BTSCNO=CTUSCNO\r\n" + 
+				String sql = "select * from ( select TO_CHAR(BTBLDT,'MON-YYYY') BDT,NVL(substr(BTSCNO,1,3),'TOTAL') CIRCLE,sum(BTEDKVAH) KVAH,sum(BTED) ED_AMT from  (select * from bill_hist union all select * from bill) ,cons where BTSCNO=CTUSCNO\r\n" + 
 						"and NVL(CTEDFLAG,'N')=? and BTBLDT >=  to_date(?,'DD-MON-YYYY') and substr(BTSCNO,1,3) = ? group by ROLLUP(to_char(BTBLDT,'MON-YYYY'),substr(BTSCNO,1,3)) order by TO_DATE(BDT,'MON-YYYY'),\r\n" + 
 						"case when CIRCLE = 'VJA' then '001' when CIRCLE = 'GNT' then '002' when CIRCLE = 'ONG' then '003'  when CIRCLE = 'CRD' then '009' else CIRCLE end )  where BDT IS NOT NULL";
 						log.info(sql);
