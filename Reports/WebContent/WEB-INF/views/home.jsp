@@ -352,7 +352,7 @@
 							EMAILS & SMS sent</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT23A</span></td>
@@ -372,11 +372,27 @@
 							Mobile Numbers</a></td>
 					<td></td>
 				</tr>
+				
+				
+				<tr class="bg-primary">
+					<th class="text-center" colspan="3"
+						style="color: #fff !important; font-weight: bold !important;">HT-
+						RAC</th>
+
+				</tr>
+				<tr>
+
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT123</span></td>
+					<td><a href="monthWiseTariffReport">Month Wise Tariff Report</a></td>
+					<td></td>
+				</tr>
 
 
 			</table>
 		</div>
 	</div>
+
 
 	<div class="col-sm-6 col-lg-4">
 		<div class="card">
@@ -448,7 +464,7 @@
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT97D</span></td>
@@ -456,7 +472,7 @@
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
-				
+
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
@@ -1104,12 +1120,12 @@
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
-							style="width: 40px;">HT120</span></td>
+							style="width: 40px;">HT125</span></td>
 					<td><a href="fyConsumption">Financial Consumption Report</a></td>
 					<td></td>
 				</tr>
 
-				
+
 
 
 			</table>

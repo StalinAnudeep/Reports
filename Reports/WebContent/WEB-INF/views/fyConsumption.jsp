@@ -9,7 +9,7 @@
 	<form class="card" action="fyConsumption" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<strong>Financial Year Consumption Report</strong>
+				<span class="text-danger">HT125 </span><strong> - Financial Year Consumption Report</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
