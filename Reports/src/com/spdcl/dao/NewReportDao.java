@@ -288,7 +288,7 @@ public class NewReportDao {
 					+ "from JOURNAL_HIST WHERE TRUNC(rjdt,'MM')>=?  and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X','E') GROUP BY USCNO,TRUNC(rjdt,'MM')) RJ\r\n"
 					+ "\r\n"
 					+ "WHERE CTUSCNO=L.USCNO AND L.USCNO=RJ.USCNO(+) AND LDT=RDT(+) and substr(ctseccd,-5)=seccd GROUP BY LDT,SUBSTR(CTUSCNO,1,3),divname,subname,secname)\r\n"
-					+ "GROUP BY cube(T_LDT,CIRNAME),divname,subname,secname\r\n"
+					+ "GROUP BY T_LDT,CIRNAME,divname,subname,secname\r\n"
 					+ "ORDER BY TO_DATE(T_LDT,'MON-YYYY'),case when CIRNAME = 'VJA' then '001' when CIRNAME = 'GNT' then '002' when CIRNAME = 'ONG' then '003'  when CIRNAME = 'CRD' then '009' else CIRNAME end";
 					log.info(sql);
 			return jdbcTemplate.queryForList(sql,new Object[] {levi_month,levi_month});
@@ -317,7 +317,7 @@ public class NewReportDao {
 						+ "\r\n"
 						+ "WHERE CTUSCNO=L.USCNO AND L.USCNO=RJ.USCNO(+) AND LDT=RDT(+) and substr(ctseccd,-5)=seccd GROUP BY LDT,SUBSTR(CTUSCNO,1,3),divname,subname,secname)\r\n"
 						+ "where CIRNAME=?\r\n"
-						+ "GROUP BY cube(T_LDT,CIRNAME),divname,subname,secname\r\n"
+						+ "GROUP BY T_LDT,CIRNAME,divname,subname,secname\r\n"
 						+ "ORDER BY TO_DATE(T_LDT,'MON-YYYY'),case when CIRNAME = 'VJA' then '001' when CIRNAME = 'GNT' then '002' when CIRNAME = 'ONG' then '003'  when CIRNAME = 'CRD' then '009' else CIRNAME end";
 						log.info(sql);
 				return jdbcTemplate.queryForList(sql,new Object[] {levi_month,levi_month,circle});
