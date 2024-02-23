@@ -186,7 +186,7 @@ thead>tr>th {
 									<th>CB</th>
 									<th>SD</th>
 								</tr>
-								
+
 							</thead>
 							<tbody>
 								<%
@@ -228,23 +228,29 @@ thead>tr>th {
 											<td class="text-right TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.SD}</td>
 										</c:if>
+										
+										
+										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
+											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.SECNAME}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
+										</c:if>
 
 									</tr>
-									
+
 								</c:forEach>
 							</tbody>
-							<tfoot>
-								<tr>
-									<th class="text-center" colspan="5">Total</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
-								</tr>
-							</tfoot>
-							
+
+
 
 						</table>
 					</c:if>
@@ -258,11 +264,11 @@ thead>tr>th {
 									<th class="bg-primary text-white text-center" colspan="13">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
+									<th>LDT</th>
 									<th>Circle</th>
 									<th>Division</th>
 									<th>SubDivision</th>
 									<th>Section</th>
-									<th>LDT</th>
 									<th>OB</th>
 									<th>DEMAND</th>
 									<th>COLLECTION ARREAR</th>
@@ -270,7 +276,7 @@ thead>tr>th {
 									<th>COLLECTION</th>
 									<th>CB</th>
 								</tr>
-								
+
 							</thead>
 
 							<tbody>
@@ -290,7 +296,7 @@ thead>tr>th {
 
 
 									</tr>
-									
+
 								</c:forEach>
 							</tbody>
 							<tfoot>
