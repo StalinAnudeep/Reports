@@ -448,13 +448,15 @@
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
+				
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT97D</span></td>
-					<td><a href="HtDCBCollectionMonthly">HT DCB Collection
-							Monthly</a></td>
+					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DCB
+							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
+				
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"

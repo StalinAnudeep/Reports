@@ -1,7 +1,13 @@
 package com.spdcl.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,18 +74,87 @@ public class NewReportController {
 		} else {
 			mav.addObject("mailAndSmsReport", mailAndSmsReport);
 			mav.addObject("type", type);
-			
+
 			if (circle.equals("ALL")) {
 
 				mav.addObject("title", "Number Of " + type + " sent For APCPDCL - " + monthYear);
 			} else {
 				mav.addObject("title", "Number Of " + type + " sent For " + circle + "  - " + monthYear);
 			}
-		
-			
+
 		}
 		return mav;
 
 	}
 
+	@GetMapping("/HtDCBCollectionSplitMonthlyWise")
+	public String getHtDCBCollectionSplitMonthlyWiseAbstract() {
+		return "HtDCBCollectionSplitMonthlyWise";
+	}
+
+	@PostMapping("/HtDCBCollectionSplitMonthlyWise")
+	public ModelAndView getHtDCBCollectionSplitMonthlyWiseAbstract(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		ModelAndView mav = new ModelAndView("HtDCBCollectionSplitMonthlyWise");
+		List<Map<String, Object>> tp_sale = newReportDao.getHtDCBCollectionSplitMonthlyWiseAbstract(request);
+ 
+		System.out.println(tp_sale);
+		if (tp_sale.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("tp_sale", tp_sale);
+			mav.addObject("CIRCOUNT", countFrequencies(tp_sale));
+			mav.addObject("CIR", circle);
+			mav.addObject("title",
+					"HT DCB COLLECTION SPLIT MONTHLY ABSTRACT  FOR " + (circle.equals("ALL") ? "APCPDCL" : circle));
+		}
+		return mav;
+
+	}
+
+	public  Map<String,Integer>  countFrequencies(List<Map<String,Object>> list) 
+	{ 
+		Map<String,Integer> countmap= new HashMap<String,Integer>();
+		List<String> templist = new ArrayList<String>();
+		Iterator<Map<String,Object>> itr = list.iterator();
+		while(itr.hasNext()) {
+			Map<String,Object> tm = itr.next();
+			for (Map.Entry<String, Object> pair : tm.entrySet()) {
+				if(pair.getKey().equals("CIRNAME")) {
+				templist.add(pair.getValue().toString());
+				}
+				if(pair.getKey().equals("CIRCLE")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("CIR_TYPE")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("ISCNO")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("LDT")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("BDT")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("TYPE")) {
+					templist.add(pair.getValue().toString());
+					}
+				if(pair.getKey().equals("DIV_TYPE")) {
+					templist.add(pair.getValue().toString());
+					}
+				
+			}
+		}
+		
+	    Set<String> st = new HashSet<String>(templist); 
+	    for (String s : st) {
+	    	countmap.put(s, Collections.frequency(templist, s));
+	    	
+	    }
+
+	    return countmap;
+	        
+	}
 }
