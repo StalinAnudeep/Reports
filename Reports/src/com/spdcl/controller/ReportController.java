@@ -1155,7 +1155,27 @@ public class ReportController {
 		return mav;
 	}
 	
-	
+	@GetMapping("/HtDCBCollectionMonthly")
+	public String getHtDCBCollectionMonthlyAbstract() {
+		return "HtDCBCollectionMonthly";
+	}
+	@PostMapping("/HtDCBCollectionMonthly")
+	public ModelAndView getHtDCBCollectionMonthlyAbstract(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		ModelAndView mav = new ModelAndView("HtDCBCollectionMonthly");
+		List<Map<String, Object>> tp_sales = reportDao.getHtDCBCollectionMonthlyAbstract(request);
+		
+		if (tp_sales.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("tp", tp_sales);
+			mav.addObject("CIRCOUNT",countFrequencies(tp_sales));
+			mav.addObject("CIR", circle);
+			mav.addObject("title","HT DCB COLLECTION  MONTHLY ABSTRACT  FOR "+(circle.equals("ALL")?"APCPDCL":circle));
+			/*mav.addObject("status", request.getParameter("status"));*/
+		}
+		return mav;
+	}
 	
 	@GetMapping("/ISDAbstract")
 	public String ISDAbstract() {

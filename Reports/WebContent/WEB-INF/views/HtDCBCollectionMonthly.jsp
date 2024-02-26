@@ -88,7 +88,7 @@ color: #fff !important;
 <div class="row row-cards row-deck">
 		<form class="card" action="HtDCBCollectionMonthly" method="post">
 			<div class="card-body">
-				<h3 class="card-title"><strong><span class="text-danger">HT97D</span> -HT DCB Collection  Monthly </strong></h3>
+				<h3 class="card-title"><strong><span class="text-danger">HT97E</span> -HT DCB Collection  Monthly </strong></h3>
 				<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">

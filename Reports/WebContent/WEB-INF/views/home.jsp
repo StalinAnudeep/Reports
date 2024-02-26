@@ -354,7 +354,7 @@
 				</tr>
 
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT23A</span></td>
 					<td><a href="sentEmails">Services For Which
 							Emails And SMS Sent</a></td>
@@ -382,7 +382,7 @@
 				</tr>
 				<tr>
 
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT123</span></td>
 					<td><a href="monthWiseTariffReport">Month Wise Tariff
 							Report</a></td>
@@ -391,7 +391,7 @@
 
 				<tr>
 
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT124</span></td>
 					<td><a href="financialYearTariffReport">FinancialYear Tariff
 							Report</a></td>
@@ -475,13 +475,18 @@
 				</tr>
 
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>
 					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DCB
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
-
+				<tr>
+					<td><span><img src="./demo/brand/new.gif" style="width: 40px;">HT97E</span></td>
+					<td><a href="HtDCBCollectionMonthly">HT DCB Collection
+							Monthly</a></td>
+					<td></td>
+				</tr>
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
@@ -1128,7 +1133,7 @@
 				</tr>
 
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT125</span></td>
 					<td><a href="fyConsumption"> FY Consumption Report</a></td>
 					<td></td>
