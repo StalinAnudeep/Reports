@@ -451,7 +451,6 @@
 							Report </a></td>
 					<td></td>
 				</tr>
-
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT97A</span></td>
