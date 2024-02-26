@@ -3730,6 +3730,7 @@ public class ReportController {
 	public ModelAndView getUdcDetails(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("udc");
 		List<Map<String, Object>> nill = reportDao.getUDCDetails(request);
+		System.out.println(nill);
 		if (nill.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {

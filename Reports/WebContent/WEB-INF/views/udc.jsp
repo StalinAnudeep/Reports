@@ -8,7 +8,7 @@
 <div class="row row-cards row-deck">
 	      <form class="card" action="udc" method="post">
                 <div class="card-body">
-                  <h3 class="card-title">UDC Services Report</h3>
+                  <h3 class="card-title"><strong><span>HT85 -</span>UDC Services Report</strong></h3>
                   <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
@@ -66,6 +66,9 @@
 							<th>#</th>
 							<th>BILL DATE</th>
 							<th>SCNO</th>
+							<th>DIVISION</th>
+							<th>SUBDIVISION</th>
+							<th>SECTION</th>
 							<th>NAME</th>
 							<th>ADDRESS</th>
 							<th class="text-right">CATEGORY</th>
@@ -84,6 +87,9 @@
 								<td>${tagStatus.index + 1}</td>
 								<td><fmt:formatDate pattern = "dd-MM-yyyy" value = "${mtrblc.BTBLDT}" /></td>
 								<td>${mtrblc.BTSCNO}</td>
+								<td>${mtrblc.DIVNAME}</td>
+								<td>${mtrblc.SUBNAME}</td>
+								<td>${mtrblc.SECNAME}</td>
 								<td>${mtrblc.CTNAME}</td>
 								<td>${mtrblc.CTADD1}</td>
 								<td class="text-right">${mtrblc.BTBLCAT}</td>
