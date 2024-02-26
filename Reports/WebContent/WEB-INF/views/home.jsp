@@ -1130,7 +1130,7 @@
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT125</span></td>
-					<td><a href="fyConsumption">Financial Consumption Report</a></td>
+					<td><a href="fyConsumption"> FY Consumption Report</a></td>
 					<td></td>
 				</tr>
 

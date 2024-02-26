@@ -9,7 +9,8 @@
 	<form class="card" action="fyConsumption" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<strong><span class="text-danger">HT125 </span> - Financial Year Consumption Report</strong>
+				<strong><span class="text-danger">HT125 </span> - Financial
+					Year Consumption Report</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
@@ -43,7 +44,7 @@
 	<c:if test="${ not empty fn:trim(fail)}">
 		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
 	</c:if>
-	
+
 	<c:if test="${ not empty fn:trim(fyConsumptionReport)}">
 		<div class="card ">
 			<div
@@ -60,7 +61,7 @@
 							<th class="text-center" colspan="6">HT3</th>
 							<th class="text-center" colspan="6">HT4</th>
 							<th class="text-center" colspan="6">HT5B</th>
-							<th class="text-center" colspan="6">HTE</th>
+							<th class="text-center" colspan="6">HT5E</th>
 
 						</tr>
 
@@ -122,35 +123,35 @@
 								<td>${frc.HT1EC}</td>
 								<td>${frc.HT1SPECIFIC_CONSUMPTION}</td>
 								<td>${frc.HT1SPECIFIC_REVENUE}</td>
-								
+
 								<td class="text-center">${frc.HT2SCS}</td>
 								<td class="text-center">${frc.HT2UNITS}</td>
 								<td class="text-center">${frc.HT2DEMAND}</td>
 								<td class="text-center">${frc.HT2EC}</td>
 								<td class="text-center">${frc.HT2SPECIFIC_CONSUMPTION}</td>
 								<td class="text-center">${frc.HT2SPECIFIC_REVENUE}</td>
-								
+
 								<td class="text-center">${frc.HT3SCS}</td>
 								<td class="text-center">${frc.HT3UNITS}</td>
 								<td class="text-center">${frc.HT3DEMAND}</td>
 								<td class="text-center">${frc.HT3EC}</td>
 								<td class="text-center">${frc.HT3SPECIFIC_CONSUMPTION}</td>
 								<td class="text-center">${frc.HT3SPECIFIC_REVENUE}</td>
-								
+
 								<td class="text-center">${frc.HT4SCS}</td>
 								<td class="text-center">${frc.HT4UNITS}</td>
 								<td class="text-center">${frc.HT4DEMAND}</td>
 								<td class="text-center">${frc.HT4EC}</td>
 								<td class="text-center">${frc.HT4SPECIFIC_CONSUMPTION}</td>
 								<td class="text-center">${frc.HT4SPECIFIC_REVENUE}</td>
-								
+
 								<td class="text-center">${frc.HT5BSCS}</td>
 								<td class="text-center">${frc.HT5BUNITS}</td>
 								<td class="text-center">${frc.HT5BDEMAND}</td>
 								<td class="text-center">${frc.HT5BEC}</td>
 								<td class="text-center">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
 								<td class="text-center">${frc.HT5BSPECIFIC_REVENUE}</td>
-								
+
 								<td class="text-center">${frc.HT5ESCS}</td>
 								<td class="text-center">${frc.HT5EUNITS}</td>
 								<td class="text-center">${frc.HT5EDEMAND}</td>
@@ -160,67 +161,68 @@
 
 							</tr>
 						</c:forEach>
-						
-						</tbody>
-						
-						
-						<c:if test="${type eq 'ALL'}">
+
+					</tbody>
+
+
+					<c:if test="${type eq 'ALL'}">
 						<tfoot>
-						
-						<tr>
-							<td class="text-center">Grand Total</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1SCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1UNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1DEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1EC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_REVENUE).sum()}</td>
-							
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2SCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2UNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2DEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2EC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_REVENUE).sum()}</td>
-							
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3SCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3UNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3DEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3EC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_REVENUE).sum()}</td>
-							
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4SCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4UNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4DEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4EC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_REVENUE).sum()}</td>
-							
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BSCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BUNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BDEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BEC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_REVENUE).sum()}</td>
-							
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5ESCS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5EUNITS).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5EDEMAND).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5EEC).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_CONSUMPTION).sum()}</td>
-							<td class="text-center">${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_REVENUE).sum()}</td>
-							
-						</tr>
-						</c:if>
-					</tfoot>
-					
+
+							<tr>
+								<td class="text-center">Grand Total</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1UNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1DEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1EC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_REVENUE).sum()}</td>
+
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2UNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2DEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2EC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_REVENUE).sum()}</td>
+
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3UNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3DEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3EC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_REVENUE).sum()}</td>
+
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4UNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4DEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4EC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_REVENUE).sum()}</td>
+
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BUNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BDEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BEC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_REVENUE).sum()}</td>
+
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESCS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EUNITS).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EDEMAND).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EEC).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_CONSUMPTION).sum()}</td>
+								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_REVENUE).sum()}</td>
+
+							</tr>
+						</tfoot>
+					</c:if>
+
+
 				</table>
 			</div>
 		</div>
 	</c:if>
 
-	
+
 </div>
 <script>
 	requirejs([ 'jquery' ], function($) {
