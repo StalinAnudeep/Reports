@@ -372,8 +372,8 @@
 							Mobile Numbers</a></td>
 					<td></td>
 				</tr>
-				
-				
+
+
 				<tr class="bg-primary">
 					<th class="text-center" colspan="3"
 						style="color: #fff !important; font-weight: bold !important;">HT-
@@ -384,10 +384,19 @@
 
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT123</span></td>
-					<td><a href="monthWiseTariffReport">Month Wise Tariff Report</a></td>
+					<td><a href="monthWiseTariffReport">Month Wise Tariff
+							Report</a></td>
 					<td></td>
 				</tr>
 
+				<tr>
+
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT124</span></td>
+					<td><a href="financialYearTariffReport">FinancialYear Tariff
+							Report</a></td>
+					<td></td>
+				</tr>
 
 			</table>
 		</div>

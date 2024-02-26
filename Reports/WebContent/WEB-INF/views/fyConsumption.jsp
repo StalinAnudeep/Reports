@@ -9,7 +9,7 @@
 	<form class="card" action="fyConsumption" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<span class="text-danger">HT125 </span><strong> - Financial Year Consumption Report</strong>
+				<strong><span class="text-danger">HT125 </span> - Financial Year Consumption Report</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
@@ -48,7 +48,7 @@
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
-				<h2 class="text-center text-danger">${title}</h2>
+				<h2 class="text-center text-primary">${title}</h2>
 				<table class="table card-table table-vcenter text-nowrap datatable"
 					style="width: 100%;">
 					<thead>

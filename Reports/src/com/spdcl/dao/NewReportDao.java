@@ -332,4 +332,115 @@ public class NewReportDao {
 		}
 	}
 
+	public List<Map<String, Object>> getMonthWiseTariffReport(HttpServletRequest request) {
+		
+		String month = request.getParameter("month");
+		String year = request.getParameter("year");
+		String fromDate = "05-" + month + "-" + year;
+		String toDate = "30-" + month + "-" + year;
+		String monthYear = "01-APR-"+ year;
+		
+		try {
+			String sql = "SELECT  UNIQUE bdt Bmonth,substr(CATEGORY,1,1) cat,substr(CATEGORY,2) subcat,voltage,DESC_HT DESCRIPT ,COUNT(*) NOS,\r\n"
+					+ "--SUM(NVL(RUNITS,0)) REC_UNITS,\r\n"
+					+ "SUM(NVL(BUNIT,0)) BILLED_UNITS,\r\n"
+					+ "SUM(NVL(OFPU,0)) OFF_PEAK_UNITS,\r\n"
+					+ "SUM(NVL(PEU,0)) PEAK_UNITS,\r\n"
+					+ "SUM(NVL(COL,0)) COLONY_UNITS,\r\n"
+					+ "SUM(NVL(EC,0)) ECHG,\r\n"
+					+ "SUM(NVL(FIXED,0)) FCHG,\r\n"
+					+ "SUM(NVL(CC,0)) CCHG,\r\n"
+					+ "--SUM(NVL(ED,0)) EDCHG,\r\n"
+					+ "--SUM(NVL(EC,0)+NVL(FIXED,0)+NVL(CC,0)+NVL(ED,0)) DEMAND_CHGS,\r\n"
+					+ "SUM(NVL(DEM,0)-NVL(EC,0)-NVL(FIXED,0)-NVL(CC,0)) OTHER_CHGS,\r\n"
+					+ "SUM(NVL(CR_AMT,0)+NVL(PAY,0)) COLL,\r\n"
+					+ "SUM(NVL(INC,0)) INCENTIVE_AMT,SUM(CTCMD_HT) CMD,SUM(NVL(BMD,0)) RMD\r\n"
+					+ "--SUM(NVL(VSUR,0)) VOLTAGE_SURCHARGE_AMT\r\n"
+					+ "--SUM(NVL(DEM,0)) MAR_21_DEM\r\n"
+					+ " from cons,SPDCLMASTER,HT_TARIFF,\r\n"
+					+ "(\r\n"
+					+ "SELECT BTSCNO,BTBLCAT,BTBLSCAT,BTACTUAL_KV,TRUNC(BTBLDT,'MM') BDT,NVL(BTRKVA_HT,0) BMD,NVL(BTRKVAH_HT,0) RUNITS,(NVL(BTBKVAH,0)) BUNIT,NVL(BTTOD1,0)+NVL(BTTOD6,0) OPUNITS,\r\n"
+					+ "NVL(BTTOD2,0)+NVL(BTTOD5,0) PUNITS,NVL(BTBLCOLNY_HT,0) COLUNITS,NVL(BTCURDEM,0)-(NVL(BTCUSTCHG,0)+NVL(BTADLCHG,0)+NVL(BTED,0)+NVL(BTED_INT,0)+NVL(BTDEMCHG_NOR,0)+NVL(BTDEMCHG_PEN,0)+NVL(BTOTHERCHG,0)) EC,\r\n"
+					+ "NVL(BTCUSTCHG,0) CC,\r\n"
+					+ "NVL(BTDEMCHG_NOR,0)+NVL(BTDEMCHG_PEN,0) FIXED,\r\n"
+					+ "NVL(BTED,0) ED,\r\n"
+					+ "NVL(BTVOLTSURCHG,0) VSUR,\r\n"
+					+ "NVL(BTTOD1,0)+NVL(BTTOD6,0) OFPU,\r\n"
+					+ "NVL(BTTOD2,0)+NVL(BTTOD5,0) PEU,\r\n"
+					+ "NVL(BTBLCOLNY_HT,0) COL,\r\n"
+					+ "--NVL(BTCURDEM,0)-(NVL(BTADLCHG,0)+NVL(BTED_INT,0)) DEMCHG,\r\n"
+					+ "--NVL(BTADLCHG,0)+NVL(BTCOURT_LPC,0) SURCHG,\r\n"
+					+ "NVL(BTLFINCENTIVE_HT,0) INC,\r\n"
+					+ "(NVL(BTCURDEM,0)+NVL(BTCOURT_LPC,0)) DEM FROM BILL_hist where btbldt = ? ) B, \r\n"
+					+ "(SELECT USCNO,TRUNC(PAY_DATE,'MM') PDT,SUM(NVL(PCMD,0)) PAY FROM PAY_ht_hist WHERE PAY_DATE between ? and ?   AND pay_sta_flg='C' \r\n"
+					+ "GROUP BY USCNO,TRUNC(PAY_DATE,'MM')) P,\r\n"
+					+ "(select uscno,TRUNC(RJDT,'MM') RDT,\r\n"
+					+ "SUM(CASE WHEN RJTYPE='CR'THEN (nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) CR_AMT  \r\n"
+					+ "from JOURNAL_HIST WHERE  RJDT between ? and ?    and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X') \r\n"
+					+ "GROUP BY USCNO,TRUNC(RJDT,'MM')) RJ\r\n"
+					+ "WHERE substr(ctseccd,-5)=seccd AND CTUSCNO=BTSCNO AND  BDT=RDT(+) AND BDT=PDT(+)  AND CTUSCNO=P.USCNO(+) AND BTBLCAT=SUBSTR(HT_CAT,3) AND BTBLSCAT=HT_SUBCAT \r\n"
+					+ "and ctactual_kv=voltage AND FROM_DT=?\r\n"
+					+ "AND CTUSCNO=RJ.USCNO(+)  GROUP BY BDT,substr(category,1,1),substr(category,2),voltage,DESC_HT ORDER BY 1,2,3,4\r\n"
+					+ "";
+					log.info(sql);
+			return jdbcTemplate.queryForList(sql,new Object[] {fromDate , fromDate ,toDate , fromDate ,toDate , monthYear});
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+		
+	}
+
+	public List<Map<String, Object>> getFinancialYearTariffReport(HttpServletRequest request) {
+		String fin_year = request.getParameter("year");
+		String fromdate = "01-APR-" + fin_year.split("-")[0];
+		String todate = "31-MAR-" + fin_year.split("-")[1];
+		
+		try {
+			String sql = "sELECT  UNIQUE bdt Bmonth,substr(CATEGORY,1,1) cat,substr(CATEGORY,2) subcat,voltage,DESC_HT DESCRIPT ,COUNT(*) NOS,\r\n"
+					+ "--SUM(NVL(RUNITS,0)) REC_UNITS,\r\n"
+					+ "SUM(NVL(BUNIT,0)) BILLED_UNITS,\r\n"
+					+ "SUM(NVL(OFPU,0)) OFF_PEAK_UNITS,\r\n"
+					+ "SUM(NVL(PEU,0)) PEAK_UNITS,\r\n"
+					+ "SUM(NVL(COL,0)) COLONY_UNITS,\r\n"
+					+ "SUM(NVL(EC,0)) ECHG,\r\n"
+					+ "SUM(NVL(FIXED,0)) FCHG,\r\n"
+					+ "SUM(NVL(CC,0)) CCHG,\r\n"
+					+ "--SUM(NVL(ED,0)) EDCHG,\r\n"
+					+ "--SUM(NVL(EC,0)+NVL(FIXED,0)+NVL(CC,0)+NVL(ED,0)) DEMAND_CHGS,\r\n"
+					+ "SUM(NVL(DEM,0)-NVL(EC,0)-NVL(FIXED,0)-NVL(CC,0)) OTHER_CHGS,\r\n"
+					+ "SUM(NVL(CR_AMT,0)+NVL(PAY,0)) COLL,\r\n"
+					+ "SUM(NVL(INC,0)) INCENTIVE_AMT,SUM(CTCMD_HT) CMD,SUM(NVL(BMD,0)) RMD\r\n"
+					+ "--SUM(NVL(VSUR,0)) VOLTAGE_SURCHARGE_AMT\r\n"
+					+ "--SUM(NVL(DEM,0)) MAR_21_DEM\r\n"
+					+ " from cons,SPDCLMASTER,HT_TARIFF,\r\n"
+					+ "(\r\n"
+					+ "SELECT BTSCNO,BTBLCAT,BTBLSCAT,BTACTUAL_KV,TRUNC(BTBLDT,'MM') BDT,NVL(BTRKVA_HT,0) BMD,NVL(BTRKVAH_HT,0) RUNITS,(NVL(BTBKVAH,0)) BUNIT,NVL(BTTOD1,0)+NVL(BTTOD6,0) OPUNITS,NVL(BTTOD2,0)+NVL(BTTOD5,0) PUNITS,NVL(BTBLCOLNY_HT,0) COLUNITS,NVL(BTCURDEM,0)-(NVL(BTCUSTCHG,0)+NVL(BTADLCHG,0)+NVL(BTED,0)+NVL(BTED_INT,0)+NVL(BTDEMCHG_NOR,0)+NVL(BTDEMCHG_PEN,0)+NVL(BTOTHERCHG,0)) EC,\r\n"
+					+ "NVL(BTCUSTCHG,0) CC,\r\n"
+					+ "NVL(BTDEMCHG_NOR,0)+NVL(BTDEMCHG_PEN,0) FIXED,\r\n"
+					+ "NVL(BTED,0) ED,\r\n"
+					+ "NVL(BTVOLTSURCHG,0) VSUR,\r\n"
+					+ "NVL(BTTOD1,0)+NVL(BTTOD6,0) OFPU,\r\n"
+					+ "NVL(BTTOD2,0)+NVL(BTTOD5,0) PEU,\r\n"
+					+ "NVL(BTBLCOLNY_HT,0) COL,\r\n"
+					+ "--NVL(BTCURDEM,0)-(NVL(BTADLCHG,0)+NVL(BTED_INT,0)) DEMCHG,\r\n"
+					+ "--NVL(BTADLCHG,0)+NVL(BTCOURT_LPC,0) SURCHG,\r\n"
+					+ "NVL(BTLFINCENTIVE_HT,0) INC,\r\n"
+					+ "(NVL(BTCURDEM,0)+NVL(BTCOURT_LPC,0)) DEM FROM BILL_hist where btbldt between ? and ?) B, \r\n"
+					+ "(SELECT USCNO,TRUNC(PAY_DATE,'MM') PDT,SUM(NVL(PCMD,0)) PAY FROM PAY_ht_hist WHERE PAY_DATE between ? and ? AND pay_sta_flg='C' GROUP BY USCNO,TRUNC(PAY_DATE,'MM')) P,\r\n"
+					+ "(select uscno,TRUNC(RJDT,'MM') RDT,SUM(CASE WHEN RJTYPE='CR'THEN (nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) CR_AMT  from JOURNAL_HIST WHERE  RJDT between ? and ?   and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X') GROUP BY USCNO,TRUNC(RJDT,'MM')) RJ\r\n"
+					+ "WHERE substr(ctseccd,-5)=seccd AND CTUSCNO=BTSCNO AND  BDT=RDT(+) AND BDT=PDT(+)  AND CTUSCNO=P.USCNO(+) AND BTBLCAT=SUBSTR(HT_CAT,3) AND BTBLSCAT=HT_SUBCAT and ctactual_kv=voltage AND FROM_DT='01-APR-20'\r\n"
+					+ "AND CTUSCNO=RJ.USCNO(+)  GROUP BY BDT,substr(category,1,1),substr(category,2),voltage,DESC_HT ORDER BY 1,2,3,4";
+					log.info(sql);
+			return jdbcTemplate.queryForList(sql,new Object[] {fromdate , todate , fromdate , todate , fromdate , todate });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 }

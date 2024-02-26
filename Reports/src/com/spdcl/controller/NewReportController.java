@@ -111,6 +111,60 @@ public class NewReportController {
 		return mav;
 
 	}
+	
+	
+	@GetMapping("/monthWiseTariffReport")
+	public String getMonthWiseTariffReport() {
+		return "monthWiseTariffReport";
+	}
+	
+	
+	@PostMapping("/monthWiseTariffReport")
+	public ModelAndView getMonthWiseTariffReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("monthWiseTariffReport");
+		List<Map<String, Object>> monthWiseTariff = newReportDao.getMonthWiseTariffReport(request);
+		
+		System.out.println(monthWiseTariff);
+
+		if (monthWiseTariff.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("monthWiseTariff", monthWiseTariff);
+			mav.addObject("title",
+					"Month Wise Tariff Report For - " + request.getParameter("month") + " - " + request.getParameter("year"));
+
+		}
+		return mav;
+
+	}
+	
+	
+	
+	@GetMapping("/financialYearTariffReport")
+	public String getFinancialYearTariffReport() {
+		return "financialYearTariffReport";
+	}
+	
+	
+	
+	@PostMapping("/financialYearTariffReport")
+	public ModelAndView getFinancialYearTariffReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("financialYearTariffReport");
+		List<Map<String, Object>> financialYearTariff = newReportDao.getFinancialYearTariffReport(request);
+		
+		System.out.println(financialYearTariff);
+
+		if (financialYearTariff.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("financialYearTariff", financialYearTariff);
+			mav.addObject("title",
+					"Financial Year Tariff Report For - " + request.getParameter("year"));
+
+		}
+		return mav;
+
+	}
 
 	public  Map<String,Integer>  countFrequencies(List<Map<String,Object>> list) 
 	{ 
