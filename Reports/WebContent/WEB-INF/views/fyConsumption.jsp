@@ -161,8 +161,11 @@
 							</tr>
 						</c:forEach>
 						
+						</tbody>
+						
 						
 						<c:if test="${type eq 'ALL'}">
+						<tfoot>
 						
 						<tr>
 							<td class="text-center">Grand Total</td>
@@ -210,7 +213,7 @@
 							
 						</tr>
 						</c:if>
-					</tbody>
+					</tfoot>
 					
 				</table>
 			</div>
