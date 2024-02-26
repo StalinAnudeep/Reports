@@ -54,7 +54,8 @@ public class NewReportController {
 		return mav;
 
 	}
-
+	
+	
 	@GetMapping("/sentEmails")
 	public String getAccountCopyPage() {
 		return "sentEmails";
