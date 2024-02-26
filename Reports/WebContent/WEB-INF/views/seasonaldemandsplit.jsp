@@ -113,12 +113,12 @@ $(document).ready(function() {
 							<tr>
 								<th>S.NO</th>
 								<th>DATE</th>
-								<th>NAME</th>
 								<th>CIRCLE</th>
 								<th>DIVISION</th>
 								<th>SUB DIVISION</th>
 								<th>SECTION</th>
 								<th>USCNO</th>
+								<th>NAME</th>
 								<th>CAT</th>
 								<th>SEASONAL FLAG</th>
 								<th>VOL in <br>kva</th>
@@ -150,12 +150,12 @@ $(document).ready(function() {
 								<tr>
 									<td>${tagStatus.index + 1}</td>
 									<td>${mtrblc.BTBLDT}</td>
-									<td>${mtrblc.CTNAME}</td>
 									<td>${mtrblc.CIRNAME}</td>
 									<td>${mtrblc.DIVNAME}</td>
 									<td>${mtrblc.SUBNAME}</td>
 									<td>${mtrblc.SECNAME}</td>
 									<td>${mtrblc.BTSCNO}</td>
+									<td>${mtrblc.CTNAME}</td>
 									<td>${mtrblc.BTBLCAT}</td>
 									<td class="text-left">${mtrblc.SEASON}</td>
 									<td class="text-right">${mtrblc.BTACTUAL_KV}</td>
