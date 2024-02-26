@@ -9,7 +9,7 @@
 	<form class="card" action="sentEmails" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<span class="text-danger">HT23A </span><strong> -Number Of Services For Which SMS & EmailS Sent</strong>
+				<span class="text-danger">HT23A </span><strong> -Services For Which SMS & EmailS Sent</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-2">
@@ -64,10 +64,10 @@
 
 				<div class="col-md-4">
 					<div class="form-group">
-						<label class="form-label">Get Number Of Services For Which
+						<label class="form-label">Get Services For Which
 							SMS & EmailS Sent</label>
-						<button type="submit" class="btn btn-success">Get Number
-							Of Services For Which SMS & EmailS Sent</button>
+						<button type="submit" class="btn btn-success">Get 
+							Services For Which SMS & EmailS Sent</button>
 					</div>
 				</div>
 			</div>
@@ -97,6 +97,7 @@
 								<th class="text-center text-light">CAT</th>
 								<th class="text-center text-light">SUBCAT</th>
 								<th class="text-center text-light">EMAIL</th>
+								<th class="text-center text-light">EMAIL Sent Date</th>
 							</tr>
 
 						</thead>
@@ -111,6 +112,7 @@
 									<td>${mail.CTCAT}</td>
 									<td>${mail.CTSUBCAT}</td>
 									<td>${mail.EMAIL}</td>
+									<td>${mail.MTH}</td>
 								</tr>
 
 							</c:forEach>
@@ -139,6 +141,7 @@
 								<th class="text-center text-light">CAT</th>
 								<th class="text-center text-light">SUBCAT</th>
 								<th class="text-center text-light">MOBILENUMBER</th>
+								<th class="text-center text-light">SMS Sent Date</th>
 							</tr>
 
 						</thead>
@@ -153,6 +156,7 @@
 									<td>${sms.CTCAT}</td>
 									<td>${sms.CTSUBCAT}</td>
 									<td>${sms.MOBILE}</td>
+									<td>${sms.MTH}</td>
 								</tr>
 
 							</c:forEach>

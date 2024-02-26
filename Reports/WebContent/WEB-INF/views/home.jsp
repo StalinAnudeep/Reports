@@ -356,7 +356,7 @@
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT23A</span></td>
-					<td><a href="sentEmails">Number Of Services For Which
+					<td><a href="sentEmails">Services For Which
 							Emails And SMS Sent</a></td>
 					<td></td>
 				</tr>

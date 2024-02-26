@@ -183,40 +183,31 @@ public class NewReportDao {
 			try {
 				if (type.equals("EMAIL")) {
 
-					String mailQuery = "SELECT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','')EMAIL,d.ctmobile,c.mobile FROM\r\n"
+					String mailQuery = "SELECT DISTINCT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','') email,B.MTH FROM\r\n"
 							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,CTEMAILID FROM CONS WHERE  CTEMAILID NOT IN(' ','NA','---','0','-','--'))A,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL! ='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,\r\n"
-							+ "TO_CHAR(MTH,'MON-YYYY')))B,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT \r\n"
-							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=?  group by SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') ))C,\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 \r\n"
-							+ ")D\r\n"
-							+ "WHERE A.CIRCLE=B.CIRCLE(+) AND A.CIRCLE=C.CIRCLE(+) AND A.CIRCLE=D.CIRCLE(+) AND A.CTUSCNO=D.CTUSCNO(+) AND B.SCNO=C.SCNO(+) AND D.ctmobile=C.MOBILE(+) \r\n"
-							+ " AND A.CTUSCNO=B.SCNO ORDER BY CIRCLE";
+							+ "(SELECT DISTINCT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL,MTH FROM (select SCNO,TRIM(EMAIL)EMAIL,TRIM(MOBILE)MOBILE,TRIM(FLAG)FLAG,TRIM(MTH)MTH from \r\n"
+							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL!='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,MTH))B\r\n"
+							+ "WHERE A.CIRCLE=B.CIRCLE(+) \r\n"
+							+ "AND A.CTUSCNO=B.SCNO ORDER BY CIRCLE,A.CTUSCNO";
 
 					log.info(mailQuery);
 
-					return jdbcTemplate.queryForList(mailQuery , new Object[] { monthYear , monthYear});
+					return jdbcTemplate.queryForList(mailQuery , new Object[] { monthYear});
 
 				} else {
 
-					String smsQuery = "SELECT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','')EMAIL,d.ctmobile,c.mobile FROM\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,CTEMAILID FROM CONS WHERE  CTEMAILID NOT IN(' ','NA','---','0','-','--'))A,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL! ='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,\r\n"
-							+ "TO_CHAR(MTH,'MON-YYYY')))B,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
+					String smsQuery = "SELECT DISTINCT D.CTUSCNO,D.CTNAME,D.CTCAT,D.CTSUBCAT,C.SCNO,D.CIRCLE,d.ctmobile,TRIM(c.mobile)mobile,MTH FROM\r\n"
+							+ "(SELECT UNIQUE SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE,MTH FROM (select SCNO,EMAIL,TRIM(MOBILE)MOBILE,TRIM(FLAG)FLAG,TRIM(MTH)MTH from \r\n"
 							+ "SMS_EMAIL_SENT \r\n"
-							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=?  group by SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') ))C,\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 \r\n"
-							+ ")D\r\n"
-							+ "WHERE A.CIRCLE=B.CIRCLE(+) AND A.CIRCLE=C.CIRCLE(+) AND A.CIRCLE=D.CIRCLE(+) AND A.CTUSCNO=D.CTUSCNO(+) AND B.SCNO=C.SCNO(+) AND D.ctmobile=C.MOBILE(+) \r\n"
-							+ " AND A.CTUSCNO=B.SCNO ORDER BY CIRCLE";
+							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,MTH))C,\r\n"
+							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 )D\r\n"
+							+ "WHERE D.CIRCLE=C.CIRCLE(+)\r\n"
+							+ "AND D.ctmobile=C.MOBILE(+)\r\n"
+							+ "AND D.CTUSCNO=C.SCNO\r\n"
+							+ "ORDER BY CIRCLE";
 
 					log.info(smsQuery);
-					return jdbcTemplate.queryForList(smsQuery , new Object[] { monthYear , monthYear});
+					return jdbcTemplate.queryForList(smsQuery , new Object[] { monthYear});
 				}
 
 			} catch (DataAccessException e) {
@@ -227,38 +218,31 @@ public class NewReportDao {
 		} else {
 			try {
 				if (type.equals("EMAIL")) {
-					String mailQuery = "SELECT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','')EMAIL,d.ctmobile,c.mobile FROM\r\n"
+					String mailQuery = "SELECT DISTINCT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','') email,B.MTH FROM\r\n"
 							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,CTEMAILID FROM CONS WHERE  CTEMAILID NOT IN(' ','NA','---','0','-','--'))A,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL! ='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,\r\n"
-							+ "TO_CHAR(MTH,'MON-YYYY')))B,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT \r\n"
-							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=?  group by SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') ))C,\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 \r\n"
-							+ ")D\r\n"
-							+ "WHERE A.CIRCLE=B.CIRCLE(+) AND A.CIRCLE=C.CIRCLE(+) AND A.CIRCLE=D.CIRCLE(+) AND A.CTUSCNO=D.CTUSCNO(+) AND B.SCNO=C.SCNO(+) AND D.ctmobile=C.MOBILE(+) \r\n"
-							+ " AND A.CTUSCNO=B.SCNO AND A.CIRCLE=? ORDER BY CIRCLE";
+							+ "(SELECT DISTINCT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL,MTH FROM (select SCNO,TRIM(EMAIL)EMAIL,TRIM(MOBILE)MOBILE,TRIM(FLAG)FLAG,TRIM(MTH)MTH from \r\n"
+							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL!='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,MTH))B\r\n"
+							+ "WHERE A.CIRCLE=B.CIRCLE(+) \r\n"
+							+ "AND A.CIRCLE=?\r\n"
+							+ "AND A.CTUSCNO=B.SCNO ORDER BY CIRCLE,A.CTUSCNO";
 
 					log.info(mailQuery);
-					return jdbcTemplate.queryForList(mailQuery , new Object[] { monthYear , monthYear ,circle });
+					return jdbcTemplate.queryForList(mailQuery , new Object[] {monthYear,circle });
 				} else {
 
-					String smsQuery = "SELECT A.CTUSCNO,A.CTNAME,A.CTCAT,A.CTSUBCAT,B.SCNO,A.CIRCLE,A.CTEMAILID,replace(replace(B.EMAIL,'[',''),']','')EMAIL,d.ctmobile,c.mobile FROM\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,CTEMAILID FROM CONS WHERE  CTEMAILID NOT IN(' ','NA','---','0','-','--'))A,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,EMAIL FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
-							+ "SMS_EMAIL_SENT WHERE MOBILE='-' AND EMAIL! ='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,\r\n"
-							+ "TO_CHAR(MTH,'MON-YYYY')))B,\r\n"
-							+ "(SELECT SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE FROM (select SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') MTH from \r\n"
+					String smsQuery = "SELECT DISTINCT D.CTUSCNO,D.CTNAME,D.CTCAT,D.CTSUBCAT,C.SCNO,D.CIRCLE,d.ctmobile,TRIM(c.mobile)mobile,MTH FROM\r\n"
+							+ "(SELECT UNIQUE SUBSTR(SCNO,1,3)CIRCLE,SCNO,MOBILE,MTH FROM (select SCNO,EMAIL,TRIM(MOBILE)MOBILE,TRIM(FLAG)FLAG,TRIM(MTH)MTH from \r\n"
 							+ "SMS_EMAIL_SENT \r\n"
-							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=?  group by SCNO,EMAIL,MOBILE,FLAG,TO_CHAR(MTH,'MON-YYYY') ))C,\r\n"
-							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 \r\n"
-							+ ")D\r\n"
-							+ "WHERE A.CIRCLE=B.CIRCLE(+) AND A.CIRCLE=C.CIRCLE(+) AND A.CIRCLE=D.CIRCLE(+) AND A.CTUSCNO=D.CTUSCNO(+) AND B.SCNO=C.SCNO(+) AND D.ctmobile=C.MOBILE(+) \r\n"
-							+ " AND A.CTUSCNO=B.SCNO AND A.CIRCLE=? ORDER BY CIRCLE";
+							+ "WHERE MOBILE!='-' AND EMAIL='-' AND FLAG='S' AND TO_CHAR(MTH,'MON-YYYY')=? group by SCNO,EMAIL,MOBILE,FLAG,MTH))C,\r\n"
+							+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,ctmobile FROM CONS WHERE  ctmobile NOT IN(' ','NA','---','0','-','--')  and CONS.CTSTATUS=1 )D\r\n"
+							+ "WHERE D.CIRCLE=C.CIRCLE(+)\r\n"
+							+ "AND D.ctmobile=C.MOBILE(+)\r\n"
+							+ "AND D.CTUSCNO=C.SCNO\r\n"
+							+ "AND D.CIRCLE=?\r\n"
+							+ "ORDER BY CIRCLE";
 
 					log.info(smsQuery);
-					return jdbcTemplate.queryForList(smsQuery ,  new Object[] {  monthYear , monthYear ,circle });
+					return jdbcTemplate.queryForList(smsQuery ,  new Object[] {  monthYear,circle });
 				}
 			} catch (DataAccessException e) {
 				log.error(e.getMessage());
