@@ -473,7 +473,6 @@
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
-
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>
