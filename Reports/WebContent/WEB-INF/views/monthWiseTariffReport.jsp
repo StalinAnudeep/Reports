@@ -69,7 +69,6 @@
 						<thead class="bg-primary">
 
 							<tr>
-								<th class="text-center text-light">MONTH</th>
 								<th class="text-center text-light">CAT</th>
 								<th class="text-center text-light">SUBCAT</th>
 								<th class="text-center text-light">VOLTAGE</th>
@@ -96,7 +95,6 @@
 								varStatus="tagStatus">
 
 								<tr>
-									<td>${mwt.BMONTH}</td>
 									<td>${mwt.CAT}</td>
 									<td>${mwt.SUBCAT}</td>
 									<td>${mwt.VOLTAGE}</td>

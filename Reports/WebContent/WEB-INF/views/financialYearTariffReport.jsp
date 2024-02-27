@@ -76,7 +76,8 @@
 						<c:forEach var="fwt" items="${financialYearTariff}">
 
 							<tr>
-								<td>${fwt.BMONTH}</td>
+								<td><fmt:formatDate pattern="dd-MMM-yyyy"
+										value="${fwt.BMONTH}" /></td>
 								<td>${fwt.CAT}</td>
 								<td>${fwt.SUBCAT}</td>
 								<td>${fwt.VOLTAGE}</td>
