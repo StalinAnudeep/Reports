@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header_lg.jsp"></jsp:include>
 <script>
 	requirejs([ 'jquery' ], function($) {
 		$(document).ready(
@@ -97,8 +97,8 @@ thead>tr>th {
 		method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<span class="text-danger">HT97D </span> -HT DCB Collection Split
-				Monthly
+				<strong><span class="text-danger">HT97D </span> -HT DIV, SD , SEC Wise DCB Collection Split
+				Monthly</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
@@ -170,7 +170,7 @@ thead>tr>th {
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th class="bg-primary text-white text-center" colspan="9">${title}</th>
+									<th class="bg-primary text-white text-center" colspan="12">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
 									<th>LDT</th>
@@ -196,7 +196,7 @@ thead>tr>th {
 								%>
 								<c:forEach var="mtrblc" items="${tp_sale}" varStatus="tagStatus">
 									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
-									<tr class="${mtrblc.CIRNAME}">
+									<tr class="${mtrblc.CIRNAME}" style = "font-weight: 500;">
 										<%
 										if (!cricle.equals((String) request.getAttribute("cirl"))) {
 										%>
@@ -205,44 +205,44 @@ thead>tr>th {
 										}
 										cricle = (String) request.getAttribute("cirl");
 										%><c:if test="${mtrblc.CIRNAME eq 'TOTAL'}">
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-left TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-left TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-left TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-left TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.SECNAME}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.TOB}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.CB}</td>
-											<td class="text-right TOTAL bg-primary"
+											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.SD}</td>
 										</c:if>
 										
 										
 										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
 											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.SECNAME}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
+											<td class="text-left" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+											<td class="text-left" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
+											<td class="text-left" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
+											<td class="text-left" style="padding-left: 5px;">${mtrblc.SECNAME}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.TOB}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.CB}</td>
+											<td class="text-right format" style="padding-left: 5px;">${mtrblc.SD}</td>
 										</c:if>
 
 									</tr>
@@ -281,18 +281,18 @@ thead>tr>th {
 
 							<tbody>
 								<c:forEach var="mtrblc" items="${tp_sale}" varStatus="tagStatus">
-									<tr>
+									<tr style = "font-weight: 500;">
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.SECNAME}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
+										<td class="text-left" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+										<td class="text-left" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
+										<td class="text-left" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
+										<td class="text-left" style="padding-left: 5px;">${mtrblc.SECNAME}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.TOB}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+										<td class="text-right format" style="padding-left: 5px;">${mtrblc.CB}</td>
 
 
 									</tr>
@@ -300,14 +300,14 @@ thead>tr>th {
 								</c:forEach>
 							</tbody>
 							<tfoot>
-								<tr>
+								<tr style = "font-weight: 500;">
 									<th class="text-center" colspan="5">Grand Total</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-									<th class="text-right">${tp_sale.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
+									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 								</tr>
 							</tfoot>
 						</table>
@@ -405,5 +405,19 @@ thead>tr>th {
 		document.frm.submit();
 		window.open(url, '_blank').focus();
 	}
+</script>
+<script> 
+	requirejs([ 'jquery' ], function($) {
+			$(".format").each(function() { 
+				if ($.isNumeric( $(this).text())) {
+				    // It isn't a number	
+				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+				}
+			}
+				
+				
+			)
+			
+	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

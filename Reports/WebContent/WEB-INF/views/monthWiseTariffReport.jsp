@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header_lg.jsp"></jsp:include>
 <div class="row row-cards row-deck">
 	<form class="card" action="monthWiseTariffReport" method="post">
 		<div class="card-body">
@@ -68,14 +68,13 @@
 						style="width: 100%;">
 						<thead class="bg-primary">
 
-							<tr>
+							<tr style = "font-weight: bold;">
 								<th class="text-center text-light">CAT</th>
 								<th class="text-center text-light">SUBCAT</th>
 								<th class="text-center text-light">VOLTAGE</th>
 								<th class="text-center text-light">DESCRIPT</th>
 								<th class="text-center text-light">NOS</th>
 								<th class="text-center text-light">BILLED_UNITS</th>
-								<th class="text-center text-light"></th>
 								<th class="text-center text-light">OFF_PEAK_UNITS</th>
 								<th class="text-center text-light">PEAK UNITS</th>
 								<th class="text-center text-light">COLONY</th>
@@ -94,25 +93,25 @@
 							<c:forEach var="mwt" items="${monthWiseTariff}"
 								varStatus="tagStatus">
 
-								<tr>
-									<td>${mwt.CAT}</td>
-									<td>${mwt.SUBCAT}</td>
-									<td>${mwt.VOLTAGE}</td>
-									<td>${mwt.DESCRIPT}</td>
-									<td>${mwt.NOS}</td>
-									<td>${mwt.BILLED_UNITS}</td>
-									<td></td>
-									<td>${mwt.OFF_PEAK_UNITS}</td>
-									<td>${mwt.PEAK_UNITS}</td>
-									<td>${mwt.COLONY_UNITS}</td>
-									<td>${mwt.ECHG}</td>
-									<td>${mwt.FCHG}</td>
-									<td>${mwt.CCHG}</td>
-									<td>${mwt.OTHER_CHGS}</td>
-									<td>${mwt.COLL}</td>
-									<td>${mwt.INCENTIVE_AMT}</td>
-									<td>${mwt.CMD}</td>
-									<td>${mwt.RMD}</td>
+								<tr style = "font-weight: bold;">
+									<td class="text-right">${mwt.CAT}</td>
+									<td class="text-right">${mwt.SUBCAT}</td>
+									<td class="text-right format">${mwt.VOLTAGE}</td>
+									<td class="text-right">${mwt.DESCRIPT}</td>
+									<td class="text-right format">${mwt.NOS}</td>
+									<td class="text-right format">${mwt.BILLED_UNITS}</td>
+									
+									<td class="text-right format">${mwt.OFF_PEAK_UNITS}</td>
+									<td class="text-right format">${mwt.PEAK_UNITS}</td>
+									<td class="text-right format">${mwt.COLONY_UNITS}</td>
+									<td class="text-right format">${mwt.ECHG}</td>
+									<td class="text-right format">${mwt.FCHG}</td>
+									<td class="text-right format">${mwt.CCHG}</td>
+									<td class="text-right format">${mwt.OTHER_CHGS}</td>
+									<td class="text-right format">${mwt.COLL}</td>
+									<td class="text-right format">${mwt.INCENTIVE_AMT}</td>
+									<td class="text-right format">${mwt.CMD}</td>
+									<td class="text-right format">${mwt.RMD}</td>
 									
 								</tr>
 
@@ -162,6 +161,21 @@ $(document).ready(function() {
 				} ]
 			}
 		});
+	});
+</script>
+
+<script> 
+	requirejs([ 'jquery' ], function($) {
+			$(".format").each(function() { 
+				if ($.isNumeric( $(this).text())) {
+				    // It isn't a number	
+				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+				}
+			}
+				
+				
+			)
+			
 	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

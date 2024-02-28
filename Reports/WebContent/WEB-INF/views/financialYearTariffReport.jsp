@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header_lg.jsp"></jsp:include>
 <div class="row row-cards row-deck">
 	<form class="card" action="financialYearTariffReport" method="post">
 		<div class="card-body">
@@ -50,7 +50,7 @@
 					style="width: 100%;">
 					<thead class="bg-primary">
 
-						<tr>
+						<tr style = "font-weight: 500;">
 							<th class="text-center text-light">MONTH</th>
 							<th class="text-center text-light">CAT</th>
 							<th class="text-center text-light">SUBCAT</th>
@@ -75,26 +75,26 @@
 					<tbody>
 						<c:forEach var="fwt" items="${financialYearTariff}">
 
-							<tr>
+							<tr style = "font-weight: 500;">
 								<td><fmt:formatDate pattern="dd-MMM-yyyy"
 										value="${fwt.BMONTH}" /></td>
-								<td>${fwt.CAT}</td>
-								<td>${fwt.SUBCAT}</td>
-								<td>${fwt.VOLTAGE}</td>
-								<td>${fwt.DESCRIPT}</td>
-								<td>${fwt.NOS}</td>
-								<td>${fwt.BILLED_UNITS}</td>
-								<td>${fwt.OFF_PEAK_UNITS}</td>
-								<td>${fwt.PEAK_UNITS}</td>
-								<td>${fwt.COLONY_UNITS}</td>
-								<td>${fwt.ECHG}</td>
-								<td>${fwt.FCHG}</td>
-								<td>${fwt.CCHG}</td>
-								<td>${fwt.OTHER_CHGS}</td>
-								<td>${fwt.COLL}</td>
-								<td>${fwt.INCENTIVE_AMT}</td>
-								<td>${fwt.CMD}</td>
-								<td>${fwt.RMD}</td>
+								<td class="text-right">${fwt.CAT}</td>
+								<td class="text-right">${fwt.SUBCAT}</td>
+								<td class="text-right format">${fwt.VOLTAGE}</td>
+								<td class="text-right">${fwt.DESCRIPT}</td>
+								<td class="text-right format">${fwt.NOS}</td>
+								<td class="text-right format">${fwt.BILLED_UNITS}</td>
+								<td class="text-right format">${fwt.OFF_PEAK_UNITS}</td>
+								<td class="text-right format">${fwt.PEAK_UNITS}</td>
+								<td class="text-right format">${fwt.COLONY_UNITS}</td>
+								<td class="text-right format">${fwt.ECHG}</td>
+								<td class="text-right format">${fwt.FCHG}</td>
+								<td class="text-right format">${fwt.CCHG}</td>
+								<td class="text-right format">${fwt.OTHER_CHGS}</td>
+								<td class="text-right format">${fwt.COLL}</td>
+								<td class="text-right format">${fwt.INCENTIVE_AMT}</td>
+								<td class="text-right format">${fwt.CMD}</td>
+								<td class="text-right format">${fwt.RMD}</td>
 
 							</tr>
 
@@ -148,6 +148,20 @@
 				} ]
 			}
 		});
+	});
+</script>
+<script> 
+	requirejs([ 'jquery' ], function($) {
+			$(".format").each(function() { 
+				if ($.isNumeric( $(this).text())) {
+				    // It isn't a number	
+				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+				}
+			}
+				
+				
+			)
+			
 	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>
