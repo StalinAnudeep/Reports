@@ -7,23 +7,25 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header.jsp"></jsp:include>
 <script>
-requirejs([ 'jquery' ], function($) {
-$(document).ready(function() {
-	 var currentYear = (new Date()).getFullYear();
-	 var currnetMonth=(new Date()).getMonth()+1;
-		 for (var j = currentYear; j > 2015; j--) {
-	     	$("#fyear").append("<option value="+j+">"+j+"</option>");
+	requirejs([ 'jquery' ], function($) {
+		$(document).ready(
+				function() {
+					var currentYear = (new Date()).getFullYear();
+					var currnetMonth = (new Date()).getMonth() + 1;
+					for (var j = currentYear; j > 2015; j--) {
+						$("#fyear").append(
+								"<option value="+j+">" + j + "</option>");
 
-	     }
-		 $('#fmonth option:eq('+currnetMonth+')').prop('selected', true);
-		 $('#fyear option[value="'+currentYear+'"]').prop('selected', true);
-		 
-		
-});
-});
+					}
+					$('#fmonth option:eq(' + currnetMonth + ')').prop(
+							'selected', true);
+					$('#fyear option[value="' + currentYear + '"]').prop(
+							'selected', true);
+
+				});
+	});
 </script>
 <style>
-
 .firstInput {
 	width: 50%;
 	display: inline-block;
@@ -41,55 +43,63 @@ $(document).ready(function() {
 	border-left: 0px;
 }
 
-.null{
-font-weight: bold;
+.null {
+	font-weight: bold;
 }
-.CRD{
-background-color: #cef4ff;
-font-weight: bold;
-}
-.ONG{
-background-color: #fff0dd;
-font-weight: bold;
-}
-.VJA{
-    background-color: #fff0dd;
-    font-weight: bold;
-}
-.GNT{
-    background-color: #cef4ff;
-    font-weight: bold;
-}
-.APCPDCL{
-    background-color: #fff0dd;
-    font-weight: bold;
-}
-.NOSTAT
-{
-color: #fff !important;
-    font-weight: bold  !important;
-}
-.NULLCIR
-{
 
-    font-weight: bold  !important;
-     background-color: #4ff1f1;
+.CRD {
+	background-color: #cef4ff;
+	font-weight: bold;
 }
-.TOTAL{
-color: #fff !important;
-    font-weight: bold  !important;
+
+.ONG {
+	background-color: #fff0dd;
+	font-weight: bold;
 }
-  thead>tr>th{
+
+.VJA {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.GNT {
+	background-color: #cef4ff;
+	font-weight: bold;
+}
+
+.APCPDCL {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.NOSTAT {
 	color: #fff !important;
-    font-weight: bold  !important;
-} 
+	font-weight: bold !important;
+}
 
+.NULLCIR {
+	font-weight: bold !important;
+	background-color: #4ff1f1;
+}
+
+.TOTAL {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+thead>tr>th {
+	color: #fff !important;
+	font-weight: bold !important;
+}
 </style>
 <div class="row row-cards row-deck">
-		<form class="card" action="HtDCBCollectionSplitMonthly" method="post">
-			<div class="card-body">
-				<h3 class="card-title"><span class="text-danger">HT97C</span> -HT DCB Collection Split Monthly </h3>
-				<div class="row">
+	<form class="card" action="HtDCBCollectionSplitMonthly" method="post">
+		<div class="card-body">
+			<h3 class="card-title">
+				<span class="text-danger">HT97C</span> -HT DCB Collection Split
+				Monthly
+			</h3>
+			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
 						<label class="form-label">Circle</label> <select
@@ -125,94 +135,112 @@ color: #fff !important;
 						</div>
 					</div>
 				</div>
-					
-					
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="form-label">Get DCB Collection Split Monthly </label>
-							<button type="submit" class="btn btn-success">Get DCB Collection Split Monthly</button>
-						</div>
+
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="form-label">Get DCB Collection Split Monthly
+						</label>
+						<button type="submit" class="btn btn-success">Get DCB
+							Collection Split Monthly</button>
 					</div>
 				</div>
 			</div>
-		</form>
+		</div>
+	</form>
 
-		<c:if test="${ not empty fn:trim(fail)}">
-			<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
-		</c:if>
-		<c:if test="${ not empty fn:trim(tp)}">
-			<div class="card ">
-		    <div class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
-		    <h2 class="text-center">${title}</h2>
-		     <form name="frm"  style="overflow: auto;">
-			
-			<c:if  test="${CIR eq 'ALL'}">
-			<div class="bg-info text-white text-center" onclick="exportThisWithParameter('multiLevelTable', '${title}')" style="cursor: pointer; border: 1px solid #ccc; text-align: center;width:19%;padding-bottom: 10px;padding-top: 10px;">Excel</div>
-			
-			<table id="multiLevelTable" class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer" style="width: 100%;">
-						<thead>
-						<tr >
-							<th class="bg-primary text-white text-center" colspan="9">${title}</th>
-							</tr>
-						<tr class="bg-primary text-white text-center">
+	<c:if test="${ not empty fn:trim(fail)}">
+		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
+	</c:if>
+	<c:if test="${ not empty fn:trim(tp)}">
+		<div class="card ">
+			<div
+				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
+				<h2 class="text-center">${title}</h2>
+				<form name="frm" style="overflow: auto;">
 
-				<th>LDT</th>
-<th>CIRNAME</th>
-<th>OB</th>
-<th>DEMAND</th>
-<th>COLLECTION ARREAR</th>
-<th>COLLECTION DEMAND</th>
-<th>COLLECTION</th>
-<th>CB</th>	
-<th>SD</th>	
-						</tr>
-					</thead>
-						<tbody>
-						<%int flag = 0; 
-						String cricle ="S";
-						String circletype="S";%>
-							<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
-							<c:set var="cirl" value="${mtrblc.LDT}" scope="request"/>
-							<tr class="${mtrblc.CIRNAME}">
-							<%
-									if (!cricle.equals((String) request.getAttribute("cirl"))) {
+					<c:if test="${CIR eq 'ALL'}">
+						<div class="bg-info text-white text-center"
+							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+
+						<table id="multiLevelTable"
+							class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th class="bg-primary text-white text-center" colspan="9">${title}</th>
+								</tr>
+								<tr class="bg-primary text-white text-center">
+
+									<th>LDT</th>
+									<th>CIRNAME</th>
+									<th>OB</th>
+									<th>DEMAND</th>
+									<th>COLLECTION ARREAR</th>
+									<th>COLLECTION DEMAND</th>
+									<th>COLLECTION</th>
+									<th>CB</th>
+									<th>SD</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%
+								int flag = 0;
+								String cricle = "S";
+								String circletype = "S";
 								%>
-							<td rowspan="${CIRCOUNT[cirl]}" >${mtrblc.LDT}</td>
-							<%}
-							cricle = (String) request.getAttribute("cirl");
-							%><c:if  test="${mtrblc.CIRNAME eq 'TOTAL'}">
-								<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CB}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.SD}</td>
-								</c:if>
-								
-								<c:if  test="${mtrblc.CIRNAME ne 'TOTAL'}">
-								<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.SD}</td>
-								</c:if>
-							</tr>
-		
-							
-							</c:forEach>
-						</tbody>
-					
-					</table>
+								<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
+									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
+									<tr class="${mtrblc.CIRNAME}">
+										<%
+										if (!cricle.equals((String) request.getAttribute("cirl"))) {
+										%>
+										<td rowspan="${CIRCOUNT[cirl]}">${mtrblc.LDT}</td>
+										<%
+										}
+										cricle = (String) request.getAttribute("cirl");
+										%><c:if test="${mtrblc.CIRNAME eq 'TOTAL'}">
+											<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.TOB}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.CB}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${mtrblc.SD}</td>
+										</c:if>
+
+										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
+											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
+										</c:if>
+									</tr>
+
+
+								</c:forEach>
+							</tbody>
+
+						</table>
 					</c:if>
-					
-					<c:if  test="${CIR ne 'ALL'}">
+
+					<c:if test="${CIR ne 'ALL'}">
 						<table id="multiLevelTable"
 							class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 							style="width: 100%;">
@@ -231,46 +259,46 @@ color: #fff !important;
 									<th>CB</th>
 								</tr>
 							</thead>
-							
+
 							<tbody>
-							<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
-							<tr>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.LDT}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CB}</td>
-							
-							
-							</tr>
-							</c:forEach>
+								<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
+									<tr>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
+
+
+									</tr>
+								</c:forEach>
 							</tbody>
-								<tfoot>
-						<tr>
-							<th  class="text-right">Grand Total</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-							<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
-						</tr>
-					</tfoot> 
+							<tfoot>
+								<tr>
+									<th class="text-right">Grand Total</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
+									<th class="text-right">${tp.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+								</tr>
+							</tfoot>
 						</table>
 
 
 					</c:if>
-					</form>
-				</div>
+				</form>
 			</div>
-		</c:if>
+		</div>
+	</c:if>
 </div>
 
-<script> 
+<script>
 	requirejs([ 'jquery' ], function($) {
-		
+
 		$(document).ready(
 				function() {
 					$.ajax({
@@ -285,30 +313,38 @@ color: #fff !important;
 
 							});
 						}
-					  
+
 					});
 				});
-		 $("#circle").append("<option value=ALL>ALL</option>");
-		
+		$("#circle").append("<option value=ALL>ALL</option>");
 
 	});
 </script>
 
 <script>
-	require([  'jquery','datatables.net','datatables.net-jszip','datatables.net-buttons','datatables.net-buttons-flash','datatables.net-buttons-html5'], function($,datatable,jszip ) {
+	require([ 'jquery', 'datatables.net', 'datatables.net-jszip',
+			'datatables.net-buttons', 'datatables.net-buttons-flash',
+			'datatables.net-buttons-html5' ], function($, datatable, jszip) {
 		window.JSZip = jszip;
 		$('.datatable').DataTable({
-	        dom: 'Bfrltip',
-	        "scrollX": true,
-	        "paging": false,
-	        "ordering": false,
-	        buttons: {
-	            buttons: [
-	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: 'Services Wise ledger Closing Balance',footer: true },
-	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'Services Wise ledger Closing Balance',footer: true }
-	            ]
-	        }
-	    });
+			dom : 'Bfrltip',
+			"scrollX" : true,
+			"paging" : false,
+			"ordering" : false,
+			buttons : {
+				buttons : [ {
+					extend : 'csv',
+					className : 'btn btn-xs btn-primary',
+					title : 'Services Wise ledger Closing Balance',
+					footer : true
+				}, {
+					extend : 'excel',
+					className : 'btn btn-xs btn-primary',
+					title : 'Services Wise ledger Closing Balance',
+					footer : true
+				} ]
+			}
+		});
 	});
 </script>
 <script type="text/javascript">
@@ -328,22 +364,22 @@ color: #fff !important;
 				worksheet : excelName || 'Worksheet',
 				table : tableID.innerHTML
 			}
-			 var link = document.createElement("a");
-            link.download = "${title}.xls";
-            link.href = uri + base64(format(template, ctx));
-            link.click();
-			
+			var link = document.createElement("a");
+			link.download = "${title}.xls";
+			link.href = uri + base64(format(template, ctx));
+			link.click();
+
 		}
 	})()
 </script>
 <script>
-function getNext(circle,agewise){
-	alert(circle)
-	document.frm.action="AgeWiseServiceBalance?circle="+circle+"&agewise="+agewise;
-	document.frm.method="post";
-	document.frm.submit();
-	window.open(url, '_blank').focus();
-}
-
+	function getNext(circle, agewise) {
+		alert(circle)
+		document.frm.action = "AgeWiseServiceBalance?circle=" + circle
+				+ "&agewise=" + agewise;
+		document.frm.method = "post";
+		document.frm.submit();
+		window.open(url, '_blank').focus();
+	}
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

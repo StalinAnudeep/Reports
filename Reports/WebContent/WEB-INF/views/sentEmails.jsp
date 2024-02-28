@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header_lg.jsp"></jsp:include>
 <div class="row row-cards row-deck">
 	<form class="card" action="sentEmails" method="post">
 		<div class="card-body">
@@ -90,7 +90,7 @@
 						style="width: 100%;">
 						<thead class="bg-primary">
 
-							<tr>
+							<tr style = "font-weight: bold;">
 								<th class="text-center text-light">SNO</th>
 								<th class="text-center text-light">USCNO</th>
 								<th class="text-center text-light">NAME</th>
@@ -105,8 +105,8 @@
 							<c:forEach var="mail" items="${mailAndSmsReport}"
 								varStatus="tagStatus">
 
-								<tr>
-									<td>${tagStatus.index + 1}</td>
+								<tr style = "font-weight: 500;">
+									<td >${tagStatus.index + 1}</td>
 									<td>${mail.CTUSCNO}</td>
 									<td>${mail.CTNAME}</td>
 									<td>${mail.CTCAT}</td>
@@ -134,7 +134,7 @@
 						style="width: 100%;">
 						<thead class="bg-primary">
 
-							<tr>
+							<tr style = "font-weight: 500;">
 								<th class="text-center text-light">SNO</th>
 								<th class="text-center text-light">USCNO</th>
 								<th class="text-center text-light">NAME</th>
@@ -149,7 +149,7 @@
 							<c:forEach var="sms" items="${mailAndSmsReport}"
 								varStatus="tagStatus">
 
-								<tr>
+								<tr style = "font-weight: 500;">
 									<td>${tagStatus.index + 1}</td>
 									<td>${sms.CTUSCNO}</td>
 									<td>${sms.CTNAME}</td>

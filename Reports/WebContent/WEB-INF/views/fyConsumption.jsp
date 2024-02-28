@@ -53,111 +53,111 @@
 				<table class="table card-table table-vcenter text-nowrap datatable"
 					style="width: 100%;">
 					<thead>
-						<tr>
+						<tr style = "font-weight: bold;" class = "bg-primary">
 
-							<th class="text-center" rowspan="2">Circle</th>
-							<th class="text-center" colspan="6">HT1</th>
-							<th class="text-center" colspan="6">HT2</th>
-							<th class="text-center" colspan="6">HT3</th>
-							<th class="text-center" colspan="6">HT4</th>
-							<th class="text-center" colspan="6">HT5B</th>
-							<th class="text-center" colspan="6">HT5E</th>
+							<th class="text-center  text-light" rowspan="2">Circle</th>
+							<th class="text-center  text-light" colspan="6">HT1</th>
+							<th class="text-center text-light" colspan="6">HT2</th>
+							<th class="text-center text-light" colspan="6">HT3</th>
+							<th class="text-center text-light" colspan="6">HT4</th>
+							<th class="text-center text-light" colspan="6">HT5B</th>
+							<th class="text-center text-light" colspan="6">HT5E</th>
 
 						</tr>
 
 
-						<tr>
+						<tr style = "font-weight: bold;" class = "bg-primary text-light">
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPECIFIC_REVENUE</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPECIFIC_REVENUE</th>
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPC_REV</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPC_REV</th>
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPC_REV</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPC_REV</th>
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPC_REV</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPC_REV</th>
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPC_REV</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPC_REV</th>
 
-							<th class="text-center">SCS</th>
-							<th class="text-center">UNITS</th>
-							<th class="text-center">DEMAND</th>
-							<th class="text-center">EC</th>
-							<th class="text-center">SPC_CON</th>
-							<th class="text-center">SPC_REV</th>
+							<th class="text-center text-light">SCS</th>
+							<th class="text-center text-light">UNITS</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">EC</th>
+							<th class="text-center text-light">SPC_CON</th>
+							<th class="text-center text-light">SPC_REV</th>
 
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="frc" items="${fyConsumptionReport}">
-							<tr>
+							<tr style = "font-weight: 500;">
 
-								<td>${ frc.CIRCLE}</td>
-								<td>${frc.HT1SCS}</td>
-								<td>${frc.HT1UNITS}</td>
-								<td>${frc.HT1DEMAND}</td>
-								<td>${frc.HT1EC}</td>
-								<td>${frc.HT1SPECIFIC_CONSUMPTION}</td>
-								<td>${frc.HT1SPECIFIC_REVENUE}</td>
+								<td class="text-right">${ frc.CIRCLE}</td>
+								<td class="text-right">${frc.HT1SCS}</td>
+								<td class="text-right format">${frc.HT1UNITS}</td>
+								<td class="text-right format">${frc.HT1DEMAND}</td>
+								<td class="text-right format">${frc.HT1EC}</td>
+								<td class="text-right format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT1SPECIFIC_REVENUE}</td>
 
-								<td class="text-center">${frc.HT2SCS}</td>
-								<td class="text-center">${frc.HT2UNITS}</td>
-								<td class="text-center">${frc.HT2DEMAND}</td>
-								<td class="text-center">${frc.HT2EC}</td>
-								<td class="text-center">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-								<td class="text-center">${frc.HT2SPECIFIC_REVENUE}</td>
+								<td class="text-right">${frc.HT2SCS}</td>
+								<td class="text-right format">${frc.HT2UNITS}</td>
+								<td class="text-right format">${frc.HT2DEMAND}</td>
+								<td class="text-right format">${frc.HT2EC}</td>
+								<td class="text-right format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT2SPECIFIC_REVENUE}</td>
 
-								<td class="text-center">${frc.HT3SCS}</td>
-								<td class="text-center">${frc.HT3UNITS}</td>
-								<td class="text-center">${frc.HT3DEMAND}</td>
-								<td class="text-center">${frc.HT3EC}</td>
-								<td class="text-center">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-								<td class="text-center">${frc.HT3SPECIFIC_REVENUE}</td>
+								<td class="text-right">${frc.HT3SCS}</td>
+								<td class="text-right format">${frc.HT3UNITS}</td>
+								<td class="text-right format">${frc.HT3DEMAND}</td>
+								<td class="text-right format">${frc.HT3EC}</td>
+								<td class="text-right format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT3SPECIFIC_REVENUE}</td>
 
-								<td class="text-center">${frc.HT4SCS}</td>
-								<td class="text-center">${frc.HT4UNITS}</td>
-								<td class="text-center">${frc.HT4DEMAND}</td>
-								<td class="text-center">${frc.HT4EC}</td>
-								<td class="text-center">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-								<td class="text-center">${frc.HT4SPECIFIC_REVENUE}</td>
+								<td class="text-right">${frc.HT4SCS}</td>
+								<td class="text-right format">${frc.HT4UNITS}</td>
+								<td class="text-right format">${frc.HT4DEMAND}</td>
+								<td class="text-right format">${frc.HT4EC}</td>
+								<td class="text-right format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT4SPECIFIC_REVENUE}</td>
 
-								<td class="text-center">${frc.HT5BSCS}</td>
-								<td class="text-center">${frc.HT5BUNITS}</td>
-								<td class="text-center">${frc.HT5BDEMAND}</td>
-								<td class="text-center">${frc.HT5BEC}</td>
-								<td class="text-center">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-								<td class="text-center">${frc.HT5BSPECIFIC_REVENUE}</td>
+								<td class="text-right">${frc.HT5BSCS}</td>
+								<td class="text-right format">${frc.HT5BUNITS}</td>
+								<td class="text-right format">${frc.HT5BDEMAND}</td>
+								<td class="text-right format">${frc.HT5BEC}</td>
+								<td class="text-right format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT5BSPECIFIC_REVENUE}</td>
 
-								<td class="text-center">${frc.HT5ESCS}</td>
-								<td class="text-center">${frc.HT5EUNITS}</td>
-								<td class="text-center">${frc.HT5EDEMAND}</td>
-								<td class="text-center">${frc.HT5EEC}</td>
-								<td class="text-center">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-								<td class="text-center">${frc.HT5ESPECIFIC_REVENUE}</td>
+								<td class="text-right">${frc.HT5ESCS}</td>
+								<td class="text-right format">${frc.HT5EUNITS}</td>
+								<td class="text-right format">${frc.HT5EDEMAND}</td>
+								<td class="text-right format">${frc.HT5EEC}</td>
+								<td class="text-right format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
+								<td class="text-right format">${frc.HT5ESPECIFIC_REVENUE}</td>
 
 							</tr>
 						</c:forEach>
@@ -168,49 +168,49 @@
 					<c:if test="${type eq 'ALL'}">
 						<tfoot>
 
-							<tr>
+							<tr style = "font-weight: 500;">
 								<td class="text-center">Grand Total</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1UNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1DEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1EC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT1SCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT1UNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT1DEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT1EC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT1SPECIFIC_REVENUE).sum()}</td>
 
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2UNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2DEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2EC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT2SCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT2UNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT2DEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT2EC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT2SPECIFIC_REVENUE).sum()}</td>
 
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3UNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3DEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3EC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT3SCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT3UNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT3DEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT3EC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT3SPECIFIC_REVENUE).sum()}</td>
 
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4UNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4DEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4EC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT4SCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT4UNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT4DEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT4EC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT4SPECIFIC_REVENUE).sum()}</td>
 
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BUNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BDEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BEC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT5BSCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5BUNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5BDEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5BEC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5BSPECIFIC_REVENUE).sum()}</td>
 
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESCS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EUNITS).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EDEMAND).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5EEC).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_CONSUMPTION).sum()}</td>
-								<td >${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_REVENUE).sum()}</td>
+								<td class="text-right">${fyConsumptionReport.stream().map(frc -> frc.HT5ESCS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5EUNITS).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5EDEMAND).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5EEC).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_CONSUMPTION).sum()}</td>
+								<td class="text-right format">${fyConsumptionReport.stream().map(frc -> frc.HT5ESPECIFIC_REVENUE).sum()}</td>
 
 							</tr>
 						</tfoot>
@@ -281,6 +281,20 @@
 				} ]
 			}
 		});
+	});
+</script>
+<script> 
+	requirejs([ 'jquery' ], function($) {
+			$(".format").each(function() { 
+				if ($.isNumeric( $(this).text())) {
+				    // It isn't a number	
+				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+				}
+			}
+				
+				
+			)
+			
 	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

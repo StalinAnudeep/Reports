@@ -1171,7 +1171,7 @@ public class ReportController {
 			mav.addObject("tp", tp_sales);
 			mav.addObject("CIRCOUNT",countFrequencies(tp_sales));
 			mav.addObject("CIR", circle);
-			mav.addObject("title","HT DCB COLLECTION  MONTHLY ABSTRACT  FOR "+(circle.equals("ALL")?"APCPDCL":circle));
+			mav.addObject("title","HT DCB Collection  Monthly Abstract  For "+(circle.equals("ALL")?"APCPDCL":circle));
 			/*mav.addObject("status", request.getParameter("status"));*/
 		}
 		return mav;

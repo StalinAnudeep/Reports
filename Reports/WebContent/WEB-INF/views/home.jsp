@@ -475,7 +475,7 @@
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>
-					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DCB
+					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DIV, SD , SEC Wise DCB
 							Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
@@ -1134,6 +1134,14 @@
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT125</span></td>
 					<td><a href="fyConsumption"> FY Consumption Report</a></td>
+					<td></td>
+				</tr>
+				
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT126</span></td>
+					<td><a href="fyConsumption2">Cat wise Specific Rev/ Consumption of 5 Financial Years Report</a></td>
 					<td></td>
 				</tr>
 

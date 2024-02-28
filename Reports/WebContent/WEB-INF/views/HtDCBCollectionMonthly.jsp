@@ -183,25 +183,25 @@ color: #fff !important;
 							%><c:if  test="${mtrblc.CIRNAME eq 'TOTAL'}">
 								<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
 								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>								
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CB}</td>
-								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.SD}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.TOB}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>								
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.CB}</td>
+								<td class="text-right TOTAL bg-primary format"style="padding-left: 5px;">${mtrblc.SD}</td>
 								</c:if>
 								
 								<c:if  test="${mtrblc.CIRNAME ne 'TOTAL'}">
 								<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
 							<td class="text-right"style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.SD}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.TOB}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.CB}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.SD}</td>
 								</c:if>
 							</tr>
 		
@@ -238,13 +238,14 @@ color: #fff !important;
 							<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
 							<tr>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.LDT}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.TOB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.CB}</td>
-								<td class="text-right"style="padding-left: 5px;">${mtrblc.SD}</td>
+								<td class="text-right"style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.TOB}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.DR_DEMAND}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.CR_COLLECTION}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.CB}</td>
+								<td class="text-right format"style="padding-left: 5px;">${mtrblc.SD}</td>
 							
 							
 							</tr>
@@ -348,5 +349,20 @@ function getNext(circle,agewise){
 	window.open(url, '_blank').focus();
 }
 
+</script>
+
+<script> 
+	requirejs([ 'jquery' ], function($) {
+			$(".format").each(function() { 
+				if ($.isNumeric( $(this).text())) {
+				    // It isn't a number	
+				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+				}
+			}
+				
+				
+			)
+			
+	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>
