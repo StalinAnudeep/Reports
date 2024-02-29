@@ -96,8 +96,8 @@ thead>tr>th {
 	<form class="card" action="HtDCBCollectionSplitMonthly" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<span class="text-danger">HT97C</span> -HT DCB Collection Split
-				Monthly
+				<span class="text-danger">HT97C</span> -HT DCB Split Abstract
+				Month Wise
 			</h3>
 			<div class="row">
 				<div class="col-md-4">

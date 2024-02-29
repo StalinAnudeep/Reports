@@ -356,8 +356,8 @@
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT23A</span></td>
-					<td><a href="sentEmails">Services For Which
-							Emails And SMS Sent</a></td>
+					<td><a href="sentEmails">Services For Which Emails And SMS
+							Sent</a></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -381,7 +381,6 @@
 
 				</tr>
 				<tr>
-
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT123</span></td>
 					<td><a href="monthWiseTariffReport">Month Wise Tariff
@@ -390,13 +389,29 @@
 				</tr>
 
 				<tr>
-
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT124</span></td>
-					<td><a href="financialYearTariffReport">FinancialYear Tariff
-							Report</a></td>
+					<td><a href="financialYearTariffReport">FinancialYear
+							Tariff Report</a></td>
 					<td></td>
 				</tr>
+
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT127</span></td>
+					<td><a href="todConsumptionOfFyReport">Voltage
+							Wise,Category Wise,TOD Consumption Of FinancialYear Report </a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT128</span></td>
+					<td><a href="todConsumptionMonthReport">Voltage
+							Wise,Category Wise,TOD Consumption Month Report </a></td>
+					<td></td>
+				</tr>
+				
 
 			</table>
 		</div>
@@ -468,21 +483,22 @@
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT97C</span></td>
-					<td><a href="HtDCBCollectionSplitMonthly">HT DCB
-							Collection Split Monthly</a></td>
+					<td><a href="HtDCBCollectionSplitMonthly">HT DCB Split
+							Abstract Month Wise</a></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>
-					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DIV, SD , SEC Wise DCB
-							Collection Split Monthly</a></td>
+					<td><a href="HtDCBCollectionSplitMonthlyWise">HT DIV, SD ,
+							SEC Wise DCB Collection Split Monthly</a></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td><span><img src="./demo/brand/new.gif" style="width: 40px;">HT97E</span></td>
-					<td><a href="HtDCBCollectionMonthly">HT DCB Collection
-							Monthly</a></td>
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT97E</span></td>
+					<td><a href="HtDCBCollectionMonthly">HT DCB With SD 
+							Monthly Abstract</a></td>
 					<td></td>
 				</tr>
 
@@ -1136,12 +1152,13 @@
 					<td><a href="fyConsumption"> FY Consumption Report</a></td>
 					<td></td>
 				</tr>
-				
-				
+
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT126</span></td>
-					<td><a href="fyConsumption2">Cat wise Specific Rev/ Consumption of 5 Financial Years Report</a></td>
+					<td><a href="fyConsumption2">Cat wise Specific Rev/
+							Consumption of 5 Financial Years Report</a></td>
 					<td></td>
 				</tr>
 
