@@ -69,37 +69,37 @@ public class NewReportDao {
 					+ "ROUND(SUM(case when CTCAT='HT1' then DEMAND END)) HT1demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then EC END)) HT1ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then SPECIFIC_CONSUMPTION END)) HT1SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT1' then SPECIFIC_REVENUE END)) HT1SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT1' then SPECIFIC_REVENUE END) HT1SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT2' then SCS END) HT2scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then UNITS END)) HT2units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then DEMAND END)) HT2demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then EC END)) HT2ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then SPECIFIC_CONSUMPTION END)) HT2SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT2' then SPECIFIC_REVENUE END)) HT2SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT2' then SPECIFIC_REVENUE END) HT2SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT3' then SCS END) HT3scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then UNITS END)) HT3units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then DEMAND END)) HT3demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then EC END)) HT3ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then SPECIFIC_CONSUMPTION END)) HT3SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT3' then SPECIFIC_REVENUE END)) HT3SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT3' then SPECIFIC_REVENUE END) HT3SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT4' then SCS END) HT4scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then UNITS END)) HT4units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then DEMAND END)) HT4demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then EC END)) HT4ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then SPECIFIC_CONSUMPTION END)) HT4SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT4' then SPECIFIC_REVENUE END)) HT4SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT4' then SPECIFIC_REVENUE END) HT4SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT5B' then SCS END) HT5Bscs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then UNITS END)) HT5Bunits,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then DEMAND END)) HT5Bdemand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then EC END)) HT5Bec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then SPECIFIC_CONSUMPTION END)) HT5BSPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT5B' then SPECIFIC_REVENUE END)) HT5BSPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT5B' then SPECIFIC_REVENUE END) HT5BSPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT5E' then SCS END) HT5Escs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then UNITS END)) HT5Eunits,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then DEMAND END)) HT5Edemand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then EC END)) HT5Eec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_CONSUMPTION END)) HT5ESPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END)) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
 					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE, \r\n"
 					+ "case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END CTCAT,\r\n" + "COUNT(*)SCS,\r\n"
@@ -129,37 +129,37 @@ public class NewReportDao {
 					+ "ROUND(SUM(case when CTCAT='HT1' then DEMAND END)) HT1demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then EC END)) HT1ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then SPECIFIC_CONSUMPTION END)) HT1SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT1' then SPECIFIC_REVENUE END)) HT1SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT1' then SPECIFIC_REVENUE END) HT1SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT2' then SCS END) HT2scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then UNITS END)) HT2units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then DEMAND END)) HT2demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then EC END)) HT2ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT2' then SPECIFIC_CONSUMPTION END)) HT2SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT2' then SPECIFIC_REVENUE END)) HT2SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT2' then SPECIFIC_REVENUE END) HT2SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT3' then SCS END) HT3scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then UNITS END)) HT3units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then DEMAND END)) HT3demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then EC END)) HT3ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT3' then SPECIFIC_CONSUMPTION END)) HT3SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT3' then SPECIFIC_REVENUE END)) HT3SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT3' then SPECIFIC_REVENUE END) HT3SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT4' then SCS END) HT4scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then UNITS END)) HT4units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then DEMAND END)) HT4demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then EC END)) HT4ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT4' then SPECIFIC_CONSUMPTION END)) HT4SPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT4' then SPECIFIC_REVENUE END)) HT4SPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT4' then SPECIFIC_REVENUE END) HT4SPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT5B' then SCS END) HT5Bscs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then UNITS END)) HT5Bunits,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then DEMAND END)) HT5Bdemand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then EC END)) HT5Bec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5B' then SPECIFIC_CONSUMPTION END)) HT5BSPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT5B' then SPECIFIC_REVENUE END)) HT5BSPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT5B' then SPECIFIC_REVENUE END) HT5BSPECIFIC_REVENUE\r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT5E' then SCS END) HT5Escs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then UNITS END)) HT5Eunits,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then DEMAND END)) HT5Edemand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then EC END)) HT5Eec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_CONSUMPTION END)) HT5ESPECIFIC_CONSUMPTION,\r\n"
-					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END)) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
+					+ "SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
 					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE, \r\n"
 					+ "case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END CTCAT,\r\n" + "COUNT(*)SCS,\r\n"
@@ -404,23 +404,90 @@ public class NewReportDao {
 		String circle = request.getParameter("circle");
 		String fromYear = "01-APR-" + request.getParameter("fyear");
 		String toYear = "31-MAR-" + request.getParameter("tyear");
-		
+
 		System.out.println(fromYear);
-        
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate.getDataSource()).withProcedureName("FINANCIAL_YEAR_CONSUMOTION_REPORT");
+
+		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate.getDataSource())
+				.withProcedureName("FINANCIAL_YEAR_CONSUMOTION_REPORT");
 		Map<String, String> inputs = new HashMap<String, String>();
-		inputs.put("CIR",circle);
-		inputs.put("FROM_YEAR",fromYear);
+		inputs.put("CIR", circle);
+		inputs.put("FROM_YEAR", fromYear);
 		inputs.put("TO_YEAR", toYear);
-		
-		log.info("Executing Procedure { exec HT_BILL_CALC ('" +circle + "','" + fromYear + "','"
-				+ toYear + "'}'");
+
+		log.info("Executing Procedure { exec HT_BILL_CALC ('" + circle + "','" + fromYear + "','" + toYear + "'}'");
 		SqlParameterSource in = new MapSqlParameterSource().addValues(inputs);
 		Map<String, Object> out = jdbcCall.execute(in);
 		log.info("Procedure Result " + out);
+
+		return (List<Map<String, Object>>) out.get("PRC");
+	}
+
+	public List<Map<String, Object>> getTodConsumptionOfFyReport(HttpServletRequest request) {
+		String fin_year = request.getParameter("year");
+		String fromdate = "01-APR-" + fin_year.split("-")[0];
+		String todate = "31-MAR-" + fin_year.split("-")[1];
+
+		try {
+			String sql = "select * from (select FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT ,count(DISTINCT CTUSCNO) SCS, \r\n"
+					+ "max(load) LOAD, \r\n"
+					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
+					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
+					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NORMAL , \r\n"
+					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
+					+ "from \r\n"
+					+ "( \r\n"
+					+ "select CTUscno,get_financial_year_BILL(BTBLDT) FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,\r\n"
+					+ " CTSUBCAT,\r\n"
+					+ "BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
+					+ "from bill_hist,CONS WHERE CTUSCNO=BTSCNO)\r\n"
+					+ ",(select uscno,to_number(load) load from LEDGER_HT_HIST where MON_YEAR=(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
+					+ "between to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY'))) \r\n"
+					+ "where  \r\n"
+					+ "CTUscno = uscno(+) and \r\n"
+					+ "BTBLDT between to_date(?,'DD-MM-YYYY') AND to_date (?,'DD-MM-YYYY') \r\n"
+					+ "group by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT)\r\n"
+					+ "order by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql,
+					new Object[] {fromdate, todate ,fromdate, todate });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getTodConsumptionMonthReport(HttpServletRequest request) {
+		String fin_year = request.getParameter("year");
+		String fromdate = "01-APR-" + fin_year.split("-")[0];
+		String todate = "31-MAR-" + fin_year.split("-")[1];
 		
-		
-		return  (List<Map<String, Object>>) out.get("PRC");
-    }
-	
+
+		try {
+			String sql = "select * from (select BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT ,count(DISTINCT CTUSCNO) SCS, \r\n"
+					+ "max(load) LOAD, \r\n"
+					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
+					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
+					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NORMAL , \r\n"
+					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
+					+ "from (select CTUscno,to_char(BTBLDT,'MON-YYYY') BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT,BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
+					+ "from bill_hist,CONS WHERE CTUSCNO=BTSCNO)\r\n"
+					+ ",(select uscno,to_number(load) load from LEDGER_HT_HIST where MON_YEAR=(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
+					+ "between to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY'))) \r\n"
+					+ "where  CTUscno = uscno(+) and \r\n"
+					+ "BTBLDT between to_date(?,'DD-MM-YY') AND to_date (?,'DD-MM-YY') \r\n"
+					+ "group by BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT)\r\n"
+					+ "order by BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql,
+					new Object[] {fromdate,todate , fromdate, todate});
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 }

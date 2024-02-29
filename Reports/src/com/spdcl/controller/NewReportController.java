@@ -191,6 +191,58 @@ public class NewReportController {
 		return mav;
 
 	}
+	
+	
+	@GetMapping("/todConsumptionOfFyReport")
+	public String getTodConsumptionOfFyReport() {
+		return "todConsumptionOfFyReport";
+	}
+	
+	
+	@PostMapping("/todConsumptionOfFyReport")
+	public ModelAndView getTodConsumptionOfFyReport(HttpServletRequest request) throws ParseException {
+		ModelAndView mav = new ModelAndView("todConsumptionOfFyReport");
+		List<Map<String, Object>> todDetails = newReportDao.getTodConsumptionOfFyReport(request);
+		
+		System.out.println(todDetails);
+
+		if (todDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("todDetails", todDetails);
+			mav.addObject("title" , "Voltage Wise,Category Wise,TOD Consumption Of FinancialYear Report");
+
+		}
+
+		return mav;
+
+	}
+	
+	@GetMapping("/todConsumptionMonthReport")
+	public String getTodConsumptionMonthReport() {
+		return "todConsumptionMonthReport";
+	}
+	
+	@PostMapping("/todConsumptionMonthReport")
+	public ModelAndView getTodConsumptionMonthReport(HttpServletRequest request) throws ParseException {
+		ModelAndView mav = new ModelAndView("todConsumptionMonthReport");
+		String year =request.getParameter("year");
+		List<Map<String, Object>> todMonthDetails = newReportDao.getTodConsumptionMonthReport(request);
+		
+		System.out.println(todMonthDetails);
+
+		if (todMonthDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("todDetails", todMonthDetails);
+			mav.addObject("title" , "Voltage Wise,Category Wise,TOD Consumption Month Report - " + year);
+			mav.addObject("CATCOUNT", countFrequencies(todMonthDetails));
+
+		}
+
+		return mav;
+
+	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();
@@ -224,6 +276,8 @@ public class NewReportController {
 					templist.add(pair.getValue().toString());
 				}
 				if (pair.getKey().equals("FINANCIAL_YEAR")) {
+					templist.add(pair.getValue().toString());
+				}if (pair.getKey().equals("CTCAT")) {
 					templist.add(pair.getValue().toString());
 				}
 
