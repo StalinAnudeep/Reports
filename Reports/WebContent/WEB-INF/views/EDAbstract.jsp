@@ -192,14 +192,14 @@ color: #fff !important;
 							<%}
 							cricle = (String) request.getAttribute("cirl");
 							%><c:if  test="${mtrblc.CIRCLE eq 'TOTAL'}">
-								<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+								<%--  <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.BDT}</td> --%>
 								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.CIRCLE}</td>
 								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.KVAH}</td>
 								<td class="text-right TOTAL bg-primary"style="padding-left: 5px;">${mtrblc.ED_AMT}</td>
 								</c:if>
 								
 								<c:if  test="${mtrblc.CIRCLE ne 'TOTAL'}">
-								<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+							<%-- 	<td class="text-right" style="padding-left: 5px;"> ${mtrblc.BDT}</td> --%>
 							<td class="text-right"style="padding-left: 5px;">${mtrblc.CIRCLE}</td>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.KVAH}</td>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.ED_AMT}</td>
@@ -234,6 +234,7 @@ color: #fff !important;
 							<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
 							<tr>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.BDT}</td>
+								<td class="text-right"style="padding-left: 5px;">${mtrblc.CIRCLE}</td>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.KVAH}</td>
 								<td class="text-right"style="padding-left: 5px;">${mtrblc.ED_AMT}</td>						
 							</tr>

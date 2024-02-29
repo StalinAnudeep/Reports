@@ -44,6 +44,7 @@
 						<th>SUBNAME</th>
 						<th>SECNAME</th>
 						<th>HT USCNO</th>
+						<th>LT USCNO</th>
 						<th>1st QUATER UNIT<br>(APR-21 To JUN-21)</th>
 						<th>1st QUATER RATE</th>
 						<th>1st QUATER AMT</th>
@@ -72,6 +73,7 @@
 								<td>${mtrblc.SUBNAME}</td>
 								<td>${mtrblc.SECNAME}</td>
 								<td>${mtrblc.HT_SCNO}</td>
+								<td>${mtrblc.BLUSCNO}</td>
 								<td class="text-right">${mtrblc.FQ}</td>
 								<td class="text-right">${mtrblc.FQR}</td>
 								<td class="text-right">${mtrblc.FQA}</td>
