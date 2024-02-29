@@ -83,12 +83,11 @@ color: #fff !important;
 	color: #fff !important;
     font-weight: bold  !important;
 } 
-
 </style>
 <div class="row row-cards row-deck">
 		<form class="card" action="HtDCBCollectionMonthly" method="post">
 			<div class="card-body">
-				<h3 class="card-title"><strong><span class="text-danger">HT97E</span> -HT DCB With SD Monthly Abstract </strong></h3>
+				<h3 class="card-title"><strong><span class="text-danger">HT97E</span> -HT DCB With SD Monthly Abstract</strong></h3>
 				<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
