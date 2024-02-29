@@ -18,8 +18,6 @@ $(document).ready(function() {
 });
 });
 </script>
-
-
 <div class="row row-cards row-deck">
 	      <form class="card" action="accountCopy" method="post">
                 <div class="card-body">
