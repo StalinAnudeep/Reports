@@ -1478,7 +1478,7 @@ public class ReportDao {
 		else {
 			try {
 	
-				String sql = "select * from (select  TYPE,  CIRNAME,nvl(TYPE,'APCPDCL')||nvl(CIRNAME,'TOTAL') CIR_TYPE , nvl(DIVNAME,'TOTAL')DIVNAME,SUM(NOS) NOS,SUM(CURR_DEMAND) CURR_DEMAND,SUM(ARREAR_AMOUNT) ARREAR_AMOUNT, SUM(TOTAL) TOTAL ,\r\n" + 
+		/*		String sql = "select * from (select  nvl(TYPE,'TOTAL') TYPE, nvl(CIRNAME,'APCPDCL') CIRNAME,nvl(TYPE,'APCPDCL')||nvl(CIRNAME,'TOTAL') CIR_TYPE , nvl(DIVNAME,'TOTAL')DIVNAME,SUM(NOS) NOS,SUM(CURR_DEMAND) CURR_DEMAND,SUM(ARREAR_AMOUNT) ARREAR_AMOUNT, SUM(TOTAL) TOTAL ,\r\n" + 
 						"SUM(NOS_COLLECTED) NOS_COLLECTED ,SUM(CURR_DEM_COLLECTED) CURR_DEM_COLLECTED,SUM(COLLECTED_AGA_CMD) COLLECTED_AGA_CMD,\r\n" + 
 						"SUM(ARREAR_COLLECTED) ARREAR_COLLECTED,SUM(ARR_C_AGA_CMD) ARR_C_AGA_CMD ,SUM(COLL_AGA_TOT_AMT) COLL_AGA_TOT_AMT, SUM(TOTAL_DEUES) TOTAL_DEUES  from \r\n" + 
 						"(\r\n" + 
@@ -1510,7 +1510,44 @@ public class ReportDao {
 						"GROUP BY CUBE (TYPE,CIRNAME,DIVNAME) order by\r\n" + 
 						"case when TYPE='GOVT' then '001' when TYPE = 'NON-GOVT' then '002' else TYPE end,\r\n" + 
 						"case when CIRNAME = 'VIJAYAWADA' then '001' when CIRNAME = 'GUNTUR' then '002' when CIRNAME = 'ONGOLE' then '003'  when CIRNAME = 'CRDA' then '009' else CIRNAME end,\r\n" + 
-						"case when DIVNAME='TOTAL' then 'ZZZZZZZZZ' else DIVNAME end) where type is not null and cirname is not null";
+						"case when DIVNAME='TOTAL' then 'ZZZZZZZZZ' else DIVNAME end) where type is not null and cirname is not null";*/
+				String sql = "select * from (select  case when type is null and cirname is null then 'GOVT-PVT' else TYPE end  TYPE, \n" + 
+						"case when type is null and cirname is null then 'TOTAL' else CIRNAME end \n" + 
+						"CIRNAME,\n" + 
+						"case when type is null and cirname is null then 'YES' else 'NO' end FLAG,\n" + 
+						"nvl(TYPE,'APCPDCL')||nvl(CIRNAME,'TOTAL') CIR_TYPE , nvl(DIVNAME,'TOTAL')DIVNAME,SUM(NOS) NOS,SUM(CURR_DEMAND) CURR_DEMAND,SUM(ARREAR_AMOUNT) ARREAR_AMOUNT, SUM(TOTAL) TOTAL ,\n" + 
+						"SUM(NOS_COLLECTED) NOS_COLLECTED ,SUM(CURR_DEM_COLLECTED) CURR_DEM_COLLECTED,SUM(COLLECTED_AGA_CMD) COLLECTED_AGA_CMD,\n" + 
+						"SUM(ARREAR_COLLECTED) ARREAR_COLLECTED,SUM(ARR_C_AGA_CMD) ARR_C_AGA_CMD ,SUM(COLL_AGA_TOT_AMT) COLL_AGA_TOT_AMT, SUM(TOTAL_DEUES) TOTAL_DEUES  from \n" + 
+						"(\n" + 
+						"select TYPE,CIRNAME,DIVNAME,NOS,round(CURR_DEMAND/100000,2) CURR_DEMAND ,round(ARREAR_AMOUNT/100000,2) ARREAR_AMOUNT,round(TOTAL/100000,2) TOTAL,\n" + 
+						"NOS_COLLECTED,round(CURR_DEM_COLLECTED/100000,2) CURR_DEM_COLLECTED , round((CURR_DEM_COLLECTED/CURR_DEMAND)*100,2) COLLECTED_AGA_CMD,\n" + 
+						"round(ARREAR_COLLECTED/100000,2) ARREAR_COLLECTED,round((ARREAR_COLLECTED/ARREAR_AMOUNT)*100,2) ARR_C_AGA_CMD, round(((CURR_DEM_COLLECTED+ARREAR_COLLECTED)/TOTAL)*100,2) COLL_AGA_TOT_AMT,\n" + 
+						"round((TOTAL -(CURR_DEM_COLLECTED+ARREAR_COLLECTED))/100000,2) TOTAL_DEUES from (\n" + 
+						"SELECT \n" + 
+						" CASE WHEN NVL(CTGOVT_PVT,'N')='Y'  THEN 'GOVT' ELSE 'PVT' END TYPE, CIRNAME,DIVNAME,COUNT(SCNO) NOS,SUM(NVL(DEM,0)) CURR_DEMAND,SUM(NVL(TOB,0)) ARREAR_AMOUNT,SUM(NVL(TOT,0)) TOTAL,\n" + 
+						"SUM(CASE WHEN NVL(COLLECTION,0)>0 THEN 1 ELSE 0 END) NOS_COLLECTED,SUM(CASE WHEN NVL(TOB,0)>0 THEN   CASE WHEN (NVL(TOB,0)-NVL(COLLECTION,0))>0 THEN 0 ELSE (NVL(COLLECTION,0)-NVL(TOB,0)) END ELSE NVL(COLLECTION,0) END) CURR_DEM_COLLECTED, \n" + 
+						"SUM(CASE WHEN NVL(TOB,0)>0 THEN CASE WHEN NVL(TOB,0)>NVL(COLLECTION,0) THEN NVL(COLLECTION,0) ELSE NVL(TOB,0) END END) ARREAR_COLLECTED,\n" + 
+						"SUM(NVL( TCB,0)) CB FROM CONS,SPDCLMASTER, \n" + 
+						" (SELECT  SCNO,SUM(NVL(OB,0)) TOB,SUM(NVL(DEM,0)+NVL(DR_AMT,0)) DEM,SUM(NVL(OB,0)+NVL(DEM,0)+NVL(DR_AMT,0)) TOT,\n" + 
+						"SUM(NVL(PAY,0)+NVL(CR_AMT,0)) COLLECTION,SUM(NVL(OB,0)+(NVL(DEM,0)+NVL(DR_AMT,0))-(NVL(PAY,0)+NVL(CR_AMT,0))) TCB\n" + 
+						"FROM \n" + 
+						"(SELECT BTSCNO SCNO,0 OB,SUM(NVL(BTCURDEM,0)+NVL(BTCOURT_LPC,0)) DEM,0 DR_AMT,0 CR_AMT,0 PAY FROM BILL WHERE BTBLDT between TRUNC(SYSDATE,'MONTH') and TO_DATE(sysdate - 1) AND SUBSTR(BTSCNO,1,3) IN('GNT','VJA','ONG','CRD') GROUP BY BTSCNO\n" + 
+						"UNION\n" + 
+						"SELECT USCNO SCNO,NVL(CBTOT,0)+NVL(CB_CCLPC,0)+NVL(CB_OTH,0) OB,0 DEM,0 DR_AMT,0 CR_AMT,0 PAY FROM LEDGER_HT_HIST WHERE TRUNC(TO_DATE(MON_YEAR,'MON-YYYY'),'MM')=ADD_MONTHS(TRUNC(SYSDATE,'MONTH'),-1) AND SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD')\n" + 
+						"UNION\n" + 
+						"select uscno SCNO,0 OB,0 DEM,SUM(CASE WHEN RJTYPE='DR' THEN (nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) DR_AMT,SUM(CASE WHEN RJTYPE='CR'THEN (nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) CR_AMT,0 PAY  from JOURNAL WHERE TRUNC(rjdt,'MM')=TRUNC(SYSDATE,'MONTH')  and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X','E') GROUP BY USCNO\n" + 
+						"UNION\n" + 
+						"SELECT USCNO SCNO,0 OB,0 DEM,0 DR_AMT,0 CR_AMT,SUM(NVL(PCMD,0)) PAY FROM PAY_ht WHERE TO_DATE(PAY_DATE) between TRUNC(SYSDATE,'MONTH') and TO_DATE(sysdate - 1) AND pay_sta_flg='C' AND SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') GROUP BY USCNO) GROUP BY SCNO)\n" + 
+						"\n" + 
+						"WHERE CTUSCNO=SCNO  AND SUBSTR(CTSECCD,-5)=SECCD AND SUBSTR(CTUSCNO,1,3)=?\n" + 
+						"GROUP BY \n" + 
+						"CASE WHEN NVL(CTGOVT_PVT,'N')='Y'  THEN 'GOVT' ELSE 'PVT' END ,\n" + 
+						"CIRNAME,\n" + 
+						"DIVNAME))\n" + 
+						"GROUP BY CUBE (TYPE,CIRNAME,DIVNAME) order by\n" + 
+						"case when TYPE='GOVT' then '001' when TYPE = 'PVT' then '002' else TYPE end,\n" + 
+						"case when CIRNAME = 'VIJAYAWADA' then '001' when CIRNAME = 'GUNTUR' then '002' when CIRNAME = 'ONGOLE' then '003'  when CIRNAME = 'CRDA' then '009' else CIRNAME end,\n" + 
+						"case when DIVNAME='TOTAL' then 'ZZZZZZZZZ' else DIVNAME end) where type is not null and cirname is not null  or FLAG='YES'";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql,new Object[] {circle});
 			} catch (DataAccessException e) {
@@ -9157,11 +9194,11 @@ public List<Map<String, Object>> getKwhmonthlyreport(HttpServletRequest request)
 					"SUM(round(Nvl(Crj,0))) Crj,\r\n" + 
 					"SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n" + 
 					"from cons B,\r\n" + 
-					" (SELECT distinct  GMDEPTCODE,GMDEPTNAME FROM deptmast group by GMDEPTCODE,GMDEPTNAME\r\n" + 
+					" (SELECT distinct GMTYPECODE, GMDEPTCODE,GMDEPTNAME FROM deptmast group by GMTYPECODE,GMDEPTCODE,GMDEPTNAME\r\n" + 
 					"union all\r\n" + 
-					"select 'OTH' GMDEPTCODE,'OTH' GMDEPTNAME from dual),\r\n" + 
+					"select 'OTH' GMTYPECODE ,'OTH' GMDEPTCODE,'OTH' GMDEPTNAME from dual),\r\n" + 
 					"(select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where Mon_Year=?  union all select * from accountcopy where Mon_Year=? ) A,spdclmaster D\r\n" + 
-					"where B.CTUscno=A.Uscno  and CTHODDEP=GMDEPTCODE(+)  and DECODE(CTGOVT_PVT,'Y','GOVT','NON-GOVT')='GOVT'\r\n" + 
+					"where B.CTUscno=A.Uscno  and CTHODDEP=GMDEPTCODE(+)  and DECODE(CTGOVT_PVT,'Y','GOVT','NON-GOVT')='GOVT' and CTHODTYPE=GMTYPECODE\r\n" + 
 					"And substr(trim(ctseccd),-5)=D.seccd \r\n" + deptcode +
 					" GROUP BY NVL(CTHODDEP,'OTH') ,GMDEPTNAME\r\n" + 
 					"Order By NVL(CTHODDEP,'OTH') ,GMDEPTNAME";

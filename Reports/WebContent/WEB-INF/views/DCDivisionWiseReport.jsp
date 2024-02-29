@@ -20,6 +20,11 @@ font-weight: bold;
 background-color: #cef4ff;
 font-weight: bold;
 }
+.GOVT-PVT{
+background-color: #cef4ff;
+font-weight: bold;
+}
+
 .PVT{
 background-color: #fff0dd;
 font-weight: bold;
