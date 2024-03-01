@@ -477,42 +477,42 @@ thead>tr>th {
 											<td class="text-center  format">${frc.HT1DEMAND}</td>
 											<td class="text-center  format">${frc.HT1EC}</td>
 											<td class="text-center  format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT1SPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT1EC/frc.HT1UNITS}</td>
 
 											<td class="text-center">${frc.HT2SCS}</td>
 											<td class="text-center  format">${frc.HT2UNITS}</td>
 											<td class="text-center  format">${frc.HT2DEMAND}</td>
 											<td class="text-center  format">${frc.HT2EC}</td>
 											<td class="text-center  format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT2SPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT2EC/frc.HT2UNITS}</td>
 
 											<td class="text-center">${frc.HT3SCS}</td>
 											<td class="text-center  format">${frc.HT3UNITS}</td>
 											<td class="text-center  format">${frc.HT3DEMAND}</td>
 											<td class="text-center  format">${frc.HT3EC}</td>
 											<td class="text-center  format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT3SPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT3EC/frc.HT3UNITS}</td>
 
 											<td class="text-center">${frc.HT4SCS}</td>
 											<td class="text-center  format">${frc.HT4UNITS}</td>
 											<td class="text-center  format">${frc.HT4DEMAND}</td>
 											<td class="text-center  format">${frc.HT4EC}</td>
 											<td class="text-center  format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT4SPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT4EC/frc.HT4UNITS}</td>
 
 											<td class="text-center">${frc.HT5BSCS}</td>
 											<td class="text-center  format">${frc.HT5BUNITS}</td>
 											<td class="text-center  format">${frc.HT5BDEMAND}</td>
 											<td class="text-center  format">${frc.HT5BEC}</td>
 											<td class="text-center  format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5BSPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT5BEC/frc.HT5BUNITS}</td>
 
 											<td class="text-center  format">${frc.HT5ESCS}</td>
 											<td class="text-center  format">${frc.HT5EUNITS}</td>
 											<td class="text-center  format">${frc.HT5EDEMAND}</td>
 											<td class="text-center  format">${frc.HT5EEC}</td>
 											<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5ESPECIFIC_REVENUE}</td>
+											<td class="text-center  format">${frc.HT5EEC/frc.HT5EUNITS}</td>
 										</tr>
 									</c:if>
 									</c:if>
