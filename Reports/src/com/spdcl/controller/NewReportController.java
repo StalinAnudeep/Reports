@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -53,6 +53,7 @@ public class NewReportController {
 				mav.addObject("title", "Financial Year Consumption Report For APCPDCL - " + year);
 			} else {
 				mav.addObject("title", "Financial Year Consumption Report For - " + year);
+				mav.addObject("CIRCOUNT", countFrequencies(fyConsumptionReport));
 			}
 
 		}
@@ -175,7 +176,7 @@ public class NewReportController {
 		String year = request.getParameter("fyear") + " - " + request.getParameter("tyear");
 		List<Map<String, Object>> consumptionDetails = newReportDao.getFyConsumption2(request);
 		consumptionDetails.sort(Comparator.comparing((Map<String, Object> map) -> (String) map.get("FINANCIAL_YEAR"))
-				.thenComparing((Map<String, Object> map) ->"Z"+((String) map.get("TEMPCIRCLE"))));
+				.thenComparing((Map<String, Object> map) -> "Z" + ((String) map.get("TEMPCIRCLE"))));
 		System.out.println(consumptionDetails);
 
 		if (consumptionDetails.isEmpty()) {
@@ -191,52 +192,71 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/todConsumptionOfFyReport")
 	public String getTodConsumptionOfFyReport() {
 		return "todConsumptionOfFyReport";
 	}
-	
-	
+
 	@PostMapping("/todConsumptionOfFyReport")
 	public ModelAndView getTodConsumptionOfFyReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("todConsumptionOfFyReport");
 		List<Map<String, Object>> todDetails = newReportDao.getTodConsumptionOfFyReport(request);
-		
+		String year = request.getParameter("year");
+
 		System.out.println(todDetails);
 
 		if (todDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("todDetails", todDetails);
-			mav.addObject("title" , "Voltage Wise,Category Wise,TOD Consumption Of FinancialYear Report");
+			mav.addObject("title", "Voltage Wise,Category Wise,TOD Consumption Of FinancialYear Report - " + year);
 
 		}
 
 		return mav;
 
 	}
-	
+
 	@GetMapping("/todConsumptionMonthReport")
 	public String getTodConsumptionMonthReport() {
 		return "todConsumptionMonthReport";
 	}
-	
+
 	@PostMapping("/todConsumptionMonthReport")
 	public ModelAndView getTodConsumptionMonthReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("todConsumptionMonthReport");
-		String year =request.getParameter("year");
+		String year = request.getParameter("year");
 		List<Map<String, Object>> todMonthDetails = newReportDao.getTodConsumptionMonthReport(request);
-		
 		System.out.println(todMonthDetails);
+
+		List<Map<String, Object>> kv11Details = todMonthDetails.stream()
+				.filter(details -> details.containsKey("CTACTUAL_KV")
+						&& String.valueOf(details.get("CTACTUAL_KV")).equals("11"))
+				.collect(Collectors.toList());
+
+		List<Map<String, Object>> kv33Details = todMonthDetails.stream()
+				.filter(details -> details.containsKey("CTACTUAL_KV")
+						&& String.valueOf(details.get("CTACTUAL_KV")).equals("33"))
+				.collect(Collectors.toList());
+
+		List<Map<String, Object>> kv132Details = todMonthDetails.stream()
+				.filter(details -> details.containsKey("CTACTUAL_KV")
+						&& String.valueOf(details.get("CTACTUAL_KV")).equals("132"))
+				.collect(Collectors.toList());
+
+		System.out.println(kv11Details);
+		System.out.println(kv33Details);
 
 		if (todMonthDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("todDetails", todMonthDetails);
-			mav.addObject("title" , "Voltage Wise,Category Wise,TOD Consumption Month Report - " + year);
+			mav.addObject("title", "Voltage Wise,Category Wise,TOD Consumption Month Report - " + year);
 			mav.addObject("CATCOUNT", countFrequencies(todMonthDetails));
+			mav.addObject("kv11Details", kv11Details);
+			mav.addObject("kv33Details", kv33Details);
+			mav.addObject("kv132Details", kv132Details);
 
 		}
 
@@ -277,7 +297,8 @@ public class NewReportController {
 				}
 				if (pair.getKey().equals("FINANCIAL_YEAR")) {
 					templist.add(pair.getValue().toString());
-				}if (pair.getKey().equals("CTCAT")) {
+				}
+				if (pair.getKey().equals("MON_YEAR")) {
 					templist.add(pair.getValue().toString());
 				}
 

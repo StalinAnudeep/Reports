@@ -1,10 +1,5 @@
 package com.spdcl.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Types;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlOutParameter;
-import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -57,13 +50,15 @@ public class NewReportDao {
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
 		String todate = "31-MAR-" + fin_year.split("-")[1];
 		if (circle.equals("ALL")) {
-			String sql = "SELECT CIRCLE,HT1scs,HT1units,HT1demand,HT1ec,HT1SPECIFIC_CONSUMPTION,HT1SPECIFIC_REVENUE,\r\n"
+			String sql = "SELECT CASE WHEN MON_YEAR IS NULL THEN 'TOTAL' ELSE MON_YEAR END MON_YEAR,\r\n"
+					+ "CASE WHEN CIRCLE IS NULL THEN 'TOTAL' ELSE CIRCLE END CIRCLE,\r\n"
+					+ "HT1scs,HT1units,HT1demand,HT1ec,HT1SPECIFIC_CONSUMPTION,HT1SPECIFIC_REVENUE,\r\n"
 					+ "HT2scs,HT2units,HT2demand,HT2ec,HT2SPECIFIC_CONSUMPTION,HT2SPECIFIC_REVENUE,\r\n"
 					+ "HT3scs,HT3units,HT3demand,HT3ec,HT3SPECIFIC_CONSUMPTION,HT3SPECIFIC_REVENUE,\r\n"
 					+ "HT4scs,HT4units,HT4demand,HT4ec,HT4SPECIFIC_CONSUMPTION,HT4SPECIFIC_REVENUE,\r\n"
 					+ "HT5Bscs,HT5Bunits,HT5Bdemand,HT5Bec,HT5BSPECIFIC_CONSUMPTION,HT5BSPECIFIC_REVENUE,\r\n"
 					+ "HT5Escs,HT5Eunits,HT5Edemand,HT5Eec,HT5ESPECIFIC_CONSUMPTION,HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
-					+ "FROM (SELECT CIRCLE                       \r\n" + "\r\n"
+					+ "FROM (SELECT CIRCLE,MON_YEAR                       \r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT1' then SCS END) HT1scs,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then UNITS END)) HT1units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then DEMAND END)) HT1demand,\r\n"
@@ -100,32 +95,34 @@ public class NewReportDao {
 					+ "ROUND(SUM(case when CTCAT='HT5E' then EC END)) HT5Eec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_CONSUMPTION END)) HT5ESPECIFIC_CONSUMPTION,\r\n"
 					+ "SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
-					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE, \r\n"
+					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,MON_YEAR, \r\n"
 					+ "case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END CTCAT,\r\n" + "COUNT(*)SCS,\r\n"
 					+ "SUM(MN_KVAH) UNITS,\r\n" + "SUM(DEMAND) DEMAND,\r\n" + "SUM(EC)EC,\r\n"
 					+ "ROUND(SUM(MN_KVAH)/COUNT(*),2) SPECIFIC_CONSUMPTION,\r\n"
 					+ "ROUND(SUM(EC)/SUM(MN_KVAH),2) SPECIFIC_REVENUE FROM CONS,\r\n"
-					+ "(SELECT USCNO,SUM(MN_KVAH)MN_KVAH,SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))DEMAND,\r\n"
+					+ "(SELECT USCNO,MON_YEAR,SUM(MN_KVAH)MN_KVAH,SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))DEMAND,\r\n"
 					+ "SUM(NVL(BTENGCHG_NOR,0)+ NVL(BTENGCHG_PEN,0))EC\r\n" + "FROM LEDGER_HT_HIST ,BILL_HIST \r\n"
 					+ "WHERE uscno = btscno and to_char(BTBLDT,'MON-YYYY')=MON_YEAR and to_date(MON_YEAR,'MON-YYYY') between \r\n"
-					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n" + "GROUP BY USCNO)\r\n"
+					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n" + "GROUP BY USCNO,MON_YEAR)\r\n"
 					+ "WHERE CTUSCNO=USCNO  \r\n"
-					+ "GROUP BY SUBSTR(CTUSCNO,1,3),case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),MON_YEAR,case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END\r\n"
-					+ "ORDER BY CIRCLE,CTCAT)GROUP BY CIRCLE ORDER BY CIRCLE)";
+					+ "ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE,CTCAT)GROUP BY CUBE(MON_YEAR,CIRCLE)   ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE)";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate });
 		} else {
-			String sql = "SELECT CIRCLE,HT1scs,HT1units,HT1demand,HT1ec,HT1SPECIFIC_CONSUMPTION,HT1SPECIFIC_REVENUE,\r\n"
+			String sql = "SELECT CASE WHEN MON_YEAR IS NULL THEN 'TOTAL' ELSE MON_YEAR END MON_YEAR,\r\n"
+					+ "CASE WHEN CIRCLE IS NULL THEN 'TOTAL' ELSE CIRCLE END CIRCLE,\r\n"
+					+ "HT1scs,HT1units,HT1demand,HT1ec,HT1SPECIFIC_CONSUMPTION,HT1SPECIFIC_REVENUE,\r\n"
 					+ "HT2scs,HT2units,HT2demand,HT2ec,HT2SPECIFIC_CONSUMPTION,HT2SPECIFIC_REVENUE,\r\n"
 					+ "HT3scs,HT3units,HT3demand,HT3ec,HT3SPECIFIC_CONSUMPTION,HT3SPECIFIC_REVENUE,\r\n"
 					+ "HT4scs,HT4units,HT4demand,HT4ec,HT4SPECIFIC_CONSUMPTION,HT4SPECIFIC_REVENUE,\r\n"
 					+ "HT5Bscs,HT5Bunits,HT5Bdemand,HT5Bec,HT5BSPECIFIC_CONSUMPTION,HT5BSPECIFIC_REVENUE,\r\n"
 					+ "HT5Escs,HT5Eunits,HT5Edemand,HT5Eec,HT5ESPECIFIC_CONSUMPTION,HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
-					+ "FROM (SELECT CIRCLE                       \r\n" + "\r\n"
+					+ "FROM (SELECT CIRCLE,MON_YEAR                       \r\n" + "\r\n"
 					+ ",SUM(case when CTCAT='HT1' then SCS END) HT1scs,\r\n"
-					+ "SUM(case when CTCAT='HT1' then UNITS END) HT1units,\r\n"
+					+ "ROUND(SUM(case when CTCAT='HT1' then UNITS END)) HT1units,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then DEMAND END)) HT1demand,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then EC END)) HT1ec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT1' then SPECIFIC_CONSUMPTION END)) HT1SPECIFIC_CONSUMPTION,\r\n"
@@ -160,20 +157,20 @@ public class NewReportDao {
 					+ "ROUND(SUM(case when CTCAT='HT5E' then EC END)) HT5Eec,\r\n"
 					+ "ROUND(SUM(case when CTCAT='HT5E' then SPECIFIC_CONSUMPTION END)) HT5ESPECIFIC_CONSUMPTION,\r\n"
 					+ "SUM(case when CTCAT='HT5E' then SPECIFIC_REVENUE END) HT5ESPECIFIC_REVENUE\r\n" + "\r\n"
-					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE, \r\n"
+					+ "FROM\r\n" + "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,MON_YEAR, \r\n"
 					+ "case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END CTCAT,\r\n" + "COUNT(*)SCS,\r\n"
 					+ "SUM(MN_KVAH) UNITS,\r\n" + "SUM(DEMAND) DEMAND,\r\n" + "SUM(EC)EC,\r\n"
 					+ "ROUND(SUM(MN_KVAH)/COUNT(*),2) SPECIFIC_CONSUMPTION,\r\n"
 					+ "ROUND(SUM(EC)/SUM(MN_KVAH),2) SPECIFIC_REVENUE FROM CONS,\r\n"
-					+ "(SELECT USCNO,SUM(MN_KVAH)MN_KVAH,SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))DEMAND,\r\n"
+					+ "(SELECT USCNO,MON_YEAR,SUM(MN_KVAH)MN_KVAH,SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))DEMAND,\r\n"
 					+ "SUM(NVL(BTENGCHG_NOR,0)+ NVL(BTENGCHG_PEN,0))EC\r\n" + "FROM LEDGER_HT_HIST ,BILL_HIST \r\n"
 					+ "WHERE uscno = btscno and to_char(BTBLDT,'MON-YYYY')=MON_YEAR and to_date(MON_YEAR,'MON-YYYY') between \r\n"
-					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n" + "GROUP BY USCNO)\r\n"
-					+ "WHERE CTUSCNO=USCNO  \r\n"
-					+ "GROUP BY SUBSTR(CTUSCNO,1,3),case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
-					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END\r\n" + "ORDER BY CIRCLE,CTCAT) \r\n"
-					+ "WHERE CIRCLE=? \r\n" + "GROUP BY CIRCLE ORDER BY CIRCLE)";
+					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n"
+					+ "GROUP BY USCNO,MON_YEAR)\r\n" + "WHERE CTUSCNO=USCNO  \r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),MON_YEAR,case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
+					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END\r\n"
+					+ "ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE,CTCAT) WHERE CIRCLE=? GROUP BY MON_YEAR,CIRCLE   ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE)";
 
 			log.info(sql);
 
@@ -428,11 +425,14 @@ public class NewReportDao {
 		String todate = "31-MAR-" + fin_year.split("-")[1];
 
 		try {
-			String sql = "select * from (select FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT ,count(DISTINCT CTUSCNO) SCS, \r\n"
+			String sql = "select * from(SELECT FINANCIAL_YEAR,CTCAT,CTSUBCAT,\r\n"
+					+ "CTACTUAL_KV,SCS,LOAD,PEAK,OFFPEAK,NOR,COLONY\r\n"
+					+ "FROM\r\n"
+					+ "(select FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT,count(DISTINCT CTUSCNO)SCS, \r\n"
 					+ "max(load) LOAD, \r\n"
 					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
 					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
-					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NORMAL , \r\n"
+					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NOR, \r\n"
 					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
 					+ "from \r\n"
 					+ "( \r\n"
@@ -440,16 +440,18 @@ public class NewReportDao {
 					+ " CTSUBCAT,\r\n"
 					+ "BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
 					+ "from bill_hist,CONS WHERE CTUSCNO=BTSCNO)\r\n"
-					+ ",(select uscno,to_number(load) load from LEDGER_HT_HIST where MON_YEAR=(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
+					+ ",(select uscno,to_number(load) load ,MON_YEAR from LEDGER_HT_HIST where MON_YEAR=\r\n"
+					+ "(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
 					+ "between to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY'))) \r\n"
 					+ "where  \r\n"
 					+ "CTUscno = uscno(+) and \r\n"
-					+ "BTBLDT between to_date(?,'DD-MM-YYYY') AND to_date (?,'DD-MM-YYYY') \r\n"
-					+ "group by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT)\r\n"
-					+ "order by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT";
+					+ "BTBLDT between to_date(?,'DD-MM-YY') AND to_date (?,'DD-MM-YY') \r\n"
+					+ "group by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT\r\n"
+					+ "order by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT))\r\n"
+					+ "PIVOT (SUM(SCS) AS SCS,MAX(LOAD) AS LOAD,SUM(PEAK)AS PEAK,SUM(OFFPEAK) AS OFFPEAK ,SUM(NOR) AS NORMAL,SUM(COLONY) AS COLONY \r\n"
+					+ "FOR CTACTUAL_KV IN ('11' AS V11,'33' AS V33,'132' AS V132,'220' AS V220))";
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql,
-					new Object[] {fromdate, todate ,fromdate, todate });
+			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, fromdate, todate });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
@@ -462,15 +464,12 @@ public class NewReportDao {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
 		String todate = "31-MAR-" + fin_year.split("-")[1];
-		
 
 		try {
 			String sql = "select * from (select BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT ,count(DISTINCT CTUSCNO) SCS, \r\n"
-					+ "max(load) LOAD, \r\n"
-					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
+					+ "max(load) LOAD, \r\n" + "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
 					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
-					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NORMAL , \r\n"
-					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
+					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NORMAL , \r\n" + "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
 					+ "from (select CTUscno,to_char(BTBLDT,'MON-YYYY') BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT,BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
 					+ "from bill_hist,CONS WHERE CTUSCNO=BTSCNO)\r\n"
 					+ ",(select uscno,to_number(load) load from LEDGER_HT_HIST where MON_YEAR=(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
@@ -480,8 +479,7 @@ public class NewReportDao {
 					+ "group by BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT)\r\n"
 					+ "order by BILL_MON,CTACTUAL_KV,CTCAT,CTSUBCAT";
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql,
-					new Object[] {fromdate,todate , fromdate, todate});
+			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, fromdate, todate });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
