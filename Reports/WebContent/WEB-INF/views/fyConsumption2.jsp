@@ -6,7 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header_lg.jsp"></jsp:include>
-
 <style>
 .firstInput {
 	width: 50%;
@@ -78,8 +77,8 @@ thead>tr>th {
 	<form class="card" action="fyConsumption2" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<strong><span class="text-danger">HT126</span> -Cat wise Specific Rev/ Consumption of 5 Financial Years 
-				Report</strong>
+				<strong><span class="text-danger">HT126</span> -Cat wise
+					Specific Rev/ Consumption of 5 Financial Years Report</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
@@ -205,7 +204,7 @@ thead>tr>th {
 								<c:forEach var="frc" items="${consumptionDetails}"
 									varStatus="tagStatus">
 									<c:set var="cirl" value="${frc.FINANCIAL_YEAR}" scope="request" />
-									<tr class="${frc.CIRCLE}" style = "font-weight : 500;">
+									<tr class="${frc.CIRCLE}" style="font-weight: 500;">
 										<%
 										if (!cricle.equals((String) request.getAttribute("cirl"))) {
 										%>
@@ -419,110 +418,106 @@ thead>tr>th {
 								<c:forEach var="frc" items="${consumptionDetails}"
 									varStatus="tagStatus">
 									<c:if test="${frc.CIRCLE ne 'TOTAL'}">
-									<c:if test="${frc.FINANCIAL_YEAR ne 'TOTAL'}">
+										<c:if test="${frc.FINANCIAL_YEAR ne 'TOTAL'}">
 
-										<tr style = "font-weight : 500;">
-											<td class="text-center">${frc.FINANCIAL_YEAR}</td>
-											<td class="text-center">${frc.CIRCLE}</td>
-											<td class="text-center">${frc.HT1SCS}</td>
-											<td class="text-center format">${frc.HT1UNITS}</td>
-											<td class="text-center format">${frc.HT1DEMAND}</td>
-											<td class="text-center format">${frc.HT1EC}</td>
-											<td class="text-center format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center format">${frc.HT1SPECIFIC_REVENUE}</td>
+											<tr style="font-weight: 500;">
+												<td class="text-center">${frc.FINANCIAL_YEAR}</td>
+												<td class="text-center">${frc.CIRCLE}</td>
+												<td class="text-center">${frc.HT1SCS}</td>
+												<td class="text-center format">${frc.HT1UNITS}</td>
+												<td class="text-center format">${frc.HT1DEMAND}</td>
+												<td class="text-center format">${frc.HT1EC}</td>
+												<td class="text-center format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center format">${frc.HT1SPECIFIC_REVENUE}</td>
 
-											<td class="text-center">${frc.HT2SCS}</td>
-											<td class="text-center format">${frc.HT2UNITS}</td>
-											<td class="text-center format">${frc.HT2DEMAND}</td>
-											<td class="text-center format">${frc.HT2EC}</td>
-											<td class="text-center format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center format">${frc.HT2SPECIFIC_REVENUE}</td>
+												<td class="text-center">${frc.HT2SCS}</td>
+												<td class="text-center format">${frc.HT2UNITS}</td>
+												<td class="text-center format">${frc.HT2DEMAND}</td>
+												<td class="text-center format">${frc.HT2EC}</td>
+												<td class="text-center format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center format">${frc.HT2SPECIFIC_REVENUE}</td>
 
-											<td class="text-center">${frc.HT3SCS}</td>
-											<td class="text-center format">${frc.HT3UNITS}</td>
-											<td class="text-center format">${frc.HT3DEMAND}</td>
-											<td class="text-center format">${frc.HT3EC}</td>
-											<td class="text-center  format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT3SPECIFIC_REVENUE}</td>
+												<td class="text-center">${frc.HT3SCS}</td>
+												<td class="text-center format">${frc.HT3UNITS}</td>
+												<td class="text-center format">${frc.HT3DEMAND}</td>
+												<td class="text-center format">${frc.HT3EC}</td>
+												<td class="text-center  format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT3SPECIFIC_REVENUE}</td>
 
-											<td class="text-center">${frc.HT4SCS}</td>
-											<td class="text-center  format">${frc.HT4UNITS}</td>
-											<td class="text-center  format">${frc.HT4DEMAND}</td>
-											<td class="text-center  format">${frc.HT4EC}</td>
-											<td class="text-center  format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT4SPECIFIC_REVENUE}</td>
+												<td class="text-center">${frc.HT4SCS}</td>
+												<td class="text-center  format">${frc.HT4UNITS}</td>
+												<td class="text-center  format">${frc.HT4DEMAND}</td>
+												<td class="text-center  format">${frc.HT4EC}</td>
+												<td class="text-center  format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT4SPECIFIC_REVENUE}</td>
 
-											<td class="text-center">${frc.HT5BSCS}</td>
-											<td class="text-center  format">${frc.HT5BUNITS}</td>
-											<td class="text-center  format">${frc.HT5BDEMAND}</td>
-											<td class="text-center  format">${frc.HT5BEC}</td>
-											<td class="text-center  format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5BSPECIFIC_REVENUE}</td>
+												<td class="text-center">${frc.HT5BSCS}</td>
+												<td class="text-center  format">${frc.HT5BUNITS}</td>
+												<td class="text-center  format">${frc.HT5BDEMAND}</td>
+												<td class="text-center  format">${frc.HT5BEC}</td>
+												<td class="text-center  format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT5BSPECIFIC_REVENUE}</td>
 
-											<td class="text-center">${frc.HT5ESCS}</td>
-											<td class="text-center  format">${frc.HT5EUNITS}</td>
-											<td class="text-center  format">${frc.HT5EDEMAND}</td>
-											<td class="text-center  format">${frc.HT5EEC}</td>
-											<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5ESPECIFIC_REVENUE}</td>
-										</tr>
-									</c:if>
-									<c:if test="${frc.FINANCIAL_YEAR eq 'TOTAL'}">
+												<td class="text-center">${frc.HT5ESCS}</td>
+												<td class="text-center  format">${frc.HT5EUNITS}</td>
+												<td class="text-center  format">${frc.HT5EDEMAND}</td>
+												<td class="text-center  format">${frc.HT5EEC}</td>
+												<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT5ESPECIFIC_REVENUE}</td>
+											</tr>
+										</c:if>
+										<c:if test="${frc.FINANCIAL_YEAR eq 'TOTAL'}">
 
-										<tr class = "bg-primary TOTAL" >
-											<td class="text-center">${frc.FINANCIAL_YEAR}</td>
-											<td class="text-center">${frc.CIRCLE}</td>
-											<td class="text-center">${frc.HT1SCS}</td>
-											<td class="text-center  format">${frc.HT1UNITS}</td>
-											<td class="text-center  format">${frc.HT1DEMAND}</td>
-											<td class="text-center  format">${frc.HT1EC}</td>
-											<td class="text-center  format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT1EC/frc.HT1UNITS}</td>
+											<tr class="bg-primary TOTAL">
+												<td class="text-center">${frc.FINANCIAL_YEAR}</td>
+												<td class="text-center">${frc.CIRCLE}</td>
+												<td class="text-center">${frc.HT1SCS}</td>
+												<td class="text-center  format">${frc.HT1UNITS}</td>
+												<td class="text-center  format">${frc.HT1DEMAND}</td>
+												<td class="text-center  format">${frc.HT1EC}</td>
+												<td class="text-center  format">${frc.HT1SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT1EC/frc.HT1UNITS}</td>
 
-											<td class="text-center">${frc.HT2SCS}</td>
-											<td class="text-center  format">${frc.HT2UNITS}</td>
-											<td class="text-center  format">${frc.HT2DEMAND}</td>
-											<td class="text-center  format">${frc.HT2EC}</td>
-											<td class="text-center  format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT2EC/frc.HT2UNITS}</td>
+												<td class="text-center">${frc.HT2SCS}</td>
+												<td class="text-center  format">${frc.HT2UNITS}</td>
+												<td class="text-center  format">${frc.HT2DEMAND}</td>
+												<td class="text-center  format">${frc.HT2EC}</td>
+												<td class="text-center  format">${frc.HT2SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT2EC/frc.HT2UNITS}</td>
 
-											<td class="text-center">${frc.HT3SCS}</td>
-											<td class="text-center  format">${frc.HT3UNITS}</td>
-											<td class="text-center  format">${frc.HT3DEMAND}</td>
-											<td class="text-center  format">${frc.HT3EC}</td>
-											<td class="text-center  format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT3EC/frc.HT3UNITS}</td>
+												<td class="text-center">${frc.HT3SCS}</td>
+												<td class="text-center  format">${frc.HT3UNITS}</td>
+												<td class="text-center  format">${frc.HT3DEMAND}</td>
+												<td class="text-center  format">${frc.HT3EC}</td>
+												<td class="text-center  format">${frc.HT3SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT3EC/frc.HT3UNITS}</td>
 
-											<td class="text-center">${frc.HT4SCS}</td>
-											<td class="text-center  format">${frc.HT4UNITS}</td>
-											<td class="text-center  format">${frc.HT4DEMAND}</td>
-											<td class="text-center  format">${frc.HT4EC}</td>
-											<td class="text-center  format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT4EC/frc.HT4UNITS}</td>
+												<td class="text-center">${frc.HT4SCS}</td>
+												<td class="text-center  format">${frc.HT4UNITS}</td>
+												<td class="text-center  format">${frc.HT4DEMAND}</td>
+												<td class="text-center  format">${frc.HT4EC}</td>
+												<td class="text-center  format">${frc.HT4SPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT4EC/frc.HT4UNITS}</td>
 
-											<td class="text-center">${frc.HT5BSCS}</td>
-											<td class="text-center  format">${frc.HT5BUNITS}</td>
-											<td class="text-center  format">${frc.HT5BDEMAND}</td>
-											<td class="text-center  format">${frc.HT5BEC}</td>
-											<td class="text-center  format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5BEC/frc.HT5BUNITS}</td>
+												<td class="text-center">${frc.HT5BSCS}</td>
+												<td class="text-center  format">${frc.HT5BUNITS}</td>
+												<td class="text-center  format">${frc.HT5BDEMAND}</td>
+												<td class="text-center  format">${frc.HT5BEC}</td>
+												<td class="text-center  format">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT5BEC/frc.HT5BUNITS}</td>
 
-											<td class="text-center  format">${frc.HT5ESCS}</td>
-											<td class="text-center  format">${frc.HT5EUNITS}</td>
-											<td class="text-center  format">${frc.HT5EDEMAND}</td>
-											<td class="text-center  format">${frc.HT5EEC}</td>
-											<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-											<td class="text-center  format">${frc.HT5EEC/frc.HT5EUNITS}</td>
-										</tr>
-									</c:if>
+												<td class="text-center  format">${frc.HT5ESCS}</td>
+												<td class="text-center  format">${frc.HT5EUNITS}</td>
+												<td class="text-center  format">${frc.HT5EDEMAND}</td>
+												<td class="text-center  format">${frc.HT5EEC}</td>
+												<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
+												<td class="text-center  format">${frc.HT5EEC/frc.HT5EUNITS}</td>
+											</tr>
+										</c:if>
 									</c:if>
 								</c:forEach>
-
 							</tbody>
-							
 						</table>
-
-
 					</c:if>
 				</form>
 			</div>
@@ -601,18 +596,23 @@ thead>tr>th {
 	}
 </script>
 
-<script> 
+<script>
 	requirejs([ 'jquery' ], function($) {
-			$(".format").each(function() { 
-				if ($.isNumeric( $(this).text())) {
-				    // It isn't a number	
-				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+		$(".format").each(
+				function() {
+					if ($.isNumeric($(this).text())) {
+						// It isn't a number	
+						$(this).html(
+								parseFloat($(this).text()).toLocaleString(
+										'en-IN', {
+											style : 'decimal',
+											currency : 'INR'
+										}));
+					}
 				}
-			}
-				
-				
-			)
-			
+
+		)
+
 	});
 </script>
 
