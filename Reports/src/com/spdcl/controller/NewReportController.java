@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,10 +21,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.spdcl.dao.NewReportDao;
+import com.spdcl.model.TodDetails;
 
 @Controller
 public class NewReportController {
@@ -245,23 +250,124 @@ public class NewReportController {
 						&& String.valueOf(details.get("CTACTUAL_KV")).equals("132"))
 				.collect(Collectors.toList());
 
-		System.out.println(kv11Details);
-		System.out.println(kv33Details);
+		List<TodDetails> list = new ArrayList<TodDetails>();
+		for (Map<String, Object> map11 : kv11Details) {
+			list.add(new TodDetails(map11.get("BILL_MON").toString(), map11.get("CTCAT").toString(),
+					map11.get("CTSUBCAT").toString(), map11.get("SCS").toString(), map11.get("LOAD").toString(),
+					map11.get("PEAK").toString(), map11.get("OFFPEAK").toString(), map11.get("NORMAL").toString(),
+					map11.get("COLONY").toString(), null, null, null, null, null, null, null, null, null, null, null,
+					null, null, null, null, null, null, null));
+		}
 
+		for (Map<String, Object> map33 : kv33Details) {
+			for (TodDetails td : list) {
+
+				if (td.getMONTH_YEAR_11().equals(map33.get("BILL_MON").toString())
+						&& td.getCAT_11().equals(map33.get("CTCAT").toString())
+						&& td.getSUBCAT_11().equals(map33.get("CTSUBCAT").toString())) {
+					td.setMONTH_YEAR_33(map33.get("BILL_MON").toString());
+					td.setCAT_33(map33.get("CTCAT").toString());
+					td.setSUBCAT_33(map33.get("CTSUBCAT").toString());
+					td.setSCS_33(map33.get("SCS").toString());
+					td.setLOAD_33(map33.get("LOAD").toString());
+					td.setPEAK_33(map33.get("PEAK").toString());
+					td.setOFFPEAK_33(map33.get("OFFPEAK").toString());
+					td.setNORMAL_33(map33.get("NORMAL").toString());
+					td.setCOLONY_33(map33.get("COLONY").toString());
+				}
+			}
+		}
+
+		for (Map<String, Object> map132 : kv132Details) {
+			for (TodDetails td : list) {
+
+				if (td.getMONTH_YEAR_11().equals(map132.get("BILL_MON").toString())
+						&& td.getCAT_11().equals(map132.get("CTCAT").toString())
+						&& td.getSUBCAT_11().equals(map132.get("CTSUBCAT").toString())) {
+					td.setMONTH_YEAR_132(map132.get("BILL_MON").toString());
+					td.setCAT_132(map132.get("CTCAT").toString());
+					td.setSUBCAT_132(map132.get("CTSUBCAT").toString());
+					td.setSCS_132(map132.get("SCS").toString());
+					td.setLOAD_132(map132.get("LOAD").toString());
+					td.setPEAK_132(map132.get("PEAK").toString());
+					td.setOFFPEAK_132(map132.get("OFFPEAK").toString());
+					td.setNORMAL_132(map132.get("NORMAL").toString());
+					td.setCOLONY_132(map132.get("COLONY").toString());
+				}
+			}
+		}
+
+		System.out.println(list.size());
+		System.out.println(list);
 		if (todMonthDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("todDetails", todMonthDetails);
 			mav.addObject("title", "Voltage Wise,Category Wise,TOD Consumption Month Report - " + year);
-			mav.addObject("CATCOUNT", countFrequencies(todMonthDetails));
-			mav.addObject("kv11Details", kv11Details);
-			mav.addObject("kv33Details", kv33Details);
-			mav.addObject("kv132Details", kv132Details);
+			mav.addObject("list", list);
 
 		}
 
 		return mav;
 
+	}
+	
+	@GetMapping("/fySalesReport")
+	public String getFySalesReport() {
+		return "fySalesReport";
+	}
+	
+	@PostMapping("/fySalesReport")
+	public ModelAndView getFySalesReport(HttpServletRequest request) throws ParseException {
+		ModelAndView mav = new ModelAndView("fySalesReport");
+		String year = request.getParameter("year");
+		List<Map<String, Object>> salesDetails = newReportDao.getFySalesReport(request);
+		
+
+		if (salesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("salesDetails", salesDetails);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("CIRCOUNT", countFrequencies(salesDetails));
+			mav.addObject("title", "Financial Year Report From - " + year);
+
+		}
+
+		return mav;
+
+	}
+	
+	
+	@GetMapping("/monthSalesReport")
+	public String getMonthSalesReport() {
+		return "monthSalesReport";
+	}
+	
+	@PostMapping("/monthSalesReport")
+	public ModelAndView getMonthSalesReport(HttpServletRequest request) throws ParseException {
+		ModelAndView mav = new ModelAndView("monthSalesReport");
+		String year = request.getParameter("month") + " - " + request.getParameter("year");
+		List<Map<String, Object>> monthSalesDetails = newReportDao.getMonthSalesReport(request);
+		
+
+		if (monthSalesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("salesDetails", monthSalesDetails);
+			mav.addObject("CIRCOUNT", countFrequencies(monthSalesDetails));
+			mav.addObject("title", "Financial Year Report From - " + year);
+
+		}
+
+		return mav;
+
+	}
+	
+	
+	@GetMapping("/voltagewiseFinancialYearAbstract")
+	public String getVoltagewiseFinancialYearAbstract() {
+		return "voltagewiseFinancialYearAbstract";
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
@@ -298,7 +404,7 @@ public class NewReportController {
 				if (pair.getKey().equals("FINANCIAL_YEAR")) {
 					templist.add(pair.getValue().toString());
 				}
-				if (pair.getKey().equals("MON_YEAR")) {
+				if (pair.getKey().equals("CTCAT")) {
 					templist.add(pair.getValue().toString());
 				}
 
@@ -314,4 +420,27 @@ public class NewReportController {
 		return countmap;
 
 	}
+	
+	
+	
+	@ResponseBody
+	@PostMapping("/getDivisions/{circle}")
+	public String getDivisions(@PathVariable("circle") String circle) {
+		LinkedHashMap<String, Object> map = newReportDao.getDivisions(circle);
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+		return json;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/getSubDivisions/{division}")
+	public String getSubDivisions(@PathVariable("division") String division) {
+		LinkedHashMap<String, Object> map = newReportDao.getSubDivisions(division);
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+		return json;
+	}
+
+	
 }

@@ -412,6 +412,22 @@
 					<td></td>
 				</tr>
 				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT129</span></td>
+					<td><a href="fySalesReport">
+							HT DCB Financial_Year wise,Category wise Sales Report </a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT130</span></td>
+					<td><a href="monthSalesReport">
+							HT DCB Month wise,Category wise Sales Report </a></td>
+					<td></td>
+				</tr>
+				
 
 			</table>
 		</div>
@@ -540,6 +556,15 @@
 							Abstract </a></td>
 					<td></td>
 				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT102A</span></td>
+					<td><a href="voltagewiseFinancialYearAbstract">Voltage Wise Financial_Year DCB
+							Abstract </a></td>
+					<td></td>
+				</tr>
+				
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"

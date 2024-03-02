@@ -1,7 +1,9 @@
 package com.spdcl.dao;
 
+import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -166,8 +168,8 @@ public class NewReportDao {
 					+ "(SELECT USCNO,MON_YEAR,SUM(MN_KVAH)MN_KVAH,SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))DEMAND,\r\n"
 					+ "SUM(NVL(BTENGCHG_NOR,0)+ NVL(BTENGCHG_PEN,0))EC\r\n" + "FROM LEDGER_HT_HIST ,BILL_HIST \r\n"
 					+ "WHERE uscno = btscno and to_char(BTBLDT,'MON-YYYY')=MON_YEAR and to_date(MON_YEAR,'MON-YYYY') between \r\n"
-					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n"
-					+ "GROUP BY USCNO,MON_YEAR)\r\n" + "WHERE CTUSCNO=USCNO  \r\n"
+					+ "to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY')\r\n" + "GROUP BY USCNO,MON_YEAR)\r\n"
+					+ "WHERE CTUSCNO=USCNO  \r\n"
 					+ "GROUP BY SUBSTR(CTUSCNO,1,3),MON_YEAR,case when CTCAT='HT5' AND CTSUBCAT='B' THEN 'HT5B'\r\n"
 					+ "WHEN CTCAT='HT5' AND CTSUBCAT='E' THEN 'HT5E' ELSE CTCAT END\r\n"
 					+ "ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE,CTCAT) WHERE CIRCLE=? GROUP BY MON_YEAR,CIRCLE   ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'),CIRCLE)";
@@ -426,24 +428,17 @@ public class NewReportDao {
 
 		try {
 			String sql = "select * from(SELECT FINANCIAL_YEAR,CTCAT,CTSUBCAT,\r\n"
-					+ "CTACTUAL_KV,SCS,LOAD,PEAK,OFFPEAK,NOR,COLONY\r\n"
-					+ "FROM\r\n"
+					+ "CTACTUAL_KV,SCS,LOAD,PEAK,OFFPEAK,NOR,COLONY\r\n" + "FROM\r\n"
 					+ "(select FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT,count(DISTINCT CTUSCNO)SCS, \r\n"
-					+ "max(load) LOAD, \r\n"
-					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
-					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
-					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NOR, \r\n"
-					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n"
-					+ "from \r\n"
-					+ "( \r\n"
+					+ "max(load) LOAD, \r\n" + "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n"
+					+ "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n" + "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NOR, \r\n"
+					+ "sum(nvl(BTBLCOLNY_HT,0)) COLONY \r\n" + "from \r\n" + "( \r\n"
 					+ "select CTUscno,get_financial_year_BILL(BTBLDT) FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,\r\n"
-					+ " CTSUBCAT,\r\n"
-					+ "BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
+					+ " CTSUBCAT,\r\n" + "BTTOD2,BTTOD5,BTTOD3,BTTOD1,BTTOD4,BTTOD6,BTBLDT,BTBLCOLNY_HT \r\n"
 					+ "from bill_hist,CONS WHERE CTUSCNO=BTSCNO)\r\n"
 					+ ",(select uscno,to_number(load) load ,MON_YEAR from LEDGER_HT_HIST where MON_YEAR=\r\n"
 					+ "(select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY')  from LEDGER_HT_HIST where to_date(MON_YEAR,'MON-YYYY') \r\n"
-					+ "between to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY'))) \r\n"
-					+ "where  \r\n"
+					+ "between to_date(?,'DD-MM-YYYY') and to_date(?,'DD-MM-YYYY'))) \r\n" + "where  \r\n"
 					+ "CTUscno = uscno(+) and \r\n"
 					+ "BTBLDT between to_date(?,'DD-MM-YY') AND to_date (?,'DD-MM-YY') \r\n"
 					+ "group by FINANCIAL_YEAR,CTACTUAL_KV,CTCAT,CTSUBCAT\r\n"
@@ -486,6 +481,60 @@ public class NewReportDao {
 			e.printStackTrace();
 			return Collections.emptyList();
 		}
+	}
+
+	public List<Map<String, Object>> getFySalesReport(HttpServletRequest request) {
+		String fin_year = request.getParameter("year");
+		String fromdate = "01-APR-" + fin_year.split("-")[0];
+		String todate = "31-MAR-" + fin_year.split("-")[1];
+		String load_year = "MAR-" + fin_year.split("-")[1];
+
+		try {
+			String sql = "SELECT FINANCIAL_YEAR,CTCAT,COUNT(*)SCS,ROUND(SUM(CAPACITY))CAPACITY,ROUND(SUM(SALES))SALES_MU,ROUND(SUM(DEMAND))DEMAND_LAKHS,ROUND(SUM(COLLECTION))COLLECTION_LAKHS,ROUND(SUM(CB))CB_LAKHS FROM CONS,\r\n"
+					+ "(SELECT USCNO,GET_FINANCIAL_YEAR(MON_YEAR)FINANCIAL_YEAR,ROUND(SUM(MN_KVAH)/1000,2) SALES,ROUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))/100000,2)DEMAND,\r\n"
+					+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))/100000,2) COLLECTION,round(SUM(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))/100000,2)CB\r\n"
+					+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
+					+ "GROUP BY USCNO,GET_FINANCIAL_YEAR(MON_YEAR))A,\r\n"
+					+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
+					+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n" + "GROUP BY FINANCIAL_YEAR,CTCAT\r\n"
+					+ "ORDER BY FINANCIAL_YEAR,CTCAT";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, load_year });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getMonthSalesReport(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	public LinkedHashMap<String, Object> getDivisions(String cir) {
+		String sql = cir.equals("ALL")?"select distinct DIVNAME,DIVCD from MASTER.SPDCLMASTER":"select DISTINCT DIVNAME,DIVCD from MASTER.SPDCLMASTER WHERE CIRNAME='"+cir+"'";
+		return jdbcTemplate.query(sql, (ResultSet rs) -> {
+			LinkedHashMap<String, Object> results = new LinkedHashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("DIVCD"), rs.getString("DIVNAME"));
+			}
+			return results;
+		});
+	}
+
+	public LinkedHashMap<String, Object> getSubDivisions(String division) {
+		String sql = division.equals("ALL")? "select DISTINCT SUBNAME,SUBCD from MASTER.SPDCLMASTER" :"select DISTINCT SUBNAME,SUBCD from MASTER.SPDCLMASTER WHERE DIVNAME='"+division+"'";
+		return jdbcTemplate.query(sql, (ResultSet rs) -> {
+			LinkedHashMap<String, Object> results = new LinkedHashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("SUBCD"), rs.getString("SUBNAME"));
+			}
+			return results;
+		});
 	}
 
 }
