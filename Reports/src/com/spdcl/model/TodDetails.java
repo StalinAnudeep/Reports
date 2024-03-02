@@ -29,7 +29,8 @@ public class TodDetails {
 	private String OFFPEAK_132;
 	private String NORMAL_132;
 	private String COLONY_132;
-
+	
+	
 	public TodDetails(String mONTH_YEAR_11, String cAT_11, String sUBCAT_11, String sCS_11, String lOAD_11,
 			String pEAK_11, String oFFPEAK_11, String nORMAL_11, String cOLONY_11, String mONTH_YEAR_33, String cAT_33,
 			String sUBCAT_33, String sCS_33, String lOAD_33, String pEAK_33, String oFFPEAK_33, String nORMAL_33,
