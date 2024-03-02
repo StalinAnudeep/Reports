@@ -311,18 +311,17 @@ public class NewReportController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/fySalesReport")
 	public String getFySalesReport() {
 		return "fySalesReport";
 	}
-	
+
 	@PostMapping("/fySalesReport")
 	public ModelAndView getFySalesReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("fySalesReport");
 		String year = request.getParameter("year");
 		List<Map<String, Object>> salesDetails = newReportDao.getFySalesReport(request);
-		
 
 		if (salesDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -337,24 +336,23 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/monthSalesReport")
 	public String getMonthSalesReport() {
 		return "monthSalesReport";
 	}
-	
+
 	@PostMapping("/monthSalesReport")
 	public ModelAndView getMonthSalesReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("monthSalesReport");
 		String year = request.getParameter("month") + " - " + request.getParameter("year");
 		List<Map<String, Object>> monthSalesDetails = newReportDao.getMonthSalesReport(request);
-		
+		System.out.println(monthSalesDetails);
 
 		if (monthSalesDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
-			mav.addObject("salesDetails", monthSalesDetails);
+			mav.addObject("monthSalesDetails", monthSalesDetails);
 			mav.addObject("CIRCOUNT", countFrequencies(monthSalesDetails));
 			mav.addObject("title", "Financial Year Report From - " + year);
 
@@ -363,11 +361,27 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/voltagewiseFinancialYearAbstract")
 	public String getVoltagewiseFinancialYearAbstract() {
 		return "voltagewiseFinancialYearAbstract";
+	}
+
+	@PostMapping("/voltagewiseFinancialYearAbstract")
+	public ModelAndView getVoltagewiseFinancialYearAbstract(HttpServletRequest request) throws ParseException {
+		ModelAndView mav = new ModelAndView("voltagewiseFinancialYearAbstract");
+		List<Map<String, Object>> voltageDetails = newReportDao.getVoltagewiseFinancialYearAbstract(request);
+		System.out.println(voltageDetails);
+		if (voltageDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("voltageDetails", voltageDetails);
+			mav.addObject("title", "Financial Year Report");
+
+		}
+
+		return mav;
+
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
@@ -407,6 +421,9 @@ public class NewReportController {
 				if (pair.getKey().equals("CTCAT")) {
 					templist.add(pair.getValue().toString());
 				}
+				if (pair.getKey().equals("MON_YEAR")) {
+					templist.add(pair.getValue().toString());
+				}
 
 			}
 		}
@@ -420,27 +437,5 @@ public class NewReportController {
 		return countmap;
 
 	}
-	
-	
-	
-	@ResponseBody
-	@PostMapping("/getDivisions/{circle}")
-	public String getDivisions(@PathVariable("circle") String circle) {
-		LinkedHashMap<String, Object> map = newReportDao.getDivisions(circle);
-		Gson gson = new Gson();
-		String json = gson.toJson(map);
-		return json;
-	}
-	
-	
-	@ResponseBody
-	@PostMapping("/getSubDivisions/{division}")
-	public String getSubDivisions(@PathVariable("division") String division) {
-		LinkedHashMap<String, Object> map = newReportDao.getSubDivisions(division);
-		Gson gson = new Gson();
-		String json = gson.toJson(map);
-		return json;
-	}
 
-	
 }
