@@ -9037,6 +9037,59 @@ public List<Map<String, Object>> getKwhmonthlyreport(HttpServletRequest request)
 		
 	}
 	
+	public List<Map<String, Object>> getFDWiseSubDivisionAbstract(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String subdivision = request.getParameter("subdivision");
+		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+		String deptcode = request.getParameter("feeder").equals("ALL")?"" : "AND ctfeeder_code='"+request.getParameter("feeder")+"'";
+		if(circle.equalsIgnoreCase("ALL")) {
+		
+			String sql="Select UNIQUE fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n" + 
+					"SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n" + 
+					"SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,\r\n" + 
+					"SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n" + 
+					"SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n" + 
+					"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n" + 
+					"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n" + 
+					"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n" + 
+					"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n" + 
+					"SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n" + 
+					"SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast\r\n" + 
+					"where Mon_Year=?\r\n" + 
+					"and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode "
+					+ "and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? )"
+					+ "\r\n" + deptcode +
+					" GROUP BY  FMFNAME,fmsapfcode\r\n" + 
+					"Order By fmsapfcode";
+
+			
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql,new Object[] {monthYear,subdivision}); 
+			}else {				
+				String sql="Select UNIQUE fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n" + 
+						"SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n" + 
+						"SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,\r\n" + 
+						"SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n" + 
+						"SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n" + 
+						"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n" + 
+						"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n" + 
+						"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n" + 
+						"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n" + 
+						"SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n" + 
+						"SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast\r\n" + 
+						"where Mon_Year=?\r\n" + 
+						"and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode "
+							+ "and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? ) "+
+						 "and substr(b.CTUscno,1,3) = ? \r\n" + deptcode +
+						" GROUP BY  FMFNAME,fmsapfcode\r\n" + 
+						"Order By fmsapfcode";
+				
+				log.info(sql);
+				return jdbcTemplate.queryForList(sql,new Object[] {monthYear,subdivision,circle}); 
+				
+			}
+		
+	}
 	public List<Map<String, Object>> getVoltageWiseAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
@@ -10031,7 +10084,16 @@ public List<Map<String, Object>> getSolarExport(HttpServletRequest request) {
 			return results;
 		});
 	}
-	
+	public LinkedHashMap<String, Object> getSubDivisonFeeders(String subdivid) {
+		String sql = " select distinct fmsapfcode,FMFNAME from feedermast where fmsapfcode in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? )";
+		return jdbcTemplate.query(sql,new Object[] {subdivid}, (ResultSet rs) -> {
+			LinkedHashMap<String, Object> results = new LinkedHashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("fmsapfcode"), rs.getString("FMFNAME"));
+			}
+			return results;
+		});
+	}
 	public List<Map<String, Object>>  getISUTXTData() {
 		String sql = "select * from V_HT_ISU_DATA,V_VIRTUAL_IFSC where ctuscno = uscno";
 		log.info(sql);
@@ -10403,6 +10465,39 @@ public List<Map<String, Object>>  getCTV_M3_HT_FULL_INST_data() {
 		  HashMap<String, Integer> results = new LinkedHashMap<>();
 			while (rs.next()) {
 				results.put(rs.getString("TEMP_SERIAL_NO"), rs.getInt("COUNT"));
+			}
+			return results;
+		});
+	}
+	public Map<String, String> getDivisons(String circleid) {
+		circleid = circleid.replace("ONG", "4").replace("GNT", "1").replace("VJA", "6").replace("CRD", "9");
+		String sql = "select DIVCD,DIVNAME from spdclmaster where CIRCD=? group by DIVCD,DIVNAME order by DIVCD ";
+		log.info(sql);
+		return jdbcTemplate.query(sql, new Object[] { circleid.trim() }, (ResultSet rs) -> {
+			HashMap<String, String> results = new HashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("DIVCD"), rs.getString("DIVNAME"));
+			}
+			return results;
+		});
+	}
+	public Map<String, String> getSubDivisons(String divisionid) {
+		String sql = "select SUBCD,SUBNAME from spdclmaster where DIVCD=? group by SUBCD,SUBNAME order by SUBCD";
+		return jdbcTemplate.query(sql, new Object[] { divisionid.trim() }, (ResultSet rs) -> {
+			HashMap<String, String> results = new HashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("SUBCD"), rs.getString("SUBNAME"));
+			}
+			return results;
+		});
+	}
+
+	public Map<String, String> getSection(String subdivisionid) {
+		String sql = "select SECCD,SECNAME from spdclmaster where SUBCD=? group by SECCD,SECNAME order by SECCD";
+		return jdbcTemplate.query(sql, new Object[] { subdivisionid.trim() }, (ResultSet rs) -> {
+			HashMap<String, String> results = new HashMap<>();
+			while (rs.next()) {
+				results.put(rs.getString("SECCD"), rs.getString("SECNAME"));
 			}
 			return results;
 		});

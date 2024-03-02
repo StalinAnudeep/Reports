@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+
 import com.google.gson.Gson;
 import com.spdcl.dao.ReportDao;
 import com.spdcl.model.ConsumerDetails;
@@ -90,6 +91,10 @@ import com.spdcl.util.GenerateSECURITY;
 import com.spdcl.util.GenerateSMCMTECHINSTALLATION;
 import com.spdcl.util.GenerateTECHINSTALLATION;
 import com.spdcl.util.GenerateTest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class ReportController {
@@ -5243,6 +5248,27 @@ public class ReportController {
 		}
 		return mav;
 	}
+	@GetMapping("/feederwisesubdivabstract")
+	public String feederwisesubdivabstract() {
+		return "feederwisesubdivabstract";
+	}
+
+	@PostMapping("/feederwisesubdivabstract")
+	public ModelAndView feederwisesubdivabstract(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("feederwisesubdivabstract");
+		List<Map<String, Object>> acdbalacne = reportDao.getFDWiseSubDivisionAbstract(request);
+		String circle = request.getParameter("circle");
+		String subdivision = request.getParameter("subdivision");
+		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+		if (acdbalacne.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("acd", acdbalacne);
+			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ subdivision +", "+monthYear);
+		}
+		return mav;
+	}
+	
 	@GetMapping("/msmewiseabstract")
 	public String msmewiseabstract() {
 		return "msmewiseabstract";
@@ -5368,7 +5394,14 @@ public class ReportController {
 		String json = gson.toJson(map);
 		return json;
 	}
-
+	@ResponseBody
+	@PostMapping("/getSubDivFeeders/{subdivision}")
+	public String getSubDivFeeders(@PathVariable("subdivision") String subdivision) {
+		LinkedHashMap<String, Object> map = reportDao.getSubDivisonFeeders(subdivision);
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+		return json;
+	}
 	@PostMapping("/cbledgerabs")
 	public ModelAndView getServicesWiseLedgerClosingBalanceAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
@@ -5837,5 +5870,54 @@ public class ReportController {
         return (Integer) httpRequest
           .getAttribute("javax.servlet.error.status_code");
     }
+    @RequestMapping(value = "/getdivision/{circleid}", method = RequestMethod.GET)
+	public @ResponseBody String getDivisions(@PathVariable("circleid") String circleid) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(reportDao.getDivisons(circleid));
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
+	}
+	@RequestMapping(value = "/getsubdivision/{divisionid}", method = RequestMethod.GET)
+	public @ResponseBody String getSubDivisions(@PathVariable("divisionid") String divisionid) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(reportDao.getSubDivisons(divisionid));
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
+	}
+	@RequestMapping(value = "/getsection/{subdivisionid}", method = RequestMethod.GET)
+	public @ResponseBody String getSection(@PathVariable("subdivisionid") String subdivisionid) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(reportDao.getSection(subdivisionid));
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
+	}
 
 }
