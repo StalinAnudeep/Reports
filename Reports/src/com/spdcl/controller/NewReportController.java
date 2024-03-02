@@ -369,6 +369,7 @@ public class NewReportController {
 
 	@PostMapping("/voltagewiseFinancialYearAbstract")
 	public ModelAndView getVoltagewiseFinancialYearAbstract(HttpServletRequest request) throws ParseException {
+		
 		ModelAndView mav = new ModelAndView("voltagewiseFinancialYearAbstract");
 		List<Map<String, Object>> voltageDetails = newReportDao.getVoltagewiseFinancialYearAbstract(request);
 		System.out.println(voltageDetails);

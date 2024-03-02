@@ -90,9 +90,6 @@ import com.spdcl.util.GeneratePAYMENT;
 import com.spdcl.util.GenerateSECURITY;
 import com.spdcl.util.GenerateSMCMTECHINSTALLATION;
 import com.spdcl.util.GenerateTECHINSTALLATION;
-import com.spdcl.util.GenerateTest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
