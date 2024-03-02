@@ -5257,14 +5257,14 @@ public class ReportController {
 	public ModelAndView feederwisesubdivabstract(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("feederwisesubdivabstract");
 		List<Map<String, Object>> acdbalacne = reportDao.getFDWiseSubDivisionAbstract(request);
-		String circle = request.getParameter("circle");
+		String selectedLabel = request.getParameter("selectedLabel");
 		String subdivision = request.getParameter("subdivision");
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
 		if (acdbalacne.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
-			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ subdivision +", "+monthYear);
+			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ selectedLabel +", "+monthYear);
 		}
 		return mav;
 	}
