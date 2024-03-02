@@ -576,7 +576,7 @@
 					<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT103A</span></td>
-					<td><a href="feederwiseabstract">Feeder Wise ,Sub-Division Wise DCB Abstract
+					<td><a href="feederwisesubdivabstract">Feeder Wise ,Sub-Division Wise DCB Abstract
 					</a></td>
 					<td></td>
 				</tr>
