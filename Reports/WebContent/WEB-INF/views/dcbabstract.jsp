@@ -8,7 +8,8 @@
 <div class="row row-cards row-deck">
 	<form class="card" action="dcbabstract" method="post">
 		<div class="card-body">
-			<h3 class="card-title">Section Wise , Category Wise DCB Split Report</h3>
+			<h3 class="card-title">Section Wise , Category Wise DCB Split
+				Report</h3>
 			<div class="row">
 				<div class="col-md-3">
 					<div class="form-group">
@@ -50,7 +51,8 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<label class="form-label">GET Abstract</label>
-						<button type="submit" class="btn btn-success">GET Abstract</button>
+						<button type="submit" class="btn btn-success">GET
+							Abstract</button>
 					</div>
 				</div>
 			</div>
@@ -69,8 +71,7 @@
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
 				<h2 class="text-center">${title}</h2>
 				<table
-					class="table table-sm card-table table-vcenter text-nowrap datatable display"
-					>
+					class="table table-sm card-table table-vcenter text-nowrap datatable display">
 					<thead>
 						<tr>
 							<th>S.NO</th>
@@ -84,19 +85,19 @@
 							<th>STATUS</th>
 							<th>NOS</th>
 							<th>UNITS</th>
-<th>TOT_OB</th>
-<th>DEMAND_NET</th>
-<th>DEMAND_GROSS</th>
-<th>DR_TDA</th>
-<th>DR_DRC</th>
-<th>DR_OTH</th>
-<th>ARREARS_COLL</th>
-<th>CURR_MON_DEM_COLL</th>
-<th>CR_TCA</th>
-<th>CR_DWC</th>
-<th>CR_DWC_SCS</th>
-<th>CR_OTH</th>
-<th>TOTAL_CB</th>
+							<th>TOT_OB</th>
+							<th>DEMAND_NET</th>
+							<th>DEMAND_GROSS</th>
+							<th>DR_TDA</th>
+							<th>DR_DRC</th>
+							<th>DR_OTH</th>
+							<th>ARREARS_COLL</th>
+							<th>CURR_MON_DEM_COLL</th>
+							<th>CR_TCA</th>
+							<th>CR_DWC</th>
+							<th>CR_DWC_SCS</th>
+							<th>CR_OTH</th>
+							<th>TOTAL_CB</th>
 						</tr>
 					</thead>
 					<tbody>
