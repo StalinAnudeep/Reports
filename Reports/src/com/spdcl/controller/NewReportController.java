@@ -1,3 +1,4 @@
+
 package com.spdcl.controller;
 
 import java.text.ParseException;
@@ -23,9 +24,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.spdcl.dao.NewReportDao;
 import com.spdcl.model.TodDetails;
@@ -345,7 +350,7 @@ public class NewReportController {
 	@PostMapping("/monthSalesReport")
 	public ModelAndView getMonthSalesReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("monthSalesReport");
-		String year = request.getParameter("month") + " - " + request.getParameter("year");
+		String year =  request.getParameter("year");
 		List<Map<String, Object>> monthSalesDetails = newReportDao.getMonthSalesReport(request);
 		System.out.println(monthSalesDetails);
 
@@ -369,21 +374,58 @@ public class NewReportController {
 
 	@PostMapping("/voltagewiseFinancialYearAbstract")
 	public ModelAndView getVoltagewiseFinancialYearAbstract(HttpServletRequest request) throws ParseException {
-		
+		String year = request.getParameter("year");
 		ModelAndView mav = new ModelAndView("voltagewiseFinancialYearAbstract");
 		List<Map<String, Object>> voltageDetails = newReportDao.getVoltagewiseFinancialYearAbstract(request);
 		System.out.println(voltageDetails);
+		
 		if (voltageDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("voltageDetails", voltageDetails);
-			mav.addObject("title", "Financial Year Report");
+			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
+			mav.addObject("CIRCOUNT", countFrequencies(voltageDetails));
+			
+			List<Map<String , Object>> total = new ArrayList<>();
+			
+			for(Map<String , Object> totalDetails : voltageDetails) {
+				
+				if(totalDetails.containsKey("MON_YEAR")) {
+					
+				}
+			}
 
 		}
 
 		return mav;
 
 	}
+	
+	@GetMapping("/feederwiseFYConsumption")
+	public String getFeederwiseFYConsumption() {
+		return "feederwiseFYConsumption";
+	}
+	
+	
+	@PostMapping("/feederwiseFYConsumption")
+	public ModelAndView getFeederwiseFYConsumption(HttpServletRequest request) throws ParseException {
+		String year = request.getParameter("year");
+		ModelAndView mav = new ModelAndView("feederwiseFYConsumption");
+		List<Map<String, Object>> feederDetails = newReportDao.getFeederwiseFYConsumption(request);
+		System.out.println(feederDetails);
+		if (feederDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("voltageDetails", feederDetails);
+			mav.addObject("title", "Financial Year Report For - " + year);
+			
+
+		}
+
+		return mav;
+
+	}
+
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();
@@ -438,5 +480,8 @@ public class NewReportController {
 		return countmap;
 
 	}
+	
+	
+	
 
 }

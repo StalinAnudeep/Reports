@@ -1,6 +1,7 @@
 package com.spdcl.dao;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -538,68 +539,150 @@ public class NewReportDao {
 		String division = request.getParameter("division");
 		String subdivision = request.getParameter("subdivision");
 		String voltage = request.getParameter("voltage");
+		
+		try {
+		    StringBuilder sqlBuilder = new StringBuilder();
+		    sqlBuilder.append("SELECT UNIQUE MON_YEAR, substr(ctuscno,1,3) circle,\r\n");
+		    sqlBuilder.append("case when divcd is null then 'TOTAL' ELSE divcd END divcd,\r\n");
+		    sqlBuilder.append("case when divname is null then 'TOTAL' ELSE DIVNAME END DIVNAME,\r\n");
+		    sqlBuilder.append("CASE WHEN subcd IS NULL THEN 'TOTAL' ELSE subcd END subcd,\r\n");
+		    sqlBuilder.append("CASE WHEN subname IS NULL THEN 'TOTAL' ELSE subname END subname, \r\n");
+		    sqlBuilder.append("CASE WHEN CTACTUAL_KV IS NULL THEN 'TOTAL' ELSE TO_CHAR(CTACTUAL_KV) END CTACTUAL_KV,\r\n");
+		    sqlBuilder.append("CTACTUAL_KV VOLTAGE,\r\n");
+		    sqlBuilder.append("count(distinct(ctuscno)) NOS, \r\n");
+		    sqlBuilder.append("SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n");
+		    sqlBuilder.append("SUM(Mn_Kvah) Sales,\r\n");
+		    sqlBuilder.append("SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n");
+		    sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+		    sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n");
+		    sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+		    sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n");
+		    sqlBuilder.append("SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n");
+		    sqlBuilder.append("SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb FROM ledger_ht_hist a, cons b, MASTER.SPDCLMASTER\r\n");
+		    sqlBuilder.append("WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n");
+		    
+		    List<Object> params = new ArrayList<>();
+		    params.add(fromdate);
+		    params.add(todate);
 
-		if (voltage.equals("ALL")) {
-			try {
-				String sql = "Select UNIQUE substr(ctuscno,1,3) circle,divcd,divname,subcd,subname, b.CTACTUAL_KV VOLTAGE,count(distinct(ctuscno)) NOS,\r\n"
-						+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
-						+ "SUM(Mn_Kvah) Sales\r\n"
-						+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n"
-						+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-						+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
-						+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-						+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n"
-						+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n"
-						+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,MASTER.SPDCLMASTER\r\n"
-						+ "where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') \r\n"
-						+ "AND substr(ctuscno,1,3)=? \r\n"
-						+ "AND divcd=?\r\n"
-						+ "AND subcd=?\r\n"
-						+ "and  A.Uscno=B.CTUscno  \r\n"
-						+ "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-						+ " GROUP BY  substr(ctuscno,1,3),divcd,divname,subcd,subname,b.CTACTUAL_KV\r\n"
-						+ "Order By CIRCLE,divcd,subcd,b.CTACTUAL_KV";
-				log.info(sql);
-				return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, circle, division, subdivision });
-			} catch (DataAccessException e) {
-				e.printStackTrace();
-				log.error(e.getMessage());
-				e.printStackTrace();
-				return Collections.emptyList();
-			}
+		    if (circle != null && !circle.isEmpty()) {
+		        sqlBuilder.append("AND substr(ctuscno,1,3) = ? \r\n");
+		        params.add(circle);
+		    }
+		    
+		    if (division != null && !division.isEmpty() && !division.equals("0")) {
+		        sqlBuilder.append("AND divcd = ? \r\n");
+		        params.add(division);
+		    }else {
+		    	sqlBuilder.append("");
+		    }
 
-		} else {
-			
-			try {
-				String sql = "Select UNIQUE substr(ctuscno,1,3) circle,divcd,divname,subcd,subname, b.CTACTUAL_KV VOLTAGE,count(distinct(ctuscno)) NOS,\r\n"
-						+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
-						+ "SUM(Mn_Kvah) Sales\r\n"
-						+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n"
-						+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-						+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
-						+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-						+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n"
-						+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n"
-						+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,MASTER.SPDCLMASTER\r\n"
-						+ "where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') \r\n"
-						+ "AND substr(ctuscno,1,3)=? \r\n"
-						+ "AND divcd=? \r\n"
-						+ "AND subcd=?\r\n"
-						+ "and  A.Uscno=B.CTUscno  \r\n"
-						+ "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-						+ "AND b.CTACTUAL_KV = ?\r\n"
-						+ " GROUP BY  substr(ctuscno,1,3),divcd,divname,subcd,subname,b.CTACTUAL_KV\r\n"
-						+ "Order By CIRCLE,divcd,subcd,b.CTACTUAL_KV";
-				log.info(sql);
-				return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, circle, division, subdivision,voltage });
-			} catch (DataAccessException e) {
-				e.printStackTrace();
-				log.error(e.getMessage());
-				e.printStackTrace();
-				return Collections.emptyList();
-			}
 
+		    if (subdivision != null && !subdivision.isEmpty() && !subdivision.equals("0")) {
+		        sqlBuilder.append("AND subcd = ?\r\n");
+		        params.add(subdivision);
+		    }else {
+		    	sqlBuilder.append("");
+		    }
+
+
+		    if (voltage != null && !voltage.isEmpty() && !voltage.equals("ALL")) {
+		        sqlBuilder.append("AND b.CTACTUAL_KV = ? \r\n");
+		        params.add(voltage);
+		    }else {
+		    	sqlBuilder.append("");
+		    }
+
+		    sqlBuilder.append("AND A.Uscno = B.CTUscno  \r\n");
+		    sqlBuilder.append("AND SUBSTR(CTSECCD,-5) = SECCD\r\n");
+		    sqlBuilder.append("GROUP BY  substr(ctuscno,1,3),GROUPING SETS((mon_year,divcd,divname,SUBCD,subname,CTACTUAL_KV),(mon_year,divcd,divname,SUBCD,subname),\r\n");
+		    sqlBuilder.append("(mon_year,divcd,divname),(MON_YEAR)) \r\n");
+		    sqlBuilder.append("ORDER BY TO_DATE(MON_YEAR,'MON-YYYY'), CIRCLE, divcd, subcd, CTACTUAL_KV");
+
+		    String sql = sqlBuilder.toString();
+		    log.info(sql);
+
+		    return jdbcTemplate.queryForList(sql, params.toArray());
+		} catch (DataAccessException e) {
+		    e.printStackTrace();
+		    log.error(e.getMessage());
+		    return Collections.emptyList();
 		}
 
 	}
-}
+
+	public List<Map<String, Object>> getFeederwiseFYConsumption(HttpServletRequest request) {
+		    String fin_year = request.getParameter("year");
+		    String fromdate = "01-APR-" + fin_year.split("-")[0];
+		    String todate = "31-MAR-" + fin_year.split("-")[1];
+		    String feederCode = request.getParameter("feeder");
+		    String circle = request.getParameter("circle");
+		    String division = request.getParameter("division");
+		    String subdivision = request.getParameter("subdivision");
+		    
+		    System.out.println(division);
+		    System.out.println(subdivision);
+
+		    try {
+		        StringBuilder sqlBuilder = new StringBuilder();
+		        sqlBuilder.append("Select UNIQUE MON_YEAR,fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,substr(ctuscno,1,3) circle, divcd, divname, subcd, subname,count(distinct(ctuscno)) NOS,\r\n")
+		                .append("SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n")
+		                .append("SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,\r\n")
+		                .append("SUM(Mn_Kvah) Sales,\r\n")
+		                .append("SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n")
+		                .append("SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n")
+		                .append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n")
+		                .append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n")
+		                .append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n")
+		                .append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n")
+		                .append("SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n")
+		                .append("SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast\r\n")
+		                .append("where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?, 'DD-MM-YYYY') AND TO_DATE(?, 'DD-MM-YYYY')\r\n")
+		                .append("and A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode and substr(b.CTUscno,1,3) = 'CRD' \r\n");
+
+		        List<Object> params = new ArrayList<>();
+		        params.add(fromdate);
+		        params.add(todate);
+
+		        if (feederCode != null && !feederCode.isEmpty() && !feederCode.equals("ALL")) {
+		            sqlBuilder.append("AND ctfeeder_code = ? \r\n");
+		            params.add(feederCode);
+		        }
+
+		        if (circle != null && !circle.isEmpty()) {
+		            sqlBuilder.append("AND substr(ctuscno,1,3) = ? \r\n");
+		            params.add(circle);
+		        }
+
+		        if (division != null && !division.isEmpty() && !division.equals("0")) {
+		            sqlBuilder.append("AND divcd = ?\r\n");
+		            params.add(division);
+		        }else {
+			    	sqlBuilder.append("");
+			    }
+
+		        if (subdivision != null && !subdivision.isEmpty() && !subdivision.equals("0")) {
+		            sqlBuilder.append("AND subcd = ?\r\n");
+		            params.add(subdivision);
+		        }else {
+			    	sqlBuilder.append("");
+			    }
+
+		        sqlBuilder.append("GROUP BY MON_YEAR, FMFNAME, fmsapfcode\r\n")
+		                .append("Order By TO_DATE(MON_YEAR,'MON-YYYY'), CIRCLE, divcd, subcd, fmsapfcode");
+
+		        String sql = sqlBuilder.toString();
+		        log.info(sql);
+		        return jdbcTemplate.queryForList(sql, params.toArray());
+		    } catch (DataAccessException e) {
+		        e.printStackTrace();
+		        log.error(e.getMessage());
+		        return Collections.emptyList();
+		    }
+		}
+
+	}
+	
+
+
+

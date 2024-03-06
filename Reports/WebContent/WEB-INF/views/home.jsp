@@ -403,7 +403,7 @@
 							Wise,Category Wise,TOD Consumption Of FinancialYear Report </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT128</span></td>
@@ -411,23 +411,23 @@
 							Wise,Category Wise,TOD Consumption Month Report </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT129</span></td>
-					<td><a href="fySalesReport">
-							HT DCB Financial_Year wise,Category wise Sales Report </a></td>
+					<td><a href="fySalesReport"> HT DCB Financial_Year
+							wise,Category wise Sales Report </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT130</span></td>
-					<td><a href="monthSalesReport">
-							HT DCB Month wise,Category wise Sales Report </a></td>
+					<td><a href="monthSalesReport"> HT DCB Month wise,Category
+							wise Sales Report </a></td>
 					<td></td>
 				</tr>
-				
+
 
 			</table>
 		</div>
@@ -513,7 +513,7 @@
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
 							style="width: 40px;">HT97E</span></td>
-					<td><a href="HtDCBCollectionMonthly">HT DCB With SD 
+					<td><a href="HtDCBCollectionMonthly">HT DCB With SD
 							Monthly Abstract</a></td>
 					<td></td>
 				</tr>
@@ -556,15 +556,15 @@
 							Abstract </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT102A</span></td>
-					<td><a href="voltagewiseFinancialYearAbstract">Voltage Wise Financial_Year DCB
-							Abstract </a></td>
+					<td><a href="voltagewiseFinancialYearAbstract">Voltage
+							Wise Financial_Year DCB Abstract </a></td>
 					<td></td>
 				</tr>
-				
+
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
@@ -573,11 +573,19 @@
 					</a></td>
 					<td></td>
 				</tr>
-					<tr>
+				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT103A</span></td>
-					<td><a href="feederwisesubdivabstract">Feeder Wise ,Sub-Division Wise DCB Abstract
-					</a></td>
+					<td><a href="feederwisesubdivabstract">Feeder Wise
+							,Sub-Division Wise DCB Abstract </a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT103B</span></td>
+					<td><a href="feederwiseFYConsumption">Feeder Wise
+							FYWise Consumption DCB Report </a></td>
 					<td></td>
 				</tr>
 

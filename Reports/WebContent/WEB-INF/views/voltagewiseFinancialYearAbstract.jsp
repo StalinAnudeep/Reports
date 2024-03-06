@@ -5,9 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header_lg.jsp"></jsp:include>
+<style>
+.TOTAL {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+</style>
 <div class="row row-cards row-deck">
 	<form class="card" action="voltagewiseFinancialYearAbstract"
-		" method="post">
+		method="post">
 		<div class="card-body">
 			<h3 class="card-title">
 				<strong><span class="text-danger">HT102A</span> - Voltage
@@ -31,6 +37,7 @@
 							class="form-control" name="division" id="division"
 							required="required">
 							<option value="">Select Division</option>
+							<option value="ALL">ALL</option>
 						</select>
 					</div>
 				</div>
@@ -100,65 +107,118 @@
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="14">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="16">${title}</th>
 						</tr>
 						<tr>
-							
-									<th class="text-center" >Circle</th>
-									<th class="text-center" >DIVNAME</th>
-									<th class="text-center" >SUBNAME</th>
-									<th class="text-center" >VOLTAGE</th>
-									<th class="text-center" >NOS</th>
-									<th class="text-center" >OB</th>
-									<th class="text-center" >SALES</th>
-									<th class="text-center" >DEMAND</th>
-									<th class="text-center" >COLL_ARREAR</th>
-									<th class="text-center" >COLL_DEMAND</th>
-									<th class="text-center" >COLLECTION</th>
-									<th class="text-center" >DRJ</th>
-									<th class="text-center" >CRJ</th>
-									<th class="text-center" >CB</th>
+							<th rowspan="2" style="vertical-align: middle;">MON_YEAR</th>
+							<th rowspan="2" style="vertical-align: middle;">Circle</th>
+							<th rowspan="2" style="vertical-align: middle;">DIVISION</th>
+							<th rowspan="2" style="vertical-align: middle;">SUBDIVISION</th>
+							<th rowspan="2" style="vertical-align: middle;">Voltage</th>
+							<th rowspan="2" style="vertical-align: middle;">NOS</th>
+							<th rowspan="2" style="vertical-align: middle;">SALES</th>
+							<th rowspan="2" style="vertical-align: middle;">OB</th>
+							<th colspan="3" class="text-center">DEMAND</th>
+							<th colspan="4" class="text-center">COLLECTION</th>
+							<th rowspan="2" class="text-center"
+								style="vertical-align: middle;">CB</th>
 						</tr>
-						
+						<tr>
+							<th>DEMAND</th>
+							<th>DRJ</th>
+							<th>TOTAL</th>
+							<th>COLL ARREAR</th>
+							<th>COLL DEMAND</th>
+							<th>CRJ</th>
+							<th>TOTAL</th>
+						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="vd" items="${voltageDetails}" varStatus="tagStatus">
-							<tr>
-								<td class="text-right">${vd.Circle}</td>
-								<td class="text-right">${vd.DIVNAME}</td>
-								<td class="text-right">${vd.SUBNAME}</td>
-								<td class="text-right">${vd.VOLTAGE}</td>
-								<td class="text-right">${vd.NOS}</td>
-								<td class="text-right">${vd.OB}</td>
-								<td class="text-right">${vd.SALES}</td>
-								<td class="text-right">${vd.DEMAND}</td>
-								<td class="text-right">${vd.COLL_ARREAR}</td>
-								<td class="text-right">${vd.COLL_DEMAND}</td>
-								<td class="text-right">${vd.COLLECTION}</td>
-								<td class="text-right">${vd.DRJ}</td>
-								<td class="text-right">${vd.CRJ}</td>
-								<td class="text-right">${vd.CB}</td>
+						<%
+						int flag = 0;
+						String cricle = "S";
+						String circletype = "S";
+						%>
+						<c:forEach var="vd" items="${voltageDetails}"
+							varStatus="tagStatus">
+							<c:set var="cirl" value="${vd.MON_YEAR}" scope="request" />
+							<tr style="font-weight: 500;">
+								<%
+								if (!cricle.equals((String) request.getAttribute("cirl"))) {
+								%>
+								<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${vd.MON_YEAR}</td>
+								<%
+								}
+								cricle = (String) request.getAttribute("cirl");
+								%><c:if test="${vd.CTACTUAL_KV ne 'TOTAL'}">
+									<td class="text-right">${vd.Circle}</td>
+									<td class="text-right">${vd.DIVNAME}</td>
+									<td class="text-right">${vd.SUBNAME}</td>
+									<td class="text-right">${vd.CTACTUAL_KV}</td>
+									<td class="text-right">${vd.NOS}</td>
+									<td class="text-right">${vd.SALES}</td>
+									<td class="text-right">${vd.OB}</td>
+									<td class="text-right">${vd.DEMAND}</td>
+									<td class="text-right">${vd.DRJ}</td>
+									<td class="text-right">${vd.DEMAND+vd.DRJ}</td>
+									<td class="text-right">${vd.COLL_ARREAR}</td>
+									<td class="text-right">${vd.COLL_DEMAND}</td>
+									<td class="text-right">${vd.CRJ}</td>
+									<td class="text-right">${vd.COLLECTION + vd.CRJ}</td>
+									<td class="text-right">${vd.CB}</td>
+								</c:if>
 
+
+								<c:if test="${vd.CTACTUAL_KV eq 'TOTAL'}">
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.Circle}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.DIVNAME}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.SUBNAME}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.CTACTUAL_KV}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.NOS}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.SALES}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.OB}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.DEMAND}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.DRJ}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.DEMAND+vd.DRJ}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.COLL_ARREAR}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.COLL_DEMAND}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.CRJ}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.COLLECTION + vd.CRJ}</td>
+									<td class="text-right TOTAL bg-primary"
+										style="padding-left: 5px;">${vd.CB}</td>
+								</c:if>
 							</tr>
-
-
 						</c:forEach>
 					</tbody>
 					<tfoot>
 						<tr>
 
-							<th colspan="3" class="text-right">Grand Total</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.VOLTAGE).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.NOS).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.OB).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.SALES).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.DEMAND).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.COLL_ARREAR).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.COLL_DEMAND).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.COLLECTION).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.DRJ).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.CRJ).sum()}</th>
-							<th class="text-right">${voltageDetails.stream().map(vd -> vd.CB).sum()}</th>
+							<th colspan="5" class="text-right">Grand Total</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + voltageDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum() + voltageDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${voltageDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -189,7 +249,6 @@
 
 							});
 						});
-
 				var currentYear = (new Date()).getFullYear();
 				for (var j = currentYear; j > 2015; j--) {
 					var jj = j - 1 + "-" + j;
@@ -210,7 +269,8 @@
 														+ circle,
 												contentType : "application/json;charset=utf-8",
 												success : function(data) {
-													var slctSubcat = $('#division'), option = " <option value='0' label='Select'/>";
+													var slctSubcat = $('#division'), option = "<option value='0' label='select'/>";
+
 													slctSubcat.empty();
 													var obj = jQuery
 															.parseJSON(data);
@@ -238,8 +298,9 @@
 														+ division,
 												contentType : "application/json;charset=utf-8",
 												success : function(data) {
-													var slctSubcat = $('#subdivision'), option = " <option value='0' label='Select'/>";
+													var slctSubcat = $('#subdivision'), option = " <option value='0' label='select'/>";
 													slctSubcat.empty();
+
 													var obj = jQuery
 															.parseJSON(data);
 													for ( var prop in obj) {
