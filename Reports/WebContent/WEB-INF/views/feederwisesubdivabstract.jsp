@@ -107,9 +107,9 @@
 							<th class="text-center" rowspan="2" style="vertical-align: middle;">S.NO</th>														
 							<th rowspan="2" style="vertical-align: middle;">FEEDER CODE</th>
 							<th rowspan="2" style="vertical-align: middle;">FEEDER NAME</th>	
-							<th rowspan="2" style="vertical-align: middle;">NOS</th>						
+							<th rowspan="2" style="vertical-align: middle;">NOS</th>
+							<th rowspan="2" style="vertical-align: middle;">SALES</th>						
 							<th rowspan="2" style="vertical-align: middle;">OB</th>
-							<th rowspan="2" style="vertical-align: middle;">SALES</th>
 							<th colspan="3" class="text-center">DEMAND</th>
 							
 							<th colspan="4" class="text-center">COLLECTION</th>
@@ -134,8 +134,8 @@
 								<td id="fd">${mtrblc.FEEDER_CD}</td>
 								<td>${mtrblc.FEEDER_NAME}</td>
 								<td  class="text-right">${mtrblc.NOS}</td>
-								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.SALES}</td>
+								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>
 								<td  class="text-right">${mtrblc.DRJ}</td>
 								<td  class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
@@ -155,8 +155,8 @@
 							
 							<th colspan="3" class="text-right">Grand Total</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
-							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + acd.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
@@ -258,21 +258,6 @@
 <script>
 	
 </script>
-<!-- <script>
-	require([ 'jquery', 'datatables.net', 'datatables.net-jszip',
-			'datatables.net-buttons', 'datatables.net-buttons-flash',
-			'datatables.net-buttons-html5' ], function($, datatable, jszip) {
-		window.JSZip = jszip;
-		$('.datatable').DataTable({
-			dom : 'Bfrltip',
-			"scrollX" : true,
-			"bPaginate": false,
-			buttons : {
-				buttons : [ ]
-			}
-		});
-	});
-</script>  -->
 
 <script type="text/javascript">
 	var exportThisWithParameter = (function() {
@@ -352,6 +337,7 @@
 								var slctSubcat = $('#subdivision'), option = " <option value='0' label='Select'/>";
 								slctSubcat.empty();
 								var obj = jQuery.parseJSON(data);
+								
 								for ( var prop in obj) {
 									option = option
 											+ "<option value='"+prop + "'>"

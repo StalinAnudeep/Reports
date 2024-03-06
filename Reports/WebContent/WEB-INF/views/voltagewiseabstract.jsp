@@ -144,7 +144,6 @@
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
-					<%-- 		<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th> --%>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.COLLECTION).sum() + acd.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 						</tr>

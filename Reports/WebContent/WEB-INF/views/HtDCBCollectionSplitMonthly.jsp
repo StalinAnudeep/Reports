@@ -202,8 +202,7 @@ thead>tr>th {
 										cricle = (String) request.getAttribute("cirl");
 										%><c:if test="${mtrblc.CIRNAME eq 'TOTAL'}">
 											<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+											<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 											<td class="text-right TOTAL bg-primary"
 												style="padding-left: 5px;">${mtrblc.TOB}</td>
 											<td class="text-right TOTAL bg-primary"
