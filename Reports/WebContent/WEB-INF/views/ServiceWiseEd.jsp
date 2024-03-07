@@ -8,7 +8,12 @@
 <div class="row row-cards row-deck">
 	<form class="card" action="ed" method="post">
 		<div class="card-body">
-			<h3 class="card-title">Service Wise ED Report</h3>
+			<h3 class="card-title">
+				<strong> <span class="text-danger">HT72</span> -HT Service
+					Wise ED Report
+				</strong>
+
+			</h3>
 			<div class="row">
 				<div class="col-md-3">
 					<div class="form-group">
@@ -48,7 +53,8 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<label class="form-label">GET Service Wise ED</label>
-						<button type="submit" class="btn btn-success">GET Service Wise ED</button>
+						<button type="submit" class="btn btn-success">GET Service
+							Wise ED</button>
 					</div>
 				</div>
 			</div>
@@ -57,36 +63,43 @@
 	<c:if test="${ not empty fn:trim(fail)}">
 		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
 	</c:if>
-	
+
 	<c:if test="${ not empty fn:trim(ed)}">
-		  <div class="card ">
-		    <div class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
-			<table class="table card-table table-vcenter text-nowrap datatable display" style="width: 100%;">
+		<div class="card ">
+			<div
+				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
+				<table
+					class="table card-table table-vcenter text-nowrap datatable display"
+					style="width: 100%;">
 					<thead>
 						<tr>
 							<th>S.NO</th>
-							<th>USCNO</th>
-							<th>NAME</th>
 							<th>CIRCLE</th>
 							<th>DIVISION</th>
 							<th>SUB_DIVISION</th>
 							<th>SECTION</th>
+							<th>USCNO</th>
+							<th>NAME</th>
+							<th>CAT</th>
 							<th>ED</th>
 							<th>EDI</th>
+							<th>KVAHUNITS</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="mtrblc" items="${ed}" varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td>${mtrblc.BTSCNO}</td>
 								<td>${mtrblc.CTNAME}</td>
 								<td>${mtrblc.CIRNAME}</td>
 								<td>${mtrblc.DIVNAME}</td>
 								<td>${mtrblc.SUBNAME}</td>
 								<td>${mtrblc.SECNAME}</td>
-								<td>${mtrblc.BTED}</td>
-								<td>${mtrblc.BTED_INT}</td>
+								<td>${mtrblc.BTSCNO}</td>
+								<td >${mtrblc.CAT}</td>
+								<td class = "text-rigth">${mtrblc.BTED}</td>
+								<td class = "text-rigth">${mtrblc.BTED_INT}</td>
+								<td class = "text-rigth">${mtrblc.BTEDKVAH}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -94,7 +107,7 @@
 			</div>
 		</div>
 	</c:if>
-	
+
 </div>
 
 
@@ -114,35 +127,43 @@
 
 							});
 						}
-					  
+
 					});
 					$("#circle").append("<option value=ALL>ALL</option>");
 				});
-		
-		 var currentYear = (new Date()).getFullYear();
-		 var currnetMonth=(new Date()).getMonth()+1;
-		 for (var j = currentYear; j > 2015; j--) {
-	     	$("#year").append("<option value="+j+">"+j+"</option>");
-	     	
-		 }
-		 $('#mon option:eq('+currnetMonth+')').prop('selected', true);
-		 $('#year option[value="'+currentYear+'"]').prop('selected', true);
 
+		var currentYear = (new Date()).getFullYear();
+		var currnetMonth = (new Date()).getMonth() + 1;
+		for (var j = currentYear; j > 2015; j--) {
+			$("#year").append("<option value="+j+">" + j + "</option>");
+
+		}
+		$('#mon option:eq(' + currnetMonth + ')').prop('selected', true);
+		$('#year option[value="' + currentYear + '"]').prop('selected', true);
 
 	});
 </script>
 <script>
-	require([  'jquery','datatables.net','datatables.net-jszip','datatables.net-buttons','datatables.net-buttons-flash','datatables.net-buttons-html5'], function($,datatable,jszip ) {
+	require([ 'jquery', 'datatables.net', 'datatables.net-jszip',
+			'datatables.net-buttons', 'datatables.net-buttons-flash',
+			'datatables.net-buttons-html5' ], function($, datatable, jszip) {
 		window.JSZip = jszip;
 		$('.datatable').DataTable({
-	        dom: 'Bfrltip',
-	        "scrollX": true,
-	        buttons: {
-	            buttons: [
-	                { extend: 'csv', className: 'btn btn-xs btn-primary',title: 'Service Wise ED Report',footer: true },
-	                { extend: 'excel', className: 'btn btn-xs btn-primary',title:'Service Wise ED Report',footer: true }
-	            ]
-	        }
-	    });
+			dom : 'Bfrltip',
+			"scrollX" : true,
+			buttons : {
+				buttons : [ {
+					extend : 'csv',
+					className : 'btn btn-xs btn-primary',
+					title : 'Service Wise ED Report',
+					footer : true
+				}, {
+					extend : 'excel',
+					className : 'btn btn-xs btn-primary',
+					title : 'Service Wise ED Report',
+					footer : true
+				} ]
+			}
+		});
 	});
 </script>
