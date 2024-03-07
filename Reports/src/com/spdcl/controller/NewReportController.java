@@ -2,18 +2,14 @@
 package com.spdcl.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -22,16 +18,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.spdcl.dao.NewReportDao;
 import com.spdcl.model.TodDetails;
 
@@ -385,15 +374,6 @@ public class NewReportController {
 			mav.addObject("voltageDetails", voltageDetails);
 			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(voltageDetails));
-			
-			List<Map<String , Object>> total = new ArrayList<>();
-			
-			for(Map<String , Object> totalDetails : voltageDetails) {
-				
-				if(totalDetails.containsKey("MON_YEAR")) {
-					
-				}
-			}
 
 		}
 
@@ -416,8 +396,9 @@ public class NewReportController {
 		if (feederDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
-			mav.addObject("voltageDetails", feederDetails);
-			mav.addObject("title", "Financial Year Report For - " + year);
+			mav.addObject("feederDetails", feederDetails);
+			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
+			mav.addObject("CIRCOUNT", countFrequencies(feederDetails));
 			
 
 		}
@@ -480,8 +461,6 @@ public class NewReportController {
 		return countmap;
 
 	}
-	
-	
 	
 
 }
