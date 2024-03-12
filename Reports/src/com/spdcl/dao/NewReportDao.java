@@ -1032,4 +1032,84 @@ public class NewReportDao {
 		}
 
 	}
+
+	public List<Map<String, Object>> getOpenAccessReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(SELECT SUBSTR(OAUSCNO,1,3)CIRCLE,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(KVAH_ADJ_ENG)OA_CONSUMPTION FROM OPEN_ACCESS_HIST \r\n"
+					+ "WHERE TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') GROUP BY SUBSTR(OAUSCNO,1,3),BILL_MON||'-'|| BILL_YEAR \r\n"
+					+ "ORDER BY SUBSTR(OAUSCNO,1,3),TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') asc\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(OA_CONSUMPTION)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY CIRCLE").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getOpenAccessCrossSubsidyReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(\r\n"
+					+ "SELECT SUBSTR(OAUSCNO,1,3)CIRCLE,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(CS_CHARGES)CS_CHARGES FROM OPEN_ACCESS_HIST\r\n"
+					+ "WHERE TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') GROUP BY SUBSTR(OAUSCNO,1,3),BILL_MON||'-'|| BILL_YEAR\r\n"
+					+ "ORDER BY SUBSTR(OAUSCNO,1,3),TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY')asc\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(CS_CHARGES)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY CIRCLE").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getOpenAccessWheelingChargesReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(\r\n"
+					+ "SELECT SUBSTR(OAUSCNO,1,3)CIRCLE,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(NVL(WHELL_CHARGES,0))WHELL_CHARGES FROM OPEN_ACCESS_HIST \r\n"
+					+ "WHERE TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') GROUP BY SUBSTR(OAUSCNO,1,3),BILL_MON||'-'|| BILL_YEAR\r\n"
+					+ "ORDER BY SUBSTR(OAUSCNO,1,3),TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY')asc\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(WHELL_CHARGES)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY CIRCLE").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
 }
