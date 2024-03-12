@@ -435,6 +435,28 @@
 							Report </a></td>
 					<td></td>
 				</tr>
+				
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT132</span></td>
+					<td><a href="openAccessReport"> HT Circle wise,Month Wise Open Access KVAH_ADJ_ENG Report</a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT133</span></td>
+					<td><a href="openAccessCrossSubsidyReport"> HT Circle wise,Month Wise Open Access CROSS SUBSIDY CHARGES Report</a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT134</span></td>
+					<td><a href="openAccessWheelingChargesReport"> HT Circle wise,Month Wise Open Access Wheeling Charges Report</a></td>
+					<td></td>
+				</tr>
 
 
 			</table>

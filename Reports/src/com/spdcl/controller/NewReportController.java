@@ -306,9 +306,8 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
-	//129
+
+	// 129
 	@GetMapping("/fySalesReport")
 	public String getFySalesReport() {
 		return "fySalesReport";
@@ -342,7 +341,7 @@ public class NewReportController {
 	@PostMapping("/monthSalesReport")
 	public ModelAndView getMonthSalesReport(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("monthSalesReport");
-		String year =  request.getParameter("year");
+		String year = request.getParameter("year");
 		List<Map<String, Object>> monthSalesDetails = newReportDao.getMonthSalesReport(request);
 		System.out.println(monthSalesDetails);
 
@@ -370,7 +369,7 @@ public class NewReportController {
 		ModelAndView mav = new ModelAndView("voltagewiseFinancialYearAbstract");
 		List<Map<String, Object>> voltageDetails = newReportDao.getVoltagewiseFinancialYearAbstract(request);
 		System.out.println(voltageDetails);
-		
+
 		if (voltageDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
@@ -383,13 +382,12 @@ public class NewReportController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/feederwiseFYConsumption")
 	public String getFeederwiseFYConsumption() {
 		return "feederwiseFYConsumption";
 	}
-	
-	
+
 	@PostMapping("/feederwiseFYConsumption")
 	public ModelAndView getFeederwiseFYConsumption(HttpServletRequest request) throws ParseException {
 		String year = request.getParameter("year");
@@ -402,28 +400,25 @@ public class NewReportController {
 			mav.addObject("feederDetails", feederDetails);
 			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(feederDetails));
-			
 
 		}
 
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/HtDCBCollectionSplitFYWise")
 	public String gethtDCBCollectionSplitFYWise() {
 		return "HtDCBCollectionSplitFYWise";
 	}
-	
-	
+
 	@PostMapping("/HtDCBCollectionSplitFYWise")
 	public ModelAndView gethtDCBCollectionSplitFYWise(HttpServletRequest request) throws ParseException {
 		String year = request.getParameter("year");
 		ModelAndView mav = new ModelAndView("HtDCBCollectionSplitFYWise");
 		List<Map<String, Object>> collectionDetails = newReportDao.gethtDCBCollectionSplitFYWise(request);
 		System.out.println(collectionDetails);
-		
+
 		if (collectionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
@@ -435,54 +430,51 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
-	//131
+
+	// 131
 	@GetMapping("/htSolarMonthReport")
 	public String getHtSolarMonthReport() {
 		return "htSolarMonthReport";
 	}
-	
-	
+
 	@PostMapping("/htSolarMonthReport")
 	public ModelAndView getHtSolarMonthReport(HttpServletRequest request) throws ParseException {
 		String year = request.getParameter("year");
 		ModelAndView mav = new ModelAndView("htSolarMonthReport");
 		List<Map<String, Object>> solarDetails = newReportDao.getHtSolarMonthReport(request);
 		System.out.println(solarDetails);
-		
+
 		if (solarDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("solarDetails", solarDetails);
 			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
 			mav.addObject("TYPECOUNT", countFrequencies(solarDetails));
-			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
-			mav.addObject("mon", request.getParameter("month")+"-"+request.getParameter("year"));
+			mav.addObject("CIRCOUNT", countFrequencies(solarDetails));
+			mav.addObject("mon", request.getParameter("month") + "-" + request.getParameter("year"));
 		}
 
 		return mav;
 
 	}
-	
-	
-	
+
 	@GetMapping("/HtCategoryWiseDivisionWiseSolarReport")
 	public ModelAndView getHtCategoryWiseDivisionWiseSolarReport(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
 			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
 
 		ModelAndView mav = new ModelAndView("HtCategoryWiseDivisionWiseSolarReport");
-		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseDivisionWiseSolarReport(circle,mon_year);
+		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseDivisionWiseSolarReport(circle,
+				mon_year);
 		System.out.println(solarDetails);
-		
+
 		if (solarDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("solarDetails", solarDetails);
-			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
-			mav.addObject("TYPECOUNT",countFrequencies(solarDetails));
-			mav.addObject("title",circle + "- Category Wise Division Wise Demand Abstract For "+mon_year);
+			mav.addObject("CIRCOUNT", countFrequencies(solarDetails));
+			mav.addObject("TYPECOUNT", countFrequencies(solarDetails));
+			mav.addObject("title", circle + "- Category Wise Division Wise Demand Abstract For " + mon_year);
 			mav.addObject("status", "");
 			mav.addObject("mon", mon_year);
 		}
@@ -490,30 +482,97 @@ public class NewReportController {
 
 	}
 
-
 	@GetMapping("/HtCategoryWiseSubDivisionWiseDemandReport")
 	public ModelAndView getHtCategoryWiseSubDivisionWiseDemandReport(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
 			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
 
 		ModelAndView mav = new ModelAndView("HtCategoryWiseSubDivisionWiseDemandReport");
-		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseSubDivisionWiseDemandReport(circle,mon_year);
+		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseSubDivisionWiseDemandReport(circle,
+				mon_year);
 		System.out.println(solarDetails);
-		
+
 		if (solarDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("solarDetails", solarDetails);
-			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
-			mav.addObject("TYPECOUNT",countFrequencies(solarDetails));
-			mav.addObject("title",circle + "- Category Wise Sub Division Wise Demand Abstract For "+mon_year);
+			mav.addObject("CIRCOUNT", countFrequencies(solarDetails));
+			mav.addObject("TYPECOUNT", countFrequencies(solarDetails));
+			mav.addObject("title", circle + "- Category Wise Sub Division Wise Demand Abstract For " + mon_year);
 			mav.addObject("status", "");
 		}
 		return mav;
 
 	}
 
+	// 132
+	@GetMapping("/openAccessReport")
+	public String getOpenAccessReport() {
+		return "openAccessReport";
+	}
 
+	@PostMapping("/openAccessReport")
+	public ModelAndView getOpenAccessReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+		ModelAndView mav = new ModelAndView("openAccessReport");
+		List<Map<String, Object>> openAccessDetails = newReportDao.getOpenAccessReport(request);
+		System.out.println(openAccessDetails);
+		if (openAccessDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("openAccessDetails", openAccessDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+
+		}
+		return mav;
+	}
+
+	// 133
+	@GetMapping("/openAccessCrossSubsidyReport")
+	public String openAccessCrossSubsidyReport() {
+		return "openAccessCrossSubsidyReport";
+	}
+
+	@PostMapping("/openAccessCrossSubsidyReport")
+	public ModelAndView getOpenAccessCrossSubsidyReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+		ModelAndView mav = new ModelAndView("openAccessCrossSubsidyReport");
+		List<Map<String, Object>> crossSubsidyDetails = newReportDao.getOpenAccessCrossSubsidyReport(request);
+		System.out.println(crossSubsidyDetails);
+		if (crossSubsidyDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("crossSubsidyDetails", crossSubsidyDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+
+		}
+		return mav;
+	}
+
+	// 134
+	@GetMapping("/openAccessWheelingChargesReport")
+	public String openAccessWheelingChargesReport() {
+		return "openAccessWheelingChargesReport";
+	}
+
+	@PostMapping("/openAccessWheelingChargesReport")
+	public ModelAndView getOpenAccessWheelingChargesReport(HttpServletRequest request) {
+		String fyear[] = request.getParameter("year").split("-");
+		ModelAndView mav = new ModelAndView("openAccessWheelingChargesReport");
+		List<Map<String, Object>> wheelingChargesDetails = newReportDao.getOpenAccessWheelingChargesReport(request);
+		System.out.println(wheelingChargesDetails);
+		if (wheelingChargesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("wheelingChargesDetails", wheelingChargesDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+
+		}
+		return mav;
+	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();
@@ -568,6 +627,5 @@ public class NewReportController {
 		return countmap;
 
 	}
-	
 
 }
