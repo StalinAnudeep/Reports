@@ -427,6 +427,14 @@
 							wise Sales Report </a></td>
 					<td></td>
 				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT131</span></td>
+					<td><a href="htSolarMonthReport"> HT DCB Month wise,Solar
+							Report </a></td>
+					<td></td>
+				</tr>
 
 
 			</table>
@@ -503,6 +511,16 @@
 							Abstract Month Wise</a></td>
 					<td></td>
 				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT97C1</span></td>
+					<td><a href="HtDCBCollectionSplitFYWise">HT DCB Split
+							Abstract Financial Year Wise</a></td>
+					<td></td>
+				</tr> 
+				
+				
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>

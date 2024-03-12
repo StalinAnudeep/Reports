@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spdcl.dao.NewReportDao;
@@ -305,7 +306,9 @@ public class NewReportController {
 		return mav;
 
 	}
-
+	
+	
+	//129
 	@GetMapping("/fySalesReport")
 	public String getFySalesReport() {
 		return "fySalesReport";
@@ -406,6 +409,110 @@ public class NewReportController {
 		return mav;
 
 	}
+	
+	
+	@GetMapping("/HtDCBCollectionSplitFYWise")
+	public String gethtDCBCollectionSplitFYWise() {
+		return "HtDCBCollectionSplitFYWise";
+	}
+	
+	
+	@PostMapping("/HtDCBCollectionSplitFYWise")
+	public ModelAndView gethtDCBCollectionSplitFYWise(HttpServletRequest request) throws ParseException {
+		String year = request.getParameter("year");
+		ModelAndView mav = new ModelAndView("HtDCBCollectionSplitFYWise");
+		List<Map<String, Object>> collectionDetails = newReportDao.gethtDCBCollectionSplitFYWise(request);
+		System.out.println(collectionDetails);
+		
+		if (collectionDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("collectionDetails", collectionDetails);
+			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
+			mav.addObject("CIRCOUNT", countFrequencies(collectionDetails));
+		}
+
+		return mav;
+
+	}
+	
+	
+	//131
+	@GetMapping("/htSolarMonthReport")
+	public String getHtSolarMonthReport() {
+		return "htSolarMonthReport";
+	}
+	
+	
+	@PostMapping("/htSolarMonthReport")
+	public ModelAndView getHtSolarMonthReport(HttpServletRequest request) throws ParseException {
+		String year = request.getParameter("year");
+		ModelAndView mav = new ModelAndView("htSolarMonthReport");
+		List<Map<String, Object>> solarDetails = newReportDao.getHtSolarMonthReport(request);
+		System.out.println(solarDetails);
+		
+		if (solarDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("solarDetails", solarDetails);
+			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
+			mav.addObject("TYPECOUNT", countFrequencies(solarDetails));
+			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
+			mav.addObject("mon", request.getParameter("month")+"-"+request.getParameter("year"));
+		}
+
+		return mav;
+
+	}
+	
+	
+	
+	@GetMapping("/HtCategoryWiseDivisionWiseSolarReport")
+	public ModelAndView getHtCategoryWiseDivisionWiseSolarReport(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
+			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
+
+		ModelAndView mav = new ModelAndView("HtCategoryWiseDivisionWiseSolarReport");
+		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseDivisionWiseSolarReport(circle,mon_year);
+		System.out.println(solarDetails);
+		
+		if (solarDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("solarDetails", solarDetails);
+			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
+			mav.addObject("TYPECOUNT",countFrequencies(solarDetails));
+			mav.addObject("title",circle + "- Category Wise Division Wise Demand Abstract For "+mon_year);
+			mav.addObject("status", "");
+			mav.addObject("mon", mon_year);
+		}
+		return mav;
+
+	}
+
+
+	@GetMapping("/HtCategoryWiseSubDivisionWiseDemandReport")
+	public ModelAndView getHtCategoryWiseSubDivisionWiseDemandReport(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
+			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
+
+		ModelAndView mav = new ModelAndView("HtCategoryWiseSubDivisionWiseDemandReport");
+		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseSubDivisionWiseDemandReport(circle,mon_year);
+		System.out.println(solarDetails);
+		
+		if (solarDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("solarDetails", solarDetails);
+			mav.addObject("CIRCOUNT",countFrequencies(solarDetails));
+			mav.addObject("TYPECOUNT",countFrequencies(solarDetails));
+			mav.addObject("title",circle + "- Category Wise Sub Division Wise Demand Abstract For "+mon_year);
+			mav.addObject("status", "");
+		}
+		return mav;
+
+	}
+
 
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {

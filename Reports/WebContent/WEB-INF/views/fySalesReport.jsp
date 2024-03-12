@@ -14,6 +14,16 @@
 					Financial_Year Wise,Category Wise,Sales Report </strong>
 			</h3>
 			<div class="row">
+
+				<div class="col-md-2">
+					<div class="form-group">
+						<label class="form-label">Circle</label> <select
+							class="form-control" name="circle" id="circle"
+							required="required">
+							<option value="">Select Circle</option>
+						</select>
+					</div>
+				</div>
 				<div class="col-md-4">
 					<div class="form-group">
 						<label class="form-label">Year</label> <select id="year"
@@ -60,6 +70,7 @@
 						<thead class="bg-primary">
 							<tr class="bg-primary text-light">
 								<th class="text-center text-light">FINANCIAL_YEAR</th>
+								<th class="text-center text-light">CIRCLE</th>
 								<th class="text-center text-light">CTCAT</th>
 								<th class="text-center text-light">SCS</th>
 								<th class="text-center text-light">CAPACITY</th>
@@ -81,12 +92,12 @@
 									<%
 									if (!cricle.equals((String) request.getAttribute("cirl"))) {
 									%>
-									<td rowspan="${CIRCOUNT[cirl]}" class = "text-center">${sd.FINANCIAL_YEAR}</td>
+									<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${sd.FINANCIAL_YEAR}</td>
 									<%
 									}
 									cricle = (String) request.getAttribute("cirl");
 									%>
-
+									<td class="text-center">${sd.CIRCLE}</td>
 									<td class="text-center">${sd.CTCAT}</td>
 									<td class="text-center format">${sd.SCS}</td>
 									<td class="text-center format">${sd.CAPACITY}</td>
@@ -100,9 +111,7 @@
 						</tbody>
 						<tfoot>
 							<tr class="bg-primary text-light">
-								<th class="text-center text-light" colspan="2">Grand Total</th>
-								<td class="text-center format">${salesDetails.stream().map(sd -> sd.SCS).sum()}</td>
-								<td class="text-center format">${salesDetails.stream().map(sd -> sd.CAPACITY).sum()}</td>
+								<th class="text-center text-light" colspan="5">Grand Total</th>
 								<td class="text-center format">${salesDetails.stream().map(sd -> sd.SALES_MU).sum()}</td>
 								<td class="text-center format">${salesDetails.stream().map(sd -> sd.DEMAND_LAKHS).sum()}</td>
 								<td class="text-center format">${salesDetails.stream().map(sd -> sd.COLLECTION_LAKHS).sum()}</td>
@@ -122,8 +131,24 @@
 </div>
 <script>
 	requirejs([ 'jquery' ], function($) {
+		$("#circle").append("<option value=ALL>ALL</option>");
 		$(document).ready(
 				function() {
+
+					$.ajax({
+						type : "POST",
+						url : "getCircles",
+						success : function(data) {
+							var saptype = jQuery.parseJSON(data);
+							$.each(saptype, function(k, v) {
+								$("#circle").append(
+										"<option value="+k+">" + v
+												+ "</option>");
+
+							});
+						}
+
+					});
 					var currentYear = (new Date()).getFullYear();
 					for (var j = currentYear; j > 2015; j--) {
 						var jj = j - 1 + "-" + j;

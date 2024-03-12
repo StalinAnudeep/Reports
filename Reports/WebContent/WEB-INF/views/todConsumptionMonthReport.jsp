@@ -93,9 +93,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${list}" var="td" varStatus="tagStatus">
-								<tr style="font-weight: 500;">
-									<td >${td.MONTH_YEAR_11}</td>
+							<c:forEach var="td" items="${list}">
+								<tr>
+									<td class="text-center">${td.MONTH_YEAR_11}</td>
 									<td class="text-center">${td.CAT_11}</td>
 									<td class="text-center">${td.SUBCAT_11}</td>
 									<td class="text-center">${td.SCS_11}</td>
