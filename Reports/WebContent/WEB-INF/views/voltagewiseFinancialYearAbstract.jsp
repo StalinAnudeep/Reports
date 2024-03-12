@@ -109,7 +109,7 @@
 						<tr>
 							<th class="bg-primary text-white text-center" colspan="16">${title}</th>
 						</tr>
-						<tr>
+						<tr >
 							<th rowspan="2" style="vertical-align: middle;">MON_YEAR</th>
 							<th rowspan="2" style="vertical-align: middle;">Circle</th>
 							<th rowspan="2" style="vertical-align: middle;">DIVISION</th>
@@ -168,39 +168,37 @@
 									<td class="text-right">${vd.CB}</td>
 								</c:if>
 
-
-								<c:if test="${vd.CTACTUAL_KV eq 'TOTAL'}">
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.Circle}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.DIVNAME}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.SUBNAME}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.CTACTUAL_KV}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.NOS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.SALES}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.OB}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.DRJ}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.DEMAND+vd.DRJ}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.COLL_ARREAR}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.COLL_DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.CRJ}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.COLLECTION + vd.CRJ}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${vd.CB}</td>
-								</c:if>
+									<c:if test="${vd.CTACTUAL_KV eq 'TOTAL'}">
+										<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${vd.Circle}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.DIVNAME}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.SUBNAME}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.CTACTUAL_KV}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.NOS}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.SALES}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.OB}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.DEMAND}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.DRJ}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.DEMAND+vd.DRJ}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.COLL_ARREAR}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.COLL_DEMAND}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.CRJ}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.COLLECTION + vd.CRJ}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${vd.CB}</td>
+									</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>

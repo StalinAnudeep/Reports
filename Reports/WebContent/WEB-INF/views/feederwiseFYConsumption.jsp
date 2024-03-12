@@ -96,11 +96,11 @@
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 					style="width: 100%;">
-					<thead>
+					<thead >
 						<tr>
 							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
-						<tr>
+						<tr >
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">MON_YEAR</th>
 							<th rowspan="2" style="vertical-align: middle;">Circle</th>
