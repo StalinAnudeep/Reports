@@ -437,7 +437,7 @@ thead>tr>th {
 											<td class="text-center  format">${frc.HT5EEC}</td>
 											<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
 											<td class="text-center  format">${frc.HT5ESPECIFIC_REVENUE}</td>
-											</tr>
+										</tr>
 									</c:if>
 								</c:forEach>
 							</tbody>

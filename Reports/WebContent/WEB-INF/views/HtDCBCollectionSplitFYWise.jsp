@@ -136,7 +136,7 @@ thead>tr>th {
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th class="bg-primary text-white text-center" colspan="9">${title}</th>
+									<th class="bg-primary text-white text-center" colspan="10">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
 
@@ -189,6 +189,7 @@ thead>tr>th {
 
 										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
 											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
+											<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
 											<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 											<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
 											<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
@@ -213,13 +214,14 @@ thead>tr>th {
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th class="bg-primary text-white text-center" colspan="9">${title}</th>
+									<th class="bg-primary text-white text-center" colspan="10">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
 
 									<th>LDT</th>
+									<th>CIRCLE</th>
 									<th>NOS</th>
-									<th>KVH Consumption</th>
+									<th>KVAH_Consumption</th>
 									<th>OB</th>
 									<th>DEMAND</th>
 									<th>COLLECTION ARREAR</th>
@@ -233,8 +235,9 @@ thead>tr>th {
 								<c:forEach var="mtrblc" items="${collectionDetails}" varStatus="tagStatus">
 									<tr>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.NOS}</td>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.KVH_Consumption}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.MN_KVAH}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
@@ -248,7 +251,9 @@ thead>tr>th {
 							</tbody>
 							<tfoot>
 								<tr>
-									<th class="text-right">Grand Total</th>
+									<th class="text-right" colspan="2">Grand Total</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.MN_KVAH).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>

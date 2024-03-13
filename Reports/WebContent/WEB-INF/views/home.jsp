@@ -427,36 +427,8 @@
 							wise Sales Report </a></td>
 					<td></td>
 				</tr>
-				
-				<tr>
-					<td><span><img src="./demo/brand/new_gif.gif"
-							style="width: 40px;">HT131</span></td>
-					<td><a href="htSolarMonthReport"> HT DCB Month wise,Solar
-							Report </a></td>
-					<td></td>
-				</tr>
-				
-				
-				<tr>
-					<td><span><img src="./demo/brand/new_gif.gif"
-							style="width: 40px;">HT132</span></td>
-					<td><a href="openAccessReport"> HT Circle wise,Month Wise Open Access KVAH_ADJ_ENG Report</a></td>
-					<td></td>
-				</tr>
-				
-				<tr>
-					<td><span><img src="./demo/brand/new_gif.gif"
-							style="width: 40px;">HT133</span></td>
-					<td><a href="openAccessCrossSubsidyReport"> HT Circle wise,Month Wise Open Access CROSS SUBSIDY CHARGES Report</a></td>
-					<td></td>
-				</tr>
-				
-				<tr>
-					<td><span><img src="./demo/brand/new_gif.gif"
-							style="width: 40px;">HT134</span></td>
-					<td><a href="openAccessWheelingChargesReport"> HT Circle wise,Month Wise Open Access Wheeling Charges Report</a></td>
-					<td></td>
-				</tr>
+
+
 
 
 			</table>
@@ -533,16 +505,16 @@
 							Abstract Month Wise</a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97C1</span></td>
 					<td><a href="HtDCBCollectionSplitFYWise">HT DCB Split
 							Abstract Financial Year Wise</a></td>
 					<td></td>
-				</tr> 
-				
-				
+				</tr>
+
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT97D</span></td>
@@ -620,12 +592,12 @@
 							,Sub-Division Wise DCB Abstract </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT103B</span></td>
-					<td><a href="feederwiseFYConsumption">Feeder Wise
-							FYWise Consumption DCB Report </a></td>
+					<td><a href="feederwiseFYConsumption">Feeder Wise FYWise
+							Consumption DCB Report </a></td>
 					<td></td>
 				</tr>
 
@@ -1242,7 +1214,38 @@
 					<td></td>
 				</tr>
 
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT131</span></td>
+					<td><a href="htSolarMonthReport"> HT DCB Month wise,Solar
+							Report </a></td>
+					<td></td>
+				</tr>
 
+
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT132</span></td>
+					<td><a href="openAccessReport"> HT Circle wise,Month Wise
+							Open Access KVAH_ADJ_ENG Report</a></td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT133</span></td>
+					<td><a href="openAccessCrossSubsidyReport"> HT Circle
+							wise,Month Wise Open Access CROSS SUBSIDY CHARGES Report</a></td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT134</span></td>
+					<td><a href="openAccessWheelingChargesReport"> HT Circle
+							wise,Month Wise Open Access Wheeling Charges Report</a></td>
+					<td></td>
+				</tr>
 
 
 			</table>

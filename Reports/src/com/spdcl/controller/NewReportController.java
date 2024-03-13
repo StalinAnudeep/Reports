@@ -42,6 +42,7 @@ public class NewReportController {
 		List<Map<String, Object>> fyConsumptionReport = newReportDao.getFinancialConsumption(request);
 		String type = request.getParameter("circle");
 		String year = request.getParameter("year");
+		System.out.println(fyConsumptionReport);
 		if (fyConsumptionReport.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
@@ -53,7 +54,7 @@ public class NewReportController {
 				mav.addObject("title", "Financial Year Consumption Report For APCPDCL - " + year);
 			} else {
 				mav.addObject("title", "Financial Year Consumption Report For - " + year);
-				mav.addObject("CIRCOUNT", countFrequencies(fyConsumptionReport));
+				mav.addObject("MONTHCOUNT", countFrequencies(fyConsumptionReport));
 			}
 
 		}
@@ -350,6 +351,7 @@ public class NewReportController {
 		} else {
 			mav.addObject("monthSalesDetails", monthSalesDetails);
 			mav.addObject("CIRCOUNT", countFrequencies(monthSalesDetails));
+			mav.addObject("MONTHCOUNT", countFrequencies(monthSalesDetails));
 			mav.addObject("title", "Financial Year Report From - " + year);
 
 		}
@@ -415,6 +417,7 @@ public class NewReportController {
 	@PostMapping("/HtDCBCollectionSplitFYWise")
 	public ModelAndView gethtDCBCollectionSplitFYWise(HttpServletRequest request) throws ParseException {
 		String year = request.getParameter("year");
+		String circle = request.getParameter("circle");
 		ModelAndView mav = new ModelAndView("HtDCBCollectionSplitFYWise");
 		List<Map<String, Object>> collectionDetails = newReportDao.gethtDCBCollectionSplitFYWise(request);
 		System.out.println(collectionDetails);
@@ -423,7 +426,11 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("collectionDetails", collectionDetails);
-			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
+			if(circle.equals("ALL")) {
+			mav.addObject("title", "Financial Year Report For - APCPDCL - " + year);
+			}else {
+				mav.addObject("title", "Financial Year Report For - " + circle +" - " + year);
+			}
 			mav.addObject("CIRCOUNT", countFrequencies(collectionDetails));
 		}
 

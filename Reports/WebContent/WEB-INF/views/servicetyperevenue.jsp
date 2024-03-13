@@ -100,7 +100,6 @@
 								<td>${tagStatus.index + 1}</td>								
 								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
-								
 								<td  class="text-right"><a href='servicetypeservices?circle=${circle}&fyear=${fyear}&servicetype=${mtrblc.SERVTYPE}&stdesc=${mtrblc.STDESC}'>${mtrblc.NOS}</a></td>
 							    <td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.LOAD}</td>
