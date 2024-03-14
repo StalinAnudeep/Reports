@@ -1114,4 +1114,189 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
+
+	public List<Map<String, Object>> getCumilativeReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String fromMonthYear = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
+		String toMonthYear = "01-" + request.getParameter("tmonth") + "-" + request.getParameter("tyear");
+		if (circle.equalsIgnoreCase("ALL")) {
+			try {
+				String sql = "SELECT SUBSTR(CTUSCNO,1,3) CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE,ROUND(SUM(OB/10000000),2)OB,ROUND(SUM(DEMAND/10000000),2)DEMAND,ROUND(SUM(COLLECTION/10000000),2)COLLECTION,ROUND(SUM(CB/10000000),2)CB FROM \r\n"
+						+ "(SELECT CTUSCNO,CTSECCD,CASE WHEN CTGOVT_PVT='Y' THEN 'GOVT' WHEN CTGOVT_PVT='N' THEN 'PVT' END TYPE FROM CONS), \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND  \r\n"
+						+ "SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA')GROUP BY USCNO)A, \r\n"
+						+ "(SELECT USCNO,roUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))) DEMAND, \r\n"
+						+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))) COLLECTION FROM LEDGER_HT_HIST where \r\n"
+						+ "to_date(mon_year,'MON-YYYY') between TO_DATE(?,'DD-MM-YYYY') and TO_DATE(?,'DD-MM-YYYY') \r\n"
+						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') group by uscno)B, \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? \r\n"
+						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') GROUP BY USCNO)C, \r\n"
+						+ "(SELECT * FROM MASTER.SPDCLMASTER)D \r\n"
+						+ "WHERE CTUSCNO=A.USCNO(+)  \r\n"
+						+ "AND CTUSCNO=B.USCNO(+) \r\n"
+						+ "AND CTUSCNO=C.USCNO(+) \r\n"
+						+ "AND SUBSTR(CTSECCD,-5)=SECCD \r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,SECNAME,TYPE  \r\n"
+						+ "ORDER BY CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE";
+				log.info(sql);
+				return jdbcTemplate.queryForList(sql, new Object[] { fromMonthYear,fromMonthYear, toMonthYear ,toMonthYear });
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+		} else {
+			try {
+				String sql = "SELECT SUBSTR(CTUSCNO,1,3) CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE,ROUND(SUM(OB/10000000),2)OB,ROUND(SUM(DEMAND/10000000),2)DEMAND,ROUND(SUM(COLLECTION/10000000),2)COLLECTION,ROUND(SUM(CB/10000000),2)CB FROM \r\n"
+						+ "(SELECT CTUSCNO,CTSECCD,CASE WHEN CTGOVT_PVT='Y' THEN 'GOVT' WHEN CTGOVT_PVT='N' THEN 'PVT' END TYPE FROM CONS), \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND  \r\n"
+						+ "SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA')GROUP BY USCNO)A, \r\n"
+						+ "(SELECT USCNO,roUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))) DEMAND, \r\n"
+						+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))) COLLECTION FROM LEDGER_HT_HIST where \r\n"
+						+ "to_date(mon_year,'MON-YYYY') between TO_DATE(?,'DD-MM-YYYY') and TO_DATE(?,'DD-MM-YYYY') \r\n"
+						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') group by uscno)B, \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? \r\n"
+						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') GROUP BY USCNO)C, \r\n"
+						+ "(SELECT * FROM MASTER.SPDCLMASTER)D \r\n"
+						+ "WHERE CTUSCNO=A.USCNO(+)  \r\n"
+						+ "AND CTUSCNO=B.USCNO(+) \r\n"
+						+ "AND CTUSCNO=C.USCNO(+) \r\n"
+						+ "AND SUBSTR(CTSECCD,-5)=SECCD \r\n"
+						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,SECNAME,TYPE  \r\n"
+						+ "ORDER BY CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE";
+				log.info(sql);
+				return jdbcTemplate.queryForList(sql, new Object[] { fromMonthYear,fromMonthYear, toMonthYear ,toMonthYear,circle });
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+
+		}
+	}
+
+	public List<Map<String, Object>> getArrearsStatusReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String monthYear = "01-" + request.getParameter("month") + " - " + request.getParameter("year");
+	
+		String cbAmount = request.getParameter("cbamount");
+		if(request.getParameter("dropdown").equals("ALL")) {
+			cbAmount = request.getParameter("cbamount");
+		}else {
+			cbAmount = "50000";
+		}
+		System.out.println(cbAmount);
+		if (circle.equalsIgnoreCase("ALL")) {
+			try {
+				String sql = "SELECT  A.CIRCLE,CASE WHEN A.DIVISION IS NULL THEN 'TOTAL' ELSE A.DIVISION END DIVISION,\r\n"
+						+ "CASE WHEN A.SUBDIVISION IS NULL THEN 'TOTAL' ELSE A.SUBDIVISION END SUBDIVISION,CASE WHEN A.SECTION IS NULL THEN 'TOTAL' ELSE A.SECTION END SECTION,\r\n"
+						+ "SUM(NVL(TOT_SCS,0))TOT_SCS,SUM(NVL(TOT_CB,0))TOT_ARREARS,SUM(NVL(GOVT_SCS,0))GOVT_SCS, SUM(NVL(GOVT_CB,0))GOVT_ARREARS, SUM(NVL(PVT_SCS,0))PVT_SCS, \r\n"
+						+ "SUM(NVL(PVT_CB,0))PVT_ARREARS,SUM(NVL(LIVE_SCS,0))LIVE_SCS, SUM(NVL(LIVE_CB,0))LIVE_ARREARS, SUM(NVL(UDC_SCS,0))UDC_SCS, SUM(NVL(UDC_CB,0))UDC_ARREARS, \r\n"
+						+ "SUM(NVL(BILLSTOP_SCS,0))BS_SCS, SUM(NVL(BILLSTOP_CB,0))BS_ARREARS\r\n"
+						+ "FROM(\r\n"
+						+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,COUNT(*)TOT_SCS,SUM(NVL(CB,0))TOT_CB FROM(\r\n"
+						+ "SELECT CTUSCNO,DIVISION,SUBDIVISION,SECTION,(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE  TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "ORDER BY CTUSCNO,DIVISION,SUBDIVISION,SECTION,STATUS)\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION))A,\r\n"
+						+ "\r\n"
+						+ "(SELECT * FROM\r\n"
+						+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,DECODE(CTGOVT_PVT,'Y','GOVT','N','PVT')TYPE,COUNT(*)SCS,SUM(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE  TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION,DECODE(CTGOVT_PVT,'Y','GOVT','N','PVT')\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION,TYPE)\r\n"
+						+ "PIVOT(\r\n"
+						+ "SUM(SCS)AS SCS,SUM(CB)AS CB FOR TYPE IN('GOVT' GOVT,'PVT' PVT)) ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION)B,\r\n"
+						+ "\r\n"
+						+ "(SELECT * FROM(\r\n"
+						+ "SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,case when status='01' then 'Live' when status='02' then 'Billstop' when status='03' then 'Udc' end status_desc,COUNT(*)SCS,SUM(NVL(CB,0))CB FROM(\r\n"
+						+ "SELECT CTUSCNO,DIVISION,SUBDIVISION,SECTION,nvl((select '0'||MDCLKWHSTAT_HT from mtrdat_HIST where MDMONTH= ? and MDCLKWHSTAT_HT=3 and MSCNO=ctuscno),\r\n"
+						+ "           '0'||case when CTSTATUS=0 then 2 else CTSTATUS end)STATUS,(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "ORDER BY CTUSCNO,DIVISION,SUBDIVISION,SECTION,STATUS)\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION,case when status='01' then 'Live' when status='02' then 'Billstop' when status='03' then 'Udc' end\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION,status_desc)\r\n"
+						+ "PIVOT(\r\n"
+						+ "SUM(SCS) AS SCS,SUM(CB) AS CB FOR status_desc IN('Live' LIVE,'Udc' UDC,'Billstop' BILLSTOP))\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION)C\r\n"
+						+ "WHERE A.CIRCLE=B.CIRCLE AND A.CIRCLE=C.CIRCLE AND  A.DIVISION=B.DIVISION AND A.DIVISION=C.DIVISION AND A.SUBDIVISION=B.SUBDIVISION AND \r\n"
+						+ "A.SUBDIVISION=C.SUBDIVISION AND A.SECTION=B.SECTION AND  A.SECTION=C.SECTION\r\n"
+						+ "GROUP BY GROUPING SETS((A.CIRCLE,A.DIVISION,A.SUBDIVISION,A.SECTION),(A.CIRCLE,A.DIVISION,A.SUBDIVISION),(A.CIRCLE,A.DIVISION),(A.CIRCLE))\r\n"
+						+ "ORDER BY A.CIRCLE,A.DIVISION,A.SUBDIVISION,A.SECTION";
+				log.info(sql);
+				return jdbcTemplate.queryForList(sql, new Object[] {monthYear ,cbAmount, monthYear,cbAmount,monthYear , monthYear,cbAmount });
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+		} else {
+			try {
+				String sql = "SELECT  A.CIRCLE,CASE WHEN A.DIVISION IS NULL THEN 'TOTAL' ELSE A.DIVISION END DIVISION,\r\n"
+						+ "CASE WHEN A.SUBDIVISION IS NULL THEN 'TOTAL' ELSE A.SUBDIVISION END SUBDIVISION,CASE WHEN A.SECTION IS NULL THEN 'TOTAL' ELSE A.SECTION END SECTION,\r\n"
+						+ "SUM(NVL(TOT_SCS,0))TOT_SCS,SUM(NVL(TOT_CB,0))TOT_ARREARS,SUM(NVL(GOVT_SCS,0))GOVT_SCS, SUM(NVL(GOVT_CB,0))GOVT_ARREARS, SUM(NVL(PVT_SCS,0))PVT_SCS, \r\n"
+						+ "SUM(NVL(PVT_CB,0))PVT_ARREARS,SUM(NVL(LIVE_SCS,0))LIVE_SCS, SUM(NVL(LIVE_CB,0))LIVE_ARREARS, SUM(NVL(UDC_SCS,0))UDC_SCS, SUM(NVL(UDC_CB,0))UDC_ARREARS, \r\n"
+						+ "SUM(NVL(BILLSTOP_SCS,0))BS_SCS, SUM(NVL(BILLSTOP_CB,0))BS_ARREARS\r\n"
+						+ "FROM(\r\n"
+						+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,COUNT(*)TOT_SCS,SUM(NVL(CB,0))TOT_CB FROM(\r\n"
+						+ "SELECT CTUSCNO,DIVISION,SUBDIVISION,SECTION,(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE  TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "ORDER BY CTUSCNO,DIVISION,SUBDIVISION,SECTION,STATUS)\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION))A,\r\n"
+						+ "\r\n"
+						+ "(SELECT * FROM\r\n"
+						+ "(SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,DECODE(CTGOVT_PVT,'Y','GOVT','N','PVT')TYPE,COUNT(*)SCS,SUM(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE  TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION,DECODE(CTGOVT_PVT,'Y','GOVT','N','PVT')\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION,TYPE)\r\n"
+						+ "PIVOT(\r\n"
+						+ "SUM(SCS)AS SCS,SUM(CB)AS CB FOR TYPE IN('GOVT' GOVT,'PVT' PVT)) ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION)B,\r\n"
+						+ "\r\n"
+						+ "(SELECT * FROM(\r\n"
+						+ "SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVISION,SUBDIVISION,SECTION,case when status='01' then 'Live' when status='02' then 'Billstop' when status='03' then 'Udc' end status_desc,COUNT(*)SCS,SUM(NVL(CB,0))CB FROM(\r\n"
+						+ "SELECT CTUSCNO,DIVISION,SUBDIVISION,SECTION,nvl((select '0'||MDCLKWHSTAT_HT from mtrdat_HIST where MDMONTH= ? and MDCLKWHSTAT_HT=3 and MSCNO=ctuscno),\r\n"
+						+ "           '0'||case when CTSTATUS=0 then 2 else CTSTATUS end)STATUS,(round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))CB\r\n"
+						+ "FROM LEDGER_HT_HIST,CONS \r\n"
+						+ "WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND CTUSCNO=USCNO \r\n"
+						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+						+ "AND (round(NVL(CB_OTH,0))+round(NVL(CBTOT,0)))>?\r\n"
+						+ "ORDER BY CTUSCNO,DIVISION,SUBDIVISION,SECTION,STATUS)\r\n"
+						+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVISION,SUBDIVISION,SECTION,case when status='01' then 'Live' when status='02' then 'Billstop' when status='03' then 'Udc' end\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION,status_desc)\r\n"
+						+ "PIVOT(\r\n"
+						+ "SUM(SCS) AS SCS,SUM(CB) AS CB FOR status_desc IN('Live' LIVE,'Udc' UDC,'Billstop' BILLSTOP))\r\n"
+						+ "ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION)C\r\n"
+						+ "WHERE A.CIRCLE=B.CIRCLE AND A.CIRCLE=C.CIRCLE AND  A.DIVISION=B.DIVISION AND A.DIVISION=C.DIVISION AND A.SUBDIVISION=B.SUBDIVISION AND \r\n"
+						+ "A.SUBDIVISION=C.SUBDIVISION AND A.SECTION=B.SECTION AND  A.SECTION=C.SECTION\r\n"
+						+ "GROUP BY GROUPING SETS((A.CIRCLE,A.DIVISION,A.SUBDIVISION,A.SECTION),(A.CIRCLE,A.DIVISION,A.SUBDIVISION),(A.CIRCLE,A.DIVISION),(A.CIRCLE))\r\n"
+						+ "ORDER BY A.CIRCLE,A.DIVISION,A.SUBDIVISION,A.SECTION";
+				log.info(sql);
+				return jdbcTemplate.queryForList(sql, new Object[] { monthYear,circle ,cbAmount, monthYear,circle,cbAmount,monthYear , monthYear,circle,cbAmount });
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+
+		}
+	}
 }

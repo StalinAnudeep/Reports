@@ -426,10 +426,10 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("collectionDetails", collectionDetails);
-			if(circle.equals("ALL")) {
-			mav.addObject("title", "Financial Year Report For - APCPDCL - " + year);
-			}else {
-				mav.addObject("title", "Financial Year Report For - " + circle +" - " + year);
+			if (circle.equals("ALL")) {
+				mav.addObject("title", "Financial Year Report For - APCPDCL - " + year);
+			} else {
+				mav.addObject("title", "Financial Year Report For - " + circle + " - " + year);
 			}
 			mav.addObject("CIRCOUNT", countFrequencies(collectionDetails));
 		}
@@ -524,13 +524,13 @@ public class NewReportController {
 		ModelAndView mav = new ModelAndView("openAccessReport");
 		List<Map<String, Object>> openAccessDetails = newReportDao.getOpenAccessReport(request);
 		System.out.println(openAccessDetails);
+
 		if (openAccessDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("openAccessDetails", openAccessDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-
 		}
 		return mav;
 	}
@@ -579,6 +579,70 @@ public class NewReportController {
 
 		}
 		return mav;
+	}
+
+	// 135
+	@GetMapping("/cumilativeReport")
+	public String getCumilativeReport() {
+		return "cumilativeReport";
+	}
+
+	@PostMapping("/cumilativeReport")
+	public ModelAndView getCumilativeReport(HttpServletRequest request) throws ParseException {
+		String circle = request.getParameter("circle");
+		String fromMonthYear = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
+		String toMonthYear = "01-" + request.getParameter("tmonth") + "-" + request.getParameter("tyear");
+		ModelAndView mav = new ModelAndView("cumilativeReport");
+		List<Map<String, Object>> collectionDetails = newReportDao.getCumilativeReport(request);
+		System.out.println(collectionDetails);
+
+		if (collectionDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("collectionDetails", collectionDetails);
+			mav.addObject("CIRCOUNT", countFrequencies(collectionDetails));
+			if (circle.equals("ALL")) {
+				mav.addObject("title", "Circle/Div/SD/SEC wise CUM Dem Collection Report For - APCPDCL - "
+						+ fromMonthYear + " - " + toMonthYear);
+			} else {
+				mav.addObject("title", "Circle/Div/SD/SEC wise CUM Dem Collection Report For - " + circle + " - "
+						+ fromMonthYear + " - " + toMonthYear);
+			}
+		}
+
+		return mav;
+
+	}
+
+	// 136
+	@GetMapping("/arrearsStatusReport")
+	public String getArrearsStatusReport() {
+		return "arrearsStatusReport";
+	}
+	
+	@PostMapping("/arrearsStatusReport")
+	public ModelAndView gwtArrearsStatusReport(HttpServletRequest request) throws ParseException {
+		String circle = request.getParameter("circle");
+		String monthYear =  request.getParameter("month") + " - " + request.getParameter("year");
+		ModelAndView mav = new ModelAndView("arrearsStatusReport");
+		List<Map<String, Object>> arrearsDetails = newReportDao.getArrearsStatusReport(request);
+		System.out.println(arrearsDetails);
+
+		if (arrearsDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("arrearsDetails", arrearsDetails);
+			mav.addObject("monthYear", monthYear);
+			mav.addObject("CIRCOUNT", countFrequencies(arrearsDetails));
+			if (circle.equals("ALL")) {
+				mav.addObject("title", "Break up Arrears Status Wise And Govt/Pvt Report - APCPDCL - " + monthYear);
+			} else {
+				mav.addObject("title", "Break up Arrears Status Wise And Govt/Pvt Report For - " + circle + " - " + monthYear);
+			}
+		}
+
+		return mav;
+
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
