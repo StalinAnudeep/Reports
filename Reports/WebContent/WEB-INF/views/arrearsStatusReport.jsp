@@ -97,7 +97,7 @@
 							name="dropdown">
 							<option value="">Select CB Amount</option>
 							<option value="ALL">All Amounts</option>
-							<option value="CA">Greater Than CB Amount</option>
+							<option value="CA">Greater Than 50000</option>
 						</select> <input type="number" class="form-control  secondInput"
 							id="cbamount" name="cbamount" disabled="true" />
 					</div>
@@ -162,8 +162,7 @@
 							<th class="bg-primary text-white text-center" colspan="23">${title}</th>
 						</tr>
 						<tr class="bg-primary text-center">
-							<th rowspan="4" style="vertical-align: middle;"
-								class="text-white">S.NO</th>
+							
 							<th rowspan="4" style="vertical-align: middle;"
 								class="text-white">CIRCLE</th>
 							<th rowspan="4" style="vertical-align: middle;"
