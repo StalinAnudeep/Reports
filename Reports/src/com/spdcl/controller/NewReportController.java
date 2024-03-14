@@ -48,13 +48,14 @@ public class NewReportController {
 		} else {
 			mav.addObject("fyConsumptionReport", fyConsumptionReport);
 			mav.addObject("type", type);
+			mav.addObject("CIRCOUNT", countFrequencies(fyConsumptionReport));
 
 			if (type.equals("ALL")) {
 
 				mav.addObject("title", "Financial Year Consumption Report For APCPDCL - " + year);
 			} else {
 				mav.addObject("title", "Financial Year Consumption Report For - " + year);
-				mav.addObject("MONTHCOUNT", countFrequencies(fyConsumptionReport));
+				
 			}
 
 		}
