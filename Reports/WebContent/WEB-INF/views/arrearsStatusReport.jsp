@@ -81,7 +81,7 @@
 					Arrears Status Wise And Govt/Pvt Report</strong>
 			</h3>
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label class="form-label">Circle</label> <select
 							class="form-control" name="circle" id="circle"
@@ -102,7 +102,7 @@
 							id="cbamount" name="cbamount" disabled="true" />
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label for="inputState">Ledger Month</label> <select id="mon"
 							class="form-control" name="month">
@@ -122,7 +122,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label for="inputZip">Select Year</label> <select
 							class="form-control" name="year" id="year">
@@ -130,7 +130,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label class="form-label">GET Break up Arrears Report </label>
 						<button type="submit" class="btn btn-success">GET Break
