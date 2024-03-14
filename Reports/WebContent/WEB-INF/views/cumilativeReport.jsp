@@ -86,7 +86,10 @@
 	top: 20px;
 	left: 20px;
 }
-
+.TOTAL {
+	color: #fff !important;
+	font-weight: bold !important;
+}
 .CellWithComment:hover span.CellComment {
 	display: block;
 }
@@ -131,8 +134,8 @@
 						</select>
 					</div>
 				</div>
-				
-				
+
+
 				<div class="col-md-3">
 					<div class="form-group">
 						<label for="firstInput">From</label>
@@ -247,15 +250,36 @@
 									<%
 									}
 									cricle = (String) request.getAttribute("cirl");
-									%>
-									<td class="text-right">${mtrblc.DIVNAME}</td>
-									<td class="text-right">${mtrblc.SUBNAME}</td>
-									<td class="text-right">${mtrblc.SECNAME}</td>
-									<td class="text-right">${mtrblc.TYPE}</td>
-									<td class="text-right">${mtrblc.OB}</td>
-									<td class="text-right">${mtrblc.DEMAND}</td>
-									<td class="text-right">${mtrblc.COLLECTION}</td>
-									<td class="text-right">${mtrblc.CB}</td>
+									%><c:if test="${mtrblc.TYPE eq 'TOTAL'}">
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.SECNAME}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.TYPE}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.OB}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.CB}</td>
+									</c:if>
+
+									<c:if test="${mtrblc.TYPE ne 'TOTAL'}">
+
+										<td class="text-right">${mtrblc.DIVNAME}</td>
+										<td class="text-right">${mtrblc.SUBNAME}</td>
+										<td class="text-right">${mtrblc.SECNAME}</td>
+										<td class="text-right">${mtrblc.TYPE}</td>
+										<td class="text-right">${mtrblc.OB}</td>
+										<td class="text-right">${mtrblc.DEMAND}</td>
+										<td class="text-right">${mtrblc.COLLECTION}</td>
+										<td class="text-right">${mtrblc.CB}</td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>
