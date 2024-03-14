@@ -427,6 +427,7 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("collectionDetails", collectionDetails);
+			mav.addObject("CIR", circle);
 			if (circle.equals("ALL")) {
 				mav.addObject("title", "Financial Year Report For - APCPDCL - " + year);
 			} else {

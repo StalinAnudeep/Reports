@@ -91,8 +91,8 @@ thead>tr>th {
 						</select>
 					</div>
 				</div>
-				
-				
+
+
 				<div class="col-md-4">
 					<div class="form-group">
 						<label class="form-label">Year</label> <select id="year"
@@ -111,7 +111,7 @@ thead>tr>th {
 				</div>
 
 
-				
+
 			</div>
 		</div>
 	</form>
@@ -136,12 +136,14 @@ thead>tr>th {
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th class="bg-primary text-white text-center" colspan="10">${title}</th>
+									<th class="bg-primary text-white text-center" colspan="11">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
 
 									<th>LDT</th>
 									<th>CIRNAME</th>
+									<th>NOS</th>
+									<th>KVAH_Consumption</th>
 									<th>OB</th>
 									<th>DEMAND</th>
 									<th>COLLECTION ARREAR</th>
@@ -157,7 +159,8 @@ thead>tr>th {
 								String cricle = "S";
 								String circletype = "S";
 								%>
-								<c:forEach var="mtrblc" items="${collectionDetails}" varStatus="tagStatus">
+								<c:forEach var="mtrblc" items="${collectionDetails}"
+									varStatus="tagStatus">
 									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
 									<tr class="${mtrblc.CIRNAME}">
 										<%
@@ -167,43 +170,35 @@ thead>tr>th {
 										<%
 										}
 										cricle = (String) request.getAttribute("cirl");
-										%><c:if test="${mtrblc.CIRNAME eq 'TOTAL'}">
-											<%-- <td class="text-left TOTAL bg-primary"style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.TOB}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.CB}</td>
-											<td class="text-right TOTAL bg-primary"
-												style="padding-left: 5px;">${mtrblc.SD}</td>
-										</c:if>
-
-										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
-											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
-											<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
-										</c:if>
+										%>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.NOS}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.MN_KVAH}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.TOB}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
 									</tr>
 
 
 								</c:forEach>
 							</tbody>
+							<tfoot>
+								<tr>
+									<th class="text-right" colspan="2">Grand Total</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.MN_KVAH).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+								</tr>
+							</tfoot>
 
 						</table>
 					</c:if>
@@ -232,7 +227,8 @@ thead>tr>th {
 							</thead>
 
 							<tbody>
-								<c:forEach var="mtrblc" items="${collectionDetails}" varStatus="tagStatus">
+								<c:forEach var="mtrblc" items="${collectionDetails}"
+									varStatus="tagStatus">
 									<tr>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
@@ -275,29 +271,32 @@ thead>tr>th {
 <script>
 	requirejs([ 'jquery' ], function($) {
 		$("#circle").append("<option value=ALL>ALL</option>");
-		$(document).ready(function() {
-			
-			$.ajax({
-				type : "POST",
-				url : "getCircles",
-				success : function(data) {
-					var saptype = jQuery.parseJSON(data);
-					$.each(saptype, function(k, v) {
-						$("#circle").append(
-								"<option value="+k+">" + v
-										+ "</option>");
+		$(document).ready(
+				function() {
+
+					$.ajax({
+						type : "POST",
+						url : "getCircles",
+						success : function(data) {
+							var saptype = jQuery.parseJSON(data);
+							$.each(saptype, function(k, v) {
+								$("#circle").append(
+										"<option value="+k+">" + v
+												+ "</option>");
+
+							});
+						}
 
 					});
-				}
-			  
-			});
-			var currentYear = (new Date()).getFullYear();
-			for (var j = currentYear; j > 2015; j--) {
-				var jj = j - 1 + "-" + j;
-				$("#year").append("<option value="+jj+">" + jj + "</option>");
-			}
-				 $('#year option[value="'+currentYear+'"]').prop('selected', true);
-		});
+					var currentYear = (new Date()).getFullYear();
+					for (var j = currentYear; j > 2015; j--) {
+						var jj = j - 1 + "-" + j;
+						$("#year").append(
+								"<option value="+jj+">" + jj + "</option>");
+					}
+					$('#year option[value="' + currentYear + '"]').prop(
+							'selected', true);
+				});
 
 	});
 </script>

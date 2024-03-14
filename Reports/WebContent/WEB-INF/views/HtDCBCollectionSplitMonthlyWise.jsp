@@ -97,8 +97,8 @@ thead>tr>th {
 		method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<strong><span class="text-danger">HT97D </span> -HT DIV, SD , SEC Wise DCB Collection Split
-				Monthly</strong>
+				<strong><span class="text-danger">HT97D </span> -HT DIV, SD
+					, SEC Wise DCB Collection Split Monthly</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-4">
@@ -196,7 +196,7 @@ thead>tr>th {
 								%>
 								<c:forEach var="mtrblc" items="${tp_sale}" varStatus="tagStatus">
 									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
-									<tr class="${mtrblc.CIRNAME}" style = "font-weight: 500;">
+									<tr class="${mtrblc.CIRNAME}" style="font-weight: 500;">
 										<%
 										if (!cricle.equals((String) request.getAttribute("cirl"))) {
 										%>
@@ -228,10 +228,9 @@ thead>tr>th {
 											<td class="text-right TOTAL bg-primary format"
 												style="padding-left: 5px;">${mtrblc.SD}</td>
 										</c:if>
-										
-										
+
+
 										<c:if test="${mtrblc.CIRNAME ne 'TOTAL'}">
-											<%-- <td class="text-right" style="padding-left: 5px;"> ${mtrblc.LDT}</td> --%>
 											<td class="text-left" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 											<td class="text-left" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
 											<td class="text-left" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
@@ -280,9 +279,22 @@ thead>tr>th {
 							</thead>
 
 							<tbody>
+								<%
+								int flag = 0;
+								String cricle = "S";
+								String circletype = "S";
+								%>
 								<c:forEach var="mtrblc" items="${tp_sale}" varStatus="tagStatus">
-									<tr style = "font-weight: 500;">
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
+									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
+									<tr class="${mtrblc.CIRNAME}" style="font-weight: 500;">
+										<%
+										if (!cricle.equals((String) request.getAttribute("cirl"))) {
+										%>
+										<td rowspan="${CIRCOUNT[cirl]}">${mtrblc.LDT}</td>
+										<%
+										}
+										cricle = (String) request.getAttribute("cirl");
+										%>
 										<td class="text-left" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 										<td class="text-left" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
 										<td class="text-left" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
@@ -300,7 +312,7 @@ thead>tr>th {
 								</c:forEach>
 							</tbody>
 							<tfoot>
-								<tr style = "font-weight: 500;">
+								<tr style="font-weight: 500;">
 									<th class="text-center" colspan="5">Grand Total</th>
 									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.TOB).sum()}</th>
 									<th class="text-right format">${tp_sale.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
@@ -406,18 +418,23 @@ thead>tr>th {
 		window.open(url, '_blank').focus();
 	}
 </script>
-<script> 
+<script>
 	requirejs([ 'jquery' ], function($) {
-			$(".format").each(function() { 
-				if ($.isNumeric( $(this).text())) {
-				    // It isn't a number	
-				    $(this).html(parseFloat($(this).text()).toLocaleString('en-IN', {style: 'decimal', currency: 'INR'})); 
+		$(".format").each(
+				function() {
+					if ($.isNumeric($(this).text())) {
+						// It isn't a number	
+						$(this).html(
+								parseFloat($(this).text()).toLocaleString(
+										'en-IN', {
+											style : 'decimal',
+											currency : 'INR'
+										}));
+					}
 				}
-			}
-				
-				
-			)
-			
+
+		)
+
 	});
 </script>
 <jsp:include page="footer.jsp"></jsp:include>
