@@ -69,7 +69,7 @@ color: #fff !important;
 						style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
 				</div>	
 				<div class="col-md-6 text-right">
-					<a href="CategoryWiseDemandReport" class="btn btn-primary">Back</a>
+					<a href="htSolarMonthReport" class="btn btn-primary">Back</a>
 					</div>
 				</div>
 				<form name="frm"  style="overflow: auto;">

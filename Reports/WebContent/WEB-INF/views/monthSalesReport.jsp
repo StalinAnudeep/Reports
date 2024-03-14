@@ -5,7 +5,56 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header_lg.jsp"></jsp:include>
+<style>
+.null {
+	font-weight: bold;
+}
 
+.CRD {
+	background-color: #cef4ff;
+	font-weight: bold;
+}
+
+.ONG {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.VJA {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.GNT {
+	background-color: #cef4ff;
+	font-weight: bold;
+}
+
+.APCPDCL {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.NOSTAT {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+.NULLCIR {
+	font-weight: bold !important;
+	background-color: #4ff1f1;
+}
+
+.TOTAL {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+thead>tr>th {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+</style>
 <div class="row row-cards row-deck">
 	<form class="card" action="monthSalesReport" method="post">
 		<div class="card-body">
@@ -48,76 +97,87 @@
 	<c:if test="${ not empty fn:trim(fail)}">
 		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
 	</c:if>
-
-
-
 	<c:if test="${ not empty fn:trim(monthSalesDetails)}">
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
 				<h2 class="text-center">${title}</h2>
+				<div class="bg-info text-white text-center"
+					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
 				<form name="frm" style="overflow: auto;">
-
-					<div class="bg-info text-white text-center"
-						onclick="exportThisWithParameter('multiLevelTable', '${title}')"
-						style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
-
 					<table id="multiLevelTable"
 						class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 						style="width: 100%;">
-						<thead class="bg-primary">
-							<tr class="bg-primary text-light">
-								<th class="text-center text-light">MON_YEAR</th>
-								<th class="text-center text-light">CIRCLE</th>
-								<th class="text-center text-light">CTCAT</th>
-								<th class="text-center text-light">SCS</th>
-								<th class="text-center text-light">CAPACITY</th>
-								<th class="text-center text-light">SALES_MU</th>
-								<th class="text-center text-light">DEMAND_LAKHS</th>
-								<th class="text-center text-light">COLLECTION_LAKHS</th>
-								<th class="text-center text-light">CB_LAKHS</th>
+						<thead>
+							<tr>
+								<th class="bg-primary text-white text-center" colspan="23">${title}</th>
+							</tr>
+							<tr class="bg-primary text-white text-center">
+								<th>CIRCLE</th>
+								<th>MON_YEAR</th>
+								<th>CTCAT</th>
+								<th>SCS</th>
+								<th>CAPACITY</th>
+								<th>SALES_MU</th>
+								<th>DEMAND_LAKHS</th>
+								<th>COLLECTION_LAKHS</th>
+								<th>CB_LAKHS</th>
 							</tr>
 						</thead>
 						<tbody>
 							<%
 							int flag = 0;
 							String cricle = "S";
-							String circletype = "S";
 							%>
-							<c:forEach var="sd" items="${monthSalesDetails}"
+							<c:forEach var="mtrblc" items="${monthSalesDetails}"
 								varStatus="tagStatus">
-								<c:set var="cirl" value="${sd.MON_YEAR}" scope="request" />
-								<tr style="font-weight: 500;">
+								<c:set var="cirl" value="${mtrblc.CIRCLE}" scope="request" />
+								<tr class="${mtrblc.CIRCLE}">
 									<%
 									if (!cricle.equals((String) request.getAttribute("cirl"))) {
 									%>
-									<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${sd.MON_YEAR}</td>
+									<td rowspan="${CIRCOUNT[cirl]}">${mtrblc.CIRCLE}</td>
 									<%
 									}
 									cricle = (String) request.getAttribute("cirl");
 									%>
+									<c:if test="${mtrblc.CTCAT eq 'TOTAL'}">
+									<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.MON_YEAR}</td>
+										<td class="text-left TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.CTCAT}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.SCS}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.CAPACITY}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.SALES_MU}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.DEMAND_LAKHS}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.COLLECTION_LAKHS}</td>
+										<td class="text-right TOTAL bg-primary"
+											style="padding-left: 5px;">${mtrblc.CB_LAKHS}</td>
 
-									<td class="text-center">${sd.CTCAT}</td>
-									<td class="text-center format">${sd.CIRCLE}</td>
-									<td class="text-center format">${sd.SCS}</td>
-									<td class="text-center format">${sd.CAPACITY}</td>
-									<td class="text-center format">${sd.SALES_MU}</td>
-									<td class="text-center format">${sd.DEMAND_LAKHS}</td>
-									<td class="text-center format">${sd.COLLECTION_LAKHS}</td>
-									<td class="text-center format">${sd.CB_LAKHS}</td>
+									</c:if>
 
+									<c:if test="${mtrblc.CTCAT ne 'TOTAL'}">
+									<td class="text-right" style="padding-left: 5px;">
+											${mtrblc.MON_YEAR}</td>
+										<td class="text-right" style="padding-left: 5px;">
+											${mtrblc.CTCAT}</td>
+										<td class="text-right" style="padding-left: 5px;">
+											${mtrblc.SCS}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CAPACITY}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.SALES_MU}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.DEMAND_LAKHS}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION_LAKHS}</td>
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.CB_LAKHS}</td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>
-						<tfoot>
-							<tr class="bg-primary text-light">
-								<th class="text-center text-light" colspan="5">Grand Total</th>
-								<td class="text-center format">${monthSalesDetails.stream().map(sd -> sd.SALES_MU).sum()}</td>
-								<td class="text-center format">${monthSalesDetails.stream().map(sd -> sd.DEMAND_LAKHS).sum()}</td>
-								<td class="text-center format">${monthSalesDetails.stream().map(sd -> sd.COLLECTION_LAKHS).sum()}</td>
-								<td class="text-center format">${monthSalesDetails.stream().map(sd -> sd.CB_LAKHS).sum()}</td>
-							</tr>
-						</tfoot>
 					</table>
 				</form>
 			</div>

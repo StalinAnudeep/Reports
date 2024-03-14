@@ -120,7 +120,7 @@ thead>tr>th {
 				<h2 class="text-center">${title}</h2>
 				<form name="frm" style="overflow: auto;">
 
-					<c:if test="${circle eq 'ALL'}">
+					<c:if test="${type eq 'ALL'}">
 						<div class="bg-info text-white text-center"
 							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
@@ -189,140 +189,157 @@ thead>tr>th {
 								</tr>
 							</thead>
 							<tbody>
-								<c:if test="${frc.CIRCLE eq 'TOTAL'}">
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.CIRCLE}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1SCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1UNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1EC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT1EC/frc.HT1UNITS}</td>
+								<%
+								int flag = 0;
+								String cricle = "S";
+								%>
+								<c:forEach var="frc" items="${fyConsumptionReport}"
+									varStatus="tagStatus">
+									<c:set var="cirl" value="${frc.MON_YEAR}" scope="request" />
+									<tr class="${frc.CIRCLE}">
+										<%
+										if (!cricle.equals((String) request.getAttribute("cirl"))) {
+										%>
+										<td rowspan="${CIRCOUNT[cirl]}">${frc.MON_YEAR}</td>
+										<%
+										}
+										cricle = (String) request.getAttribute("cirl");
+										%>
+										<c:if test="${frc.CIRCLE eq 'TOTAL'}">
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.CIRCLE}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1SCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1EC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1SPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT1EC/frc.HT1UNITS}</td>
 
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2SCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2UNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2EC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT2EC/frc.HT2UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2SCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2EC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2SPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT2EC/frc.HT2UNITS}</td>
 
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3SCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3UNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3EC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT3EC/frc.HT3UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3SCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3EC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3SPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT3EC/frc.HT3UNITS}</td>
 
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4SCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4UNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4DEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4EC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT4EC/frc.HT4UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4SCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4UNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4DEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4EC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4SPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT4EC/frc.HT4UNITS}</td>
 
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BSCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BUNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BDEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BEC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5BEC/frc.HT5BUNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BSCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BUNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BDEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BEC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5BEC/frc.HT5BUNITS}</td>
 
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5ESCS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5EUNITS}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5EDEMAND}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5EEC}</td>
-									<td class="text-right TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-									<td class="text-center TOTAL bg-primary"
-										style="padding-left: 5px;">${frc.HT5EEC/frc.HT5EUNITS}</td>
-								</c:if>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5ESCS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5EUNITS}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5EDEMAND}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5EEC}</td>
+											<td class="text-right TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
+											<td class="text-center TOTAL bg-primary"
+												style="padding-left: 5px;">${frc.HT5EEC/frc.HT5EUNITS}</td>
 
-								<c:if test="${frc.CIRCLE ne 'TOTAL'}">
-									<td class="text-center ">${frc.CIRCLE}</td>
-									<td class="text-center">${frc.HT1SCS}</td>
-									<td class="text-center">${frc.HT1UNITS}</td>
-									<td class="text-center">${frc.HT1DEMAND}</td>
-									<td class="text-center">${frc.HT1EC}</td>
-									<td class="text-center">${frc.HT1SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT1SPECIFIC_REVENUE}</td>
+										</c:if>
 
-									<td class="text-center">${frc.HT2SCS}</td>
-									<td class="text-center">${frc.HT2UNITS}</td>
-									<td class="text-center">${frc.HT2DEMAND}</td>
-									<td class="text-center">${frc.HT2EC}</td>
-									<td class="text-center">${frc.HT2SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT2SPECIFIC_REVENUE}</td>
+									<c:if test="${frc.CIRCLE ne 'TOTAL'}">
+										<td class="text-center ">${frc.CIRCLE}</td>
+										<td class="text-center">${frc.HT1SCS}</td>
+										<td class="text-center">${frc.HT1UNITS}</td>
+										<td class="text-center">${frc.HT1DEMAND}</td>
+										<td class="text-center">${frc.HT1EC}</td>
+										<td class="text-center">${frc.HT1SPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT1SPECIFIC_REVENUE}</td>
 
-									<td class="text-center">${frc.HT3SCS}</td>
-									<td class="text-center">${frc.HT3UNITS}</td>
-									<td class="text-center">${frc.HT3DEMAND}</td>
-									<td class="text-center">${frc.HT3EC}</td>
-									<td class="text-center">${frc.HT3SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT3SPECIFIC_REVENUE}</td>
+										<td class="text-center">${frc.HT2SCS}</td>
+										<td class="text-center">${frc.HT2UNITS}</td>
+										<td class="text-center">${frc.HT2DEMAND}</td>
+										<td class="text-center">${frc.HT2EC}</td>
+										<td class="text-center">${frc.HT2SPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT2SPECIFIC_REVENUE}</td>
 
-									<td class="text-center">${frc.HT4SCS}</td>
-									<td class="text-center">${frc.HT4UNITS}</td>
-									<td class="text-center">${frc.HT4DEMAND}</td>
-									<td class="text-center">${frc.HT4EC}</td>
-									<td class="text-center">${frc.HT4SPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT4SPECIFIC_REVENUE}</td>
+										<td class="text-center">${frc.HT3SCS}</td>
+										<td class="text-center">${frc.HT3UNITS}</td>
+										<td class="text-center">${frc.HT3DEMAND}</td>
+										<td class="text-center">${frc.HT3EC}</td>
+										<td class="text-center">${frc.HT3SPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT3SPECIFIC_REVENUE}</td>
 
-									<td class="text-center">${frc.HT5BSCS}</td>
-									<td class="text-center">${frc.HT5BUNITS}</td>
-									<td class="text-center">${frc.HT5BDEMAND}</td>
-									<td class="text-center">${frc.HT5BEC}</td>
-									<td class="text-center">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT5BSPECIFIC_REVENUE}</td>
+										<td class="text-center">${frc.HT4SCS}</td>
+										<td class="text-center">${frc.HT4UNITS}</td>
+										<td class="text-center">${frc.HT4DEMAND}</td>
+										<td class="text-center">${frc.HT4EC}</td>
+										<td class="text-center">${frc.HT4SPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT4SPECIFIC_REVENUE}</td>
 
-									<td class="text-center">${frc.HT5ESCS}</td>
-									<td class="text-center">${frc.HT5EUNITS}</td>
-									<td class="text-center">${frc.HT5EDEMAND}</td>
-									<td class="text-center">${frc.HT5EEC}</td>
-									<td class="text-center">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
-									<td class="text-center">${frc.HT5ESPECIFIC_REVENUE}</td>
-								</c:if>
+										<td class="text-center">${frc.HT5BSCS}</td>
+										<td class="text-center">${frc.HT5BUNITS}</td>
+										<td class="text-center">${frc.HT5BDEMAND}</td>
+										<td class="text-center">${frc.HT5BEC}</td>
+										<td class="text-center">${frc.HT5BSPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT5BSPECIFIC_REVENUE}</td>
 
-
+										<td class="text-center">${frc.HT5ESCS}</td>
+										<td class="text-center">${frc.HT5EUNITS}</td>
+										<td class="text-center">${frc.HT5EDEMAND}</td>
+										<td class="text-center">${frc.HT5EEC}</td>
+										<td class="text-center">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
+										<td class="text-center">${frc.HT5ESPECIFIC_REVENUE}</td>
+									</c:if>
+									</tr>
+								</c:forEach>
 							</tbody>
 
 						</table>
 					</c:if>
 
-					<c:if test="${circle ne 'ALL'}">
+					<c:if test="${type ne 'ALL'}">
 						<table id="multiLevelTable"
 							class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 							style="width: 100%;">
@@ -437,7 +454,7 @@ thead>tr>th {
 											<td class="text-center  format">${frc.HT5EEC}</td>
 											<td class="text-center  format">${frc.HT5ESPECIFIC_CONSUMPTION}</td>
 											<td class="text-center  format">${frc.HT5ESPECIFIC_REVENUE}</td>
-											</tr>
+										</tr>
 									</c:if>
 								</c:forEach>
 							</tbody>

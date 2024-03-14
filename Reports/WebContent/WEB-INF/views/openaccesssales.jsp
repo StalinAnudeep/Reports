@@ -71,8 +71,8 @@
 							<c:forEach var="mtrblc" items="${tp}" varStatus="tagStatus">
 								<tr>
 									<td>${tagStatus.index + 1}</td>
+									<td>${mtrblc.CIRCLE}</td>
 									<td>${mtrblc.CTACTUAL_KV}</td>
-									<td>${mtrblc.CIRCLE}</td>									
 									<td>${mtrblc.NOS}</td>
 									<td class="text-right">${mtrblc.KVAH_ADJ_ENG}</td>
 									<td class="text-right">${mtrblc.TOD_ADJ_PEAK}</td>
