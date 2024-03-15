@@ -793,7 +793,7 @@ public class NewReportDao {
 						+ "(nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) DR_AMT,\r\n"
 						+ "SUM(CASE WHEN RJTYPE='CR'THEN \r\n"
 						+ "(nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) CR_AMT \r\n"
-						+ "from JOURNAL_HIST WHERE TRUNC(rjdt,'MM') BETWEEN ? AND ? \r\n"
+						+ "from JOURNAL_HIST WHERE TRUNC(rjdt,'MM') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') \r\n"
 						+ "and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X','E') GROUP BY USCNO,GET_FINANCIAL_YEAR_BILL(rjdt)) RJ\r\n"
 						+ "WHERE CTUSCNO=L.USCNO AND L.USCNO=RJ.USCNO(+) AND LDT=RDT(+) \r\n"
 						+ "GROUP BY LDT,SUBSTR(CTUSCNO,1,3)\r\n"
@@ -821,12 +821,14 @@ public class NewReportDao {
 						+ "(nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) DR_AMT,\r\n"
 						+ "SUM(CASE WHEN RJTYPE='CR'THEN \r\n"
 						+ "(nvl(ENGCHG,0)+nvl(THEFT,0)+nvl(OTHCHG,0)+nvl(CUSTCHG,0)+nvl(DEMCHG,0)+nvl(ED,0)+nvl(LPC,0)+nvl(EDI,0)+nvl(FSA,0)+NVL(CC_LPC,0)+NVL(CC_OTH,0)) END) CR_AMT \r\n"
-						+ "from JOURNAL_HIST WHERE TRUNC(rjdt,'MM') BETWEEN ? AND ? \r\n"
+						+ "from JOURNAL_HIST WHERE TRUNC(rjdt,'MM') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') \r\n"
 						+ "and SUBSTR(USCNO,1,3) IN('GNT','VJA','ONG','CRD') AND TRIM(STATUS) NOT IN ('X','E') GROUP BY USCNO,GET_FINANCIAL_YEAR_BILL(rjdt)) RJ\r\n"
 						+ "WHERE CTUSCNO=L.USCNO AND L.USCNO=RJ.USCNO(+) AND LDT=RDT(+) \r\n"
 						+ "AND SUBSTR(CTUSCNO,1,3)=? \r\n"
 						+ "GROUP BY LDT,SUBSTR(CTUSCNO,1,3)\r\n"
 						+ "ORDER BY LDT";
+				System.out.println("ddddddddd");
+				System.out.println(fromdate+todate+circle);
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate,fromdate,todate, circle });
 			} catch (DataAccessException e) {
@@ -1060,6 +1062,96 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
+	
+	
+	
+	public List<Map<String, Object>> getOpenAccessReportForDivision(String circle, String year) {
+		String fyear[] = year.split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(SELECT DIVNAME,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(KVAH_ADJ_ENG)OA_CONSUMPTION FROM OPEN_ACCESS_HIST,CONS,MASTER.SPDCLMASTER\r\n"
+					+ "WHERE CTUSCNO=OAUSCNO AND SUBSTR(CTSECCD,-5)=SECCD AND\r\n"
+					+ "TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') and SUBSTR(OAUSCNO,1,3)=?\r\n"
+					+ "GROUP BY DIVNAME,BILL_MON||'-'|| BILL_YEAR \r\n"
+					+ "ORDER BY DIVNAME,TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY')\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(OA_CONSUMPTION)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY DIVNAME").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {circle});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	} 
+	
+	public List<Map<String, Object>> getOpenAccessReportForSubDivision(String division, String year) {
+		String fyear[] = year.split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(SELECT SUBNAME,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(KVAH_ADJ_ENG)OA_CONSUMPTION FROM OPEN_ACCESS_HIST,CONS,MASTER.SPDCLMASTER\r\n"
+					+ "WHERE CTUSCNO=OAUSCNO AND SUBSTR(CTSECCD,-5)=SECCD AND\r\n"
+					+ "TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') and DIVNAME=?\r\n"
+					+ "GROUP BY SUBNAME,BILL_MON||'-'|| BILL_YEAR \r\n"
+					+ "ORDER BY SUBNAME,TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY')\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(OA_CONSUMPTION)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY SUBNAME").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {division});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+	
+	
+	
+	public List<Map<String, Object>> getOpenAccessReportForSection(String subDivision, String year) {
+		String fyear[] = year.split("-");
+
+		try {
+			String sql = ("SELECT * FROM\r\n"
+					+ "(SELECT SECNAME,BILL_MON||'-'|| BILL_YEAR MON_YEAR,SUM(KVAH_ADJ_ENG)OA_CONSUMPTION FROM OPEN_ACCESS_HIST,CONS,MASTER.SPDCLMASTER\r\n"
+					+ "WHERE CTUSCNO=OAUSCNO AND SUBSTR(CTSECCD,-5)=SECCD AND\r\n"
+					+ "TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE('01-04-FI','DD-MM-YYYY') AND TO_DATE('31-03-SI','DD-MM-YYYY')\r\n"
+					+ "AND SUBSTR(OAUSCNO,1,3) IN ('CRD','GNT','ONG','VJA') and SUBNAME=?\r\n"
+					+ "GROUP BY SECNAME,BILL_MON||'-'|| BILL_YEAR \r\n"
+					+ "ORDER BY SECNAME,TO_DATE(BILL_MON||'-'|| BILL_YEAR,'MON-YYYY')\r\n"
+					+ ")\r\n"
+					+ "PIVOT\r\n"
+					+ "(\r\n"
+					+ "  SUM(OA_CONSUMPTION)\r\n"
+					+ "  FOR MON_YEAR IN ('APR-FI' APR_FI,'MAY-FI'MAY_FI,'JUN-FI'JUN_FI,'JUL-FI'JUL_FI,'AUG-FI'AUG_FI,'SEP-FI'SEP_FI,\r\n"
+					+ "  'OCT-FI'OCT_FI,'NOV-FI'NOV_FI,'DEC-FI'DEC_FI,'JAN-SI'JAN_SI,'FEB-SI'FEB_SI,'MAR-SI' MAR_SI)\r\n"
+					+ ")\r\n"
+					+ "ORDER BY SECNAME").replace("FI", fyear[0]).replace("SI", fyear[1]);
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {subDivision});
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+	
+	
 
 	public List<Map<String, Object>> getOpenAccessCrossSubsidyReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
@@ -1125,13 +1217,13 @@ public class NewReportDao {
 						+ "CASE WHEN SECNAME IS NULL THEN 'TOTAL' ELSE SECNAME END SECNAME,CASE WHEN TYPE IS NULL THEN 'TOTAL' ELSE TYPE END TYPE,\r\n"
 						+ "ROUND(SUM(OB/10000000),2)OB,ROUND(SUM(DEMAND/10000000),2)DEMAND,ROUND(SUM(COLLECTION/10000000),2)COLLECTION,ROUND(SUM(CB/10000000),2)CB FROM \r\n"
 						+ "(SELECT CTUSCNO,CTSECCD,CASE WHEN CTGOVT_PVT='Y' THEN 'GOVT' WHEN CTGOVT_PVT='N' THEN 'PVT' END TYPE FROM CONS), \r\n"
-						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND  \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY') AND  \r\n"
 						+ "SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA')GROUP BY USCNO)A, \r\n"
 						+ "(SELECT USCNO,roUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))) DEMAND, \r\n"
 						+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))) COLLECTION FROM LEDGER_HT_HIST where \r\n"
 						+ "to_date(mon_year,'MON-YYYY') between TO_DATE(?,'DD-MM-YYYY') and TO_DATE(?,'DD-MM-YYYY') \r\n"
 						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') group by uscno)B, \r\n"
-						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=?\r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY')\r\n"
 						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') GROUP BY USCNO)C, \r\n"
 						+ "(SELECT * FROM MASTER.SPDCLMASTER)D \r\n"
 						+ "WHERE CTUSCNO=A.USCNO(+)  \r\n"
@@ -1155,13 +1247,13 @@ public class NewReportDao {
 						+ "CASE WHEN SECNAME IS NULL THEN 'TOTAL' ELSE SECNAME END SECNAME,CASE WHEN TYPE IS NULL THEN 'TOTAL' ELSE TYPE END TYPE,\r\n"
 						+ "ROUND(SUM(OB/10000000),2)OB,ROUND(SUM(DEMAND/10000000),2)DEMAND,ROUND(SUM(COLLECTION/10000000),2)COLLECTION,ROUND(SUM(CB/10000000),2)CB FROM \r\n"
 						+ "(SELECT CTUSCNO,CTSECCD,CASE WHEN CTGOVT_PVT='Y' THEN 'GOVT' WHEN CTGOVT_PVT='N' THEN 'PVT' END TYPE FROM CONS), \r\n"
-						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=? AND  \r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY')  AND  \r\n"
 						+ "SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA')GROUP BY USCNO)A, \r\n"
 						+ "(SELECT USCNO,roUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))) DEMAND, \r\n"
 						+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))) COLLECTION FROM LEDGER_HT_HIST where \r\n"
 						+ "to_date(mon_year,'MON-YYYY') between TO_DATE(?,'DD-MM-YYYY') and TO_DATE(?,'DD-MM-YYYY') \r\n"
 						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') group by uscno)B, \r\n"
-						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY')=?\r\n"
+						+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY') \r\n"
 						+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') GROUP BY USCNO)C, \r\n"
 						+ "(SELECT * FROM MASTER.SPDCLMASTER)D \r\n"
 						+ "WHERE CTUSCNO=A.USCNO(+)  \r\n"
@@ -1305,4 +1397,12 @@ public class NewReportDao {
 
 		}
 	}
+
+	
+
+	
+
+	
+
+	
 }

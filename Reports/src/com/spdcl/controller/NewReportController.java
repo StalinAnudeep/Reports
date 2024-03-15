@@ -31,6 +31,8 @@ public class NewReportController {
 	@Autowired
 	NewReportDao newReportDao;
 
+	
+	//125
 	@GetMapping("/fyConsumption")
 	public String getConsumptionReport() {
 		return "fyConsumption";
@@ -63,6 +65,8 @@ public class NewReportController {
 
 	}
 
+	
+	//23A
 	@GetMapping("/sentEmails")
 	public String getAccountCopyPage() {
 		return "sentEmails";
@@ -95,6 +99,8 @@ public class NewReportController {
 
 	}
 
+	
+	//97D
 	@GetMapping("/HtDCBCollectionSplitMonthlyWise")
 	public String getHtDCBCollectionSplitMonthlyWiseAbstract() {
 		return "HtDCBCollectionSplitMonthlyWise";
@@ -120,6 +126,8 @@ public class NewReportController {
 
 	}
 
+	
+	//123
 	@GetMapping("/monthWiseTariffReport")
 	public String getMonthWiseTariffReport() {
 		return "monthWiseTariffReport";
@@ -144,6 +152,8 @@ public class NewReportController {
 
 	}
 
+	
+	//124
 	@GetMapping("/financialYearTariffReport")
 	public String getFinancialYearTariffReport() {
 		return "financialYearTariffReport";
@@ -167,6 +177,8 @@ public class NewReportController {
 
 	}
 
+	
+	//126
 	@GetMapping("/fyConsumption2")
 	public String getFyConsumption2() {
 		return "fyConsumption2";
@@ -195,6 +207,7 @@ public class NewReportController {
 
 	}
 
+	//127
 	@GetMapping("/todConsumptionOfFyReport")
 	public String getTodConsumptionOfFyReport() {
 		return "todConsumptionOfFyReport";
@@ -220,6 +233,8 @@ public class NewReportController {
 
 	}
 
+	
+	//128
 	@GetMapping("/todConsumptionMonthReport")
 	public String getTodConsumptionMonthReport() {
 		return "todConsumptionMonthReport";
@@ -294,8 +309,7 @@ public class NewReportController {
 			}
 		}
 
-		System.out.println(list.size());
-		System.out.println(list);
+		System.out.println(todMonthDetails);
 		if (todMonthDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
@@ -335,6 +349,8 @@ public class NewReportController {
 
 	}
 
+	
+	//130
 	@GetMapping("/monthSalesReport")
 	public String getMonthSalesReport() {
 		return "monthSalesReport";
@@ -361,6 +377,8 @@ public class NewReportController {
 
 	}
 
+	
+	//102A
 	@GetMapping("/voltagewiseFinancialYearAbstract")
 	public String getVoltagewiseFinancialYearAbstract() {
 		return "voltagewiseFinancialYearAbstract";
@@ -386,6 +404,8 @@ public class NewReportController {
 
 	}
 
+	
+	//103B
 	@GetMapping("/feederwiseFYConsumption")
 	public String getFeederwiseFYConsumption() {
 		return "feederwiseFYConsumption";
@@ -410,6 +430,8 @@ public class NewReportController {
 
 	}
 
+	
+	//97C1
 	@GetMapping("/HtDCBCollectionSplitFYWise")
 	public String gethtDCBCollectionSplitFYWise() {
 		return "HtDCBCollectionSplitFYWise";
@@ -526,6 +548,7 @@ public class NewReportController {
 		ModelAndView mav = new ModelAndView("openAccessReport");
 		List<Map<String, Object>> openAccessDetails = newReportDao.getOpenAccessReport(request);
 		System.out.println(openAccessDetails);
+		
 
 		if (openAccessDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -533,9 +556,78 @@ public class NewReportController {
 			mav.addObject("openAccessDetails", openAccessDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
+			mav.addObject("year" , request.getParameter("year") );
+			mav.addObject("title" ,  "APCPDCL - Open Access KVAH_ADJ_ENG Report For -" +  request.getParameter("year"));
 		}
 		return mav;
 	}
+	
+	
+	
+	@GetMapping("/openAccessReportForDivision")
+	public ModelAndView getOpenAccessReportForDivision(@RequestParam(name = "cir") String circle,@RequestParam(name = "fyear") String year) {
+		String fyear[] = year.split("-");
+		ModelAndView mav = new ModelAndView("openAccessReportForDivision");
+		List<Map<String, Object>> openAccessDivisionDetails = newReportDao.getOpenAccessReportForDivision(circle , year);
+		System.out.println(openAccessDivisionDetails);
+		
+
+		if (openAccessDivisionDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("openAccessDivisionDetails", openAccessDivisionDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+			mav.addObject("year" , year);
+			mav.addObject("title" , circle + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+		}
+		return mav;
+	}
+	
+	
+	@GetMapping("/openAccessReportForSubDivision")
+	public ModelAndView getOpenAccessReportForSubDivision(@RequestParam(name = "div") String division,@RequestParam(name = "fyear") String year) {
+		String fyear[] = year.split("-");
+		ModelAndView mav = new ModelAndView("openAccessReportForSubDivision");
+		List<Map<String, Object>> openAccessSubDivisionDetails = newReportDao.getOpenAccessReportForSubDivision(division , year);
+		System.out.println(openAccessSubDivisionDetails);
+		
+
+		if (openAccessSubDivisionDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("openAccessSubDivisionDetails", openAccessSubDivisionDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+			mav.addObject("year" , year);
+			mav.addObject("title" , division + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+		}
+		return mav;
+	}
+	
+	
+	@GetMapping("/openAccessReportForSection")
+	public ModelAndView getOpenAccessReportForSection(@RequestParam(name = "subDivision") String subDivision,@RequestParam(name = "fyear") String year) {
+		String fyear[] = year.split("-");
+		ModelAndView mav = new ModelAndView("openAccessReportForSection");
+		List<Map<String, Object>> openAccessSectionDetails = newReportDao.getOpenAccessReportForSection(subDivision , year);
+		System.out.println(openAccessSectionDetails);
+		
+
+		if (openAccessSectionDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("openAccessSectionDetails", openAccessSectionDetails);
+			mav.addObject("FI", fyear[0]);
+			mav.addObject("SI", fyear[1]);
+			mav.addObject("title" , subDivision + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+		}
+		return mav;
+	}
+	
+	
+	
+	
 
 	// 133
 	@GetMapping("/openAccessCrossSubsidyReport")
@@ -646,6 +738,10 @@ public class NewReportController {
 		return mav;
 
 	}
+	
+	
+	
+	
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();

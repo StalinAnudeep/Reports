@@ -197,6 +197,7 @@ thead>tr>th {
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.SD).sum()}</th>
 								</tr>
 							</tfoot>
 
@@ -256,6 +257,7 @@ thead>tr>th {
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.SD).sum()}</th>
 								</tr>
 							</tfoot>
 						</table>

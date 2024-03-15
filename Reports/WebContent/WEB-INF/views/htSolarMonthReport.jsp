@@ -173,7 +173,7 @@ thead>tr>th {
 									if (!cricle.equals((String) request.getAttribute("cirl"))) {
 									%>
 									<td rowspan="${CIRCOUNT[cirl]}"><a
-										href="HtCategoryWiseDivisionWiseSolarReport?cir=${mtrblc.CIRCLE}&mon_year=${mon}&type=cir&div=0&sub=0&sec=0">${mtrblc.CIRCLE}</a></td>
+										href="HtCategoryWiseDivisionWiseSolarReport?Division=${mtrblc.CIRCLE}&mon_year=${mon}">${mtrblc.CIRCLE}</a></td>
 									<%
 									}
 									cricle = (String) request.getAttribute("cirl");
