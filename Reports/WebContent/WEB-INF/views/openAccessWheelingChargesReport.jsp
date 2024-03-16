@@ -48,6 +48,9 @@
 					style="width: 100%;">
 					<thead>
 						<tr>
+							<th class="bg-primary text-white text-center" colspan="14">${title}</th>
+						</tr>
+						<tr>
 							<th>S.NO</th>
 							<th>CIRCLE</th>
 							<th class="text-right">APR-${FI}</th>
@@ -69,8 +72,24 @@
 							varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
+								<%
+								int s = 0;
+								%>
 								<c:forEach items="${mtrblc}" var="entry">
+									<%
+									if (s == 0) {
+									%>
+									<td class="text-right"><a
+										href="openAccessWheelingChargesReportForDivision?cir=${mtrblc.CIRCLE}&fyear=${year}">${entry.value}</a></td>
+									<%
+									s++;
+									} else {
+									%>
 									<td class="text-right">${entry.value}</td>
+									<%
+									}
+									%>
+
 								</c:forEach>
 							</tr>
 						</c:forEach>

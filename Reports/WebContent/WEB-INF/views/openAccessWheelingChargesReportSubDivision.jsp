@@ -5,42 +5,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header.jsp"></jsp:include>
-
 <div class="row row-cards row-deck">
-	<form class="card" action="openAccessCrossSubsidyReport" method="post">
-		<div class="card-body">
-			<h3 class="card-title">
-				<strong><span class="text-danger">HT133</span> - HT Circle
-					wise,Month Wise Open Access CROSS SUBSIDY CHARGES Report</strong>
-			</h3>
-			<div class="row">
 
-
-				<div class="col-md-3">
-					<div class="form-group">
-						<label class="form-label">Year</label> <select id="inputyear"
-							class="form-control" name="year" required="required">
-							<option value="">Select Financial Year</option>
-						</select>
-					</div>
-				</div>
-				<div class=" col-md-4">
-					<div class="form-group">
-						<label class="form-label">Get Open Access CROSS SUBSIDY
-							CHARGES Report</label>
-						<button type="submit" class="btn btn-success">Get Open
-							Access CROSS SUBSIDY CHARGES Report</button>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</form>
 	<c:if test="${ not empty fn:trim(fail)}">
 		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
 	</c:if>
 
-	<c:if test="${ not empty fn:trim(crossSubsidyDetails)}">
+	<c:if test="${ not empty fn:trim(wheelingChargesSubDivisionDetails)}">
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
@@ -53,7 +24,7 @@
 						</tr>
 						<tr>
 							<th>S.NO</th>
-							<th>CIRCLE</th>
+							<th>SUBDIVISION</th>
 							<th class="text-right">APR-${FI}</th>
 							<th class="text-right">MAY-${FI}</th>
 							<th class="text-right">JUN-${FI}</th>
@@ -69,9 +40,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="mtrblc" items="${crossSubsidyDetails}"
+						<c:forEach var="mtrblc" items="${wheelingChargesSubDivisionDetails}"
 							varStatus="tagStatus">
-							<tr>
+							<tr style="font-weight: 500;">
 								<td>${tagStatus.index + 1}</td>
 								<%
 								int s = 0;
@@ -81,7 +52,7 @@
 									if (s == 0) {
 									%>
 									<td class="text-right"><a
-										href="openAccessCrossSubsidyReportForDivision?cir=${mtrblc.CIRCLE}&fyear=${year}">${entry.value}</a></td>
+										href="openAccessWheelingChargesReportForSection?subDivision=${mtrblc.SUBNAME}&fyear=${year}">${entry.value}</a></td>
 									<%
 									s++;
 									} else {
@@ -100,56 +71,6 @@
 		</div>
 	</c:if>
 </div>
-<script>
-	requirejs([ 'jquery' ], function($) {
-		$(document).ready(
-				function() {
-					$.ajax({
-						type : "POST",
-						url : "getCircles",
-						success : function(data) {
-							var saptype = jQuery.parseJSON(data);
-							$.each(saptype, function(k, v) {
-								$("#circle").append(
-										"<option value="+k+">" + v
-												+ "</option>");
-
-							});
-						}
-					});
-					$("#circle").append("<option value='ALL'>ALL</option>");
-
-					$("#monthyearonly").hide();
-
-					$("#inputyear").change(function() {
-						var datevalue = $("#inputyear").val().split("-");
-						var value = parseInt(datevalue[1]);
-						if (value > 2019) {
-							$("#monthyearonly").show();
-							$("#mon").attr('required', true);
-							$("#yearonly").attr('required', true);
-						} else {
-							$("#monthyearonly").hide();
-							$("#mon").attr('required', false);
-							$("#yearonly").attr('required', false);
-						}
-					});
-					var currentYear = (new Date()).getFullYear();
-					for (var j = currentYear; j > 2015; j--) {
-						$("#yearonly").append(
-								"<option value="+j+">" + j + "</option>");
-					}
-
-				});
-
-		var currentYear = (new Date()).getFullYear();
-		for (var j = currentYear; j > 2015; j--) {
-			var jj = j - 1 + "-" + j;
-			$("#inputyear").append("<option value="+jj+">" + jj + "</option>");
-		}
-
-	});
-</script>
 
 <script>
 	require([ 'jquery', 'datatables.net', 'datatables.net-jszip',
