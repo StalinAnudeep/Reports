@@ -94,7 +94,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="td" items="${list}">
-								<tr>
+								<tr style="font-weight: 600;">
 									<td class="text-center">${td.MONTH_YEAR_11}</td>
 									<td class="text-center">${td.CAT_11}</td>
 									<td class="text-center">${td.SUBCAT_11}</td>
@@ -121,6 +121,7 @@
 									<td class="text-center">${td.NORMAL_132}</td>
 									<td class="text-center">${td.COLONY_132}</td>
 								</tr>
+
 							</c:forEach>
 
 						</tbody>

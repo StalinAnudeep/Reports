@@ -197,6 +197,7 @@ thead>tr>th {
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.SD).sum()}</th>
 								</tr>
 							</tfoot>
 
@@ -204,17 +205,21 @@ thead>tr>th {
 					</c:if>
 
 					<c:if test="${CIR ne 'ALL'}">
+						<div class="bg-info text-white text-center"
+							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+
 						<table id="multiLevelTable"
 							class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th class="bg-primary text-white text-center" colspan="10">${title}</th>
+									<th class="bg-primary text-white text-center" colspan="11">${title}</th>
 								</tr>
 								<tr class="bg-primary text-white text-center">
 
 									<th>LDT</th>
-									<th>CIRCLE</th>
+									<th>CIRNAME</th>
 									<th>NOS</th>
 									<th>KVAH_Consumption</th>
 									<th>OB</th>
@@ -223,14 +228,27 @@ thead>tr>th {
 									<th>COLLECTION DEMAND</th>
 									<th>COLLECTION</th>
 									<th>CB</th>
+									<th>SD</th>
 								</tr>
 							</thead>
-
 							<tbody>
+								<%
+								int flag = 0;
+								String cricle = "S";
+								String circletype = "S";
+								%>
 								<c:forEach var="mtrblc" items="${collectionDetails}"
 									varStatus="tagStatus">
-									<tr>
-										<td class="text-right" style="padding-left: 5px;">${mtrblc.LDT}</td>
+									<c:set var="cirl" value="${mtrblc.LDT}" scope="request" />
+									<tr class="${mtrblc.CIRNAME}">
+										<%
+										if (!cricle.equals((String) request.getAttribute("cirl"))) {
+										%>
+										<td rowspan="${CIRCOUNT[cirl]}">${mtrblc.LDT}</td>
+										<%
+										}
+										cricle = (String) request.getAttribute("cirl");
+										%>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.CIRNAME}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.NOS}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.MN_KVAH}</td>
@@ -240,9 +258,10 @@ thead>tr>th {
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.COLLECTION}</td>
 										<td class="text-right" style="padding-left: 5px;">${mtrblc.CB}</td>
-
-
+										<td class="text-right" style="padding-left: 5px;">${mtrblc.SD}</td>
 									</tr>
+
+
 								</c:forEach>
 							</tbody>
 							<tfoot>
@@ -256,11 +275,11 @@ thead>tr>th {
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
 									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+									<th class="text-right">${collectionDetails.stream().map(mtrblc -> mtrblc.SD).sum()}</th>
 								</tr>
 							</tfoot>
+
 						</table>
-
-
 					</c:if>
 				</form>
 			</div>
