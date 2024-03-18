@@ -86,10 +86,12 @@
 	top: 20px;
 	left: 20px;
 }
+
 .TOTAL {
 	color: #fff !important;
 	font-weight: bold !important;
 }
+
 .CellWithComment:hover span.CellComment {
 	display: block;
 }

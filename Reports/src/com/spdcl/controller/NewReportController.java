@@ -31,8 +31,7 @@ public class NewReportController {
 	@Autowired
 	NewReportDao newReportDao;
 
-	
-	//125
+	// 125
 	@GetMapping("/fyConsumption")
 	public String getConsumptionReport() {
 		return "fyConsumption";
@@ -57,7 +56,7 @@ public class NewReportController {
 				mav.addObject("title", "Financial Year Consumption Report For APCPDCL - " + year);
 			} else {
 				mav.addObject("title", "Financial Year Consumption Report For - " + year);
-				
+
 			}
 
 		}
@@ -65,8 +64,7 @@ public class NewReportController {
 
 	}
 
-	
-	//23A
+	// 23A
 	@GetMapping("/sentEmails")
 	public String getAccountCopyPage() {
 		return "sentEmails";
@@ -99,8 +97,7 @@ public class NewReportController {
 
 	}
 
-	
-	//97D
+	// 97D
 	@GetMapping("/HtDCBCollectionSplitMonthlyWise")
 	public String getHtDCBCollectionSplitMonthlyWiseAbstract() {
 		return "HtDCBCollectionSplitMonthlyWise";
@@ -126,8 +123,7 @@ public class NewReportController {
 
 	}
 
-	
-	//123
+	// 123
 	@GetMapping("/monthWiseTariffReport")
 	public String getMonthWiseTariffReport() {
 		return "monthWiseTariffReport";
@@ -152,8 +148,7 @@ public class NewReportController {
 
 	}
 
-	
-	//124
+	// 124
 	@GetMapping("/financialYearTariffReport")
 	public String getFinancialYearTariffReport() {
 		return "financialYearTariffReport";
@@ -177,8 +172,7 @@ public class NewReportController {
 
 	}
 
-	
-	//126
+	// 126
 	@GetMapping("/fyConsumption2")
 	public String getFyConsumption2() {
 		return "fyConsumption2";
@@ -207,7 +201,7 @@ public class NewReportController {
 
 	}
 
-	//127
+	// 127
 	@GetMapping("/todConsumptionOfFyReport")
 	public String getTodConsumptionOfFyReport() {
 		return "todConsumptionOfFyReport";
@@ -233,8 +227,7 @@ public class NewReportController {
 
 	}
 
-	
-	//128
+	// 128
 	@GetMapping("/todConsumptionMonthReport")
 	public String getTodConsumptionMonthReport() {
 		return "todConsumptionMonthReport";
@@ -349,8 +342,7 @@ public class NewReportController {
 
 	}
 
-	
-	//130
+	// 130
 	@GetMapping("/monthSalesReport")
 	public String getMonthSalesReport() {
 		return "monthSalesReport";
@@ -377,8 +369,7 @@ public class NewReportController {
 
 	}
 
-	
-	//102A
+	// 102A
 	@GetMapping("/voltagewiseFinancialYearAbstract")
 	public String getVoltagewiseFinancialYearAbstract() {
 		return "voltagewiseFinancialYearAbstract";
@@ -404,8 +395,7 @@ public class NewReportController {
 
 	}
 
-	
-	//103B
+	// 103B
 	@GetMapping("/feederwiseFYConsumption")
 	public String getFeederwiseFYConsumption() {
 		return "feederwiseFYConsumption";
@@ -430,8 +420,7 @@ public class NewReportController {
 
 	}
 
-	
-	//97C1
+	// 97C1
 	@GetMapping("/HtDCBCollectionSplitFYWise")
 	public String gethtDCBCollectionSplitFYWise() {
 		return "HtDCBCollectionSplitFYWise";
@@ -548,7 +537,6 @@ public class NewReportController {
 		ModelAndView mav = new ModelAndView("openAccessReport");
 		List<Map<String, Object>> openAccessDetails = newReportDao.getOpenAccessReport(request);
 		System.out.println(openAccessDetails);
-		
 
 		if (openAccessDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -556,21 +544,19 @@ public class NewReportController {
 			mav.addObject("openAccessDetails", openAccessDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("year" , request.getParameter("year") );
-			mav.addObject("title" ,  "APCPDCL - Open Access KVAH_ADJ_ENG Report For -" +  request.getParameter("year"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("title", "APCPDCL - Open Access KVAH_ADJ_ENG Report For -" + request.getParameter("year"));
 		}
 		return mav;
 	}
-	
-	
-	
+
 	@GetMapping("/openAccessReportForDivision")
-	public ModelAndView getOpenAccessReportForDivision(@RequestParam(name = "cir") String circle,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessReportForDivision(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessReportForDivision");
-		List<Map<String, Object>> openAccessDivisionDetails = newReportDao.getOpenAccessReportForDivision(circle , year);
+		List<Map<String, Object>> openAccessDivisionDetails = newReportDao.getOpenAccessReportForDivision(circle, year);
 		System.out.println(openAccessDivisionDetails);
-		
 
 		if (openAccessDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -578,20 +564,20 @@ public class NewReportController {
 			mav.addObject("openAccessDivisionDetails", openAccessDivisionDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("year" , year);
-			mav.addObject("title" , circle + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+			mav.addObject("year", year);
+			mav.addObject("title", circle + " - Open Access KVAH_ADJ_ENG Report For -" + year);
 		}
 		return mav;
 	}
-	
-	
+
 	@GetMapping("/openAccessReportForSubDivision")
-	public ModelAndView getOpenAccessReportForSubDivision(@RequestParam(name = "div") String division,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessReportForSubDivision(@RequestParam(name = "div") String division,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessReportForSubDivision");
-		List<Map<String, Object>> openAccessSubDivisionDetails = newReportDao.getOpenAccessReportForSubDivision(division , year);
+		List<Map<String, Object>> openAccessSubDivisionDetails = newReportDao
+				.getOpenAccessReportForSubDivision(division, year);
 		System.out.println(openAccessSubDivisionDetails);
-		
 
 		if (openAccessSubDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -599,20 +585,20 @@ public class NewReportController {
 			mav.addObject("openAccessSubDivisionDetails", openAccessSubDivisionDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("year" , year);
-			mav.addObject("title" , division + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+			mav.addObject("year", year);
+			mav.addObject("title", division + " - Open Access KVAH_ADJ_ENG Report For -" + year);
 		}
 		return mav;
 	}
-	
-	
+
 	@GetMapping("/openAccessReportForSection")
-	public ModelAndView getOpenAccessReportForSection(@RequestParam(name = "subDivision") String subDivision,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessReportForSection(@RequestParam(name = "subDivision") String subDivision,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessReportForSection");
-		List<Map<String, Object>> openAccessSectionDetails = newReportDao.getOpenAccessReportForSection(subDivision , year);
+		List<Map<String, Object>> openAccessSectionDetails = newReportDao.getOpenAccessReportForSection(subDivision,
+				year);
 		System.out.println(openAccessSectionDetails);
-		
 
 		if (openAccessSectionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -620,14 +606,10 @@ public class NewReportController {
 			mav.addObject("openAccessSectionDetails", openAccessSectionDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("title" , subDivision + " - Open Access KVAH_ADJ_ENG Report For -" + year);
+			mav.addObject("title", subDivision + " - Open Access KVAH_ADJ_ENG Report For -" + year);
 		}
 		return mav;
 	}
-	
-	
-	
-	
 
 	// 133
 	@GetMapping("/openAccessCrossSubsidyReport")
@@ -648,17 +630,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", request.getParameter("year"));
-			mav.addObject("title" , "APCPDCL - Open Access CrossSubsidy Report For -" + request.getParameter("year"));
+			mav.addObject("title", "APCPDCL - Open Access CrossSubsidy Report For -" + request.getParameter("year"));
 
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/openAccessCrossSubsidyReportForDivision")
-	public ModelAndView getOpenAccessCrossSubsidyReportForDivision(@RequestParam(name = "cir") String circle,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessCrossSubsidyReportForDivision(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessCrossSubsidyReportForDivision");
-		List<Map<String, Object>> crossSubsidyDivisionDetails = newReportDao.getOpenAccessCrossSubsidyReportForDivision(circle , year);
+		List<Map<String, Object>> crossSubsidyDivisionDetails = newReportDao
+				.getOpenAccessCrossSubsidyReportForDivision(circle, year);
 		System.out.println(crossSubsidyDivisionDetails);
 		if (crossSubsidyDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -667,17 +651,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", year);
-			mav.addObject("title" , circle + " - Open Access CrossSubsidy Report For -" + year);
+			mav.addObject("title", circle + " - Open Access CrossSubsidy Report For -" + year);
 
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/openAccessCrossSubsidyReportSubDivision")
-	public ModelAndView geOpenAccessCrossSubsidyReportSubDivision(@RequestParam(name = "div") String division,@RequestParam(name = "fyear") String year) {
+	public ModelAndView geOpenAccessCrossSubsidyReportSubDivision(@RequestParam(name = "div") String division,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessCrossSubsidyReportSubDivision");
-		List<Map<String, Object>> crossSubsidySubDivisionDetails = newReportDao.getOpenAccessCrossSubsidyReportSubDivision(division , year);
+		List<Map<String, Object>> crossSubsidySubDivisionDetails = newReportDao
+				.getOpenAccessCrossSubsidyReportSubDivision(division, year);
 		System.out.println(crossSubsidySubDivisionDetails);
 		if (crossSubsidySubDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -686,19 +672,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", year);
-			mav.addObject("title" , division + " - Open Access CrossSubsidy Report For -" + year);
+			mav.addObject("title", division + " - Open Access CrossSubsidy Report For -" + year);
 
 		}
 		return mav;
 	}
-	
-	
-	
+
 	@GetMapping("/openAccessCrossSubsidyReportForSection")
-	public ModelAndView getOpenAccessCrossSubsidyReportForSection(@RequestParam(name = "subDivision") String subDivision,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessCrossSubsidyReportForSection(
+			@RequestParam(name = "subDivision") String subDivision, @RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessCrossSubsidyReportForSection");
-		List<Map<String, Object>> crossSubsidySectionDetails = newReportDao.getOpenAccessCrossSubsidyReportForSection(subDivision , year);
+		List<Map<String, Object>> crossSubsidySectionDetails = newReportDao
+				.getOpenAccessCrossSubsidyReportForSection(subDivision, year);
 		System.out.println(crossSubsidySectionDetails);
 		if (crossSubsidySectionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -706,7 +692,7 @@ public class NewReportController {
 			mav.addObject("crossSubsidySectionDetails", crossSubsidySectionDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("title" , subDivision + " - Open Access CrossSubsidy Report For -" + year);
+			mav.addObject("title", subDivision + " - Open Access CrossSubsidy Report For -" + year);
 
 		}
 		return mav;
@@ -732,19 +718,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", year);
-			mav.addObject("title" , "APCPDCL - Open Access WheelingCharges Report For -" + request.getParameter("year"));
+			mav.addObject("title", "APCPDCL - Open Access WheelingCharges Report For -" + request.getParameter("year"));
 
 		}
 		return mav;
 	}
-	
-	
-	
+
 	@GetMapping("/openAccessWheelingChargesReportForDivision")
-	public ModelAndView getOpenAccessWheelingChargesReportForDivision(@RequestParam(name = "cir") String circle,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessWheelingChargesReportForDivision(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessWheelingChargesReportForDivision");
-		List<Map<String, Object>> wheelingChargesDivisionDetails = newReportDao.getOpenAccessWheelingChargesReportForDivision(circle,year);
+		List<Map<String, Object>> wheelingChargesDivisionDetails = newReportDao
+				.getOpenAccessWheelingChargesReportForDivision(circle, year);
 		System.out.println(wheelingChargesDivisionDetails);
 		if (wheelingChargesDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -753,17 +739,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", year);
-			mav.addObject("title" , circle + " - Open Access WheelingCharges Report For -" + year);
+			mav.addObject("title", circle + " - Open Access WheelingCharges Report For -" + year);
 
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/openAccessWheelingChargesReportSubDivision")
-	public ModelAndView geOpenAccessWheelingChargesReportSubDivision(@RequestParam(name = "div") String division,@RequestParam(name = "fyear") String year) {
+	public ModelAndView geOpenAccessWheelingChargesReportSubDivision(@RequestParam(name = "div") String division,
+			@RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessWheelingChargesReportSubDivision");
-		List<Map<String, Object>> wheelingChargesSubDivisionDetails = newReportDao.getOpenAccessWheelingChargesReportSubDivision(division , year);
+		List<Map<String, Object>> wheelingChargesSubDivisionDetails = newReportDao
+				.getOpenAccessWheelingChargesReportSubDivision(division, year);
 		System.out.println(wheelingChargesSubDivisionDetails);
 		if (wheelingChargesSubDivisionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -772,18 +760,19 @@ public class NewReportController {
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
 			mav.addObject("year", year);
-			mav.addObject("title" , division + " - Open Access WheelingCharges Report For -" + year);
+			mav.addObject("title", division + " - Open Access WheelingCharges Report For -" + year);
 
 		}
 		return mav;
 	}
-	
-	
+
 	@GetMapping("/openAccessWheelingChargesReportForSection")
-	public ModelAndView getOpenAccessWheelingChargesReportForSection(@RequestParam(name = "subDivision") String subDivision,@RequestParam(name = "fyear") String year) {
+	public ModelAndView getOpenAccessWheelingChargesReportForSection(
+			@RequestParam(name = "subDivision") String subDivision, @RequestParam(name = "fyear") String year) {
 		String fyear[] = year.split("-");
 		ModelAndView mav = new ModelAndView("openAccessWheelingChargesReportForSection");
-		List<Map<String, Object>> wheelingChargesSectionDetails = newReportDao.getOpenAccessWheelingChargesReportForSection(subDivision , year);
+		List<Map<String, Object>> wheelingChargesSectionDetails = newReportDao
+				.getOpenAccessWheelingChargesReportForSection(subDivision, year);
 		System.out.println(wheelingChargesSectionDetails);
 		if (wheelingChargesSectionDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -791,7 +780,7 @@ public class NewReportController {
 			mav.addObject("wheelingChargesSectionDetails", wheelingChargesSectionDetails);
 			mav.addObject("FI", fyear[0]);
 			mav.addObject("SI", fyear[1]);
-			mav.addObject("title" , subDivision + " - Open Access WheelingCharges Report For -" + year);
+			mav.addObject("title", subDivision + " - Open Access WheelingCharges Report For -" + year);
 
 		}
 		return mav;
@@ -835,11 +824,11 @@ public class NewReportController {
 	public String getArrearsStatusReport() {
 		return "arrearsStatusReport";
 	}
-	
+
 	@PostMapping("/arrearsStatusReport")
 	public ModelAndView gwtArrearsStatusReport(HttpServletRequest request) throws ParseException {
 		String circle = request.getParameter("circle");
-		String monthYear =  request.getParameter("month") + " - " + request.getParameter("year");
+		String monthYear = request.getParameter("month") + " - " + request.getParameter("year");
 		ModelAndView mav = new ModelAndView("arrearsStatusReport");
 		List<Map<String, Object>> arrearsDetails = newReportDao.getArrearsStatusReport(request);
 		System.out.println(arrearsDetails);
@@ -853,17 +842,62 @@ public class NewReportController {
 			if (circle.equals("ALL")) {
 				mav.addObject("title", "Break up Arrears Status Wise And Govt/Pvt Report - APCPDCL - " + monthYear);
 			} else {
-				mav.addObject("title", "Break up Arrears Status Wise And Govt/Pvt Report For - " + circle + " - " + monthYear);
+				mav.addObject("title",
+						"Break up Arrears Status Wise And Govt/Pvt Report For - " + circle + " - " + monthYear);
 			}
 		}
 
 		return mav;
 
 	}
+
+	// 137
+	@GetMapping("/serviceTypesubdivabstract")
+	public String getServiceTypesubdivabstract() {
+		return "serviceTypesubdivabstract";
+	}
+
+	@PostMapping("/serviceTypesubdivabstract")
+	public ModelAndView getServiceTypesubdivabstract(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("serviceTypesubdivabstract");
+		List<Map<String, Object>> acdbalacne = newReportDao.getServiceTypesubdivabstract(request);
+		System.out.println(acdbalacne);
+		String circle = request.getParameter("circle");
+		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+		if (acdbalacne.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("acd", acdbalacne);
+			mav.addObject("title", "Service Type,Category Wise DCB Abstract For  "
+					+ (circle.equals("ALL") ? "APCPDCL" : circle) + ", " + monthYear);
+		}
+		return mav;
+	}
+
+	// 138
+	@GetMapping("/serviceTypeFYabstract")
+	public String getServiceTypeFYabstract() {
+		return "serviceTypeFYabstract";
+	}
 	
 	
 	
-	
+	@PostMapping("/serviceTypeFYabstract")
+	public ModelAndView getServiceTypeFYabstract(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("serviceTypeFYabstract");
+		List<Map<String, Object>> acdbalacne = newReportDao.getServiceTypeFYabstract(request);
+		System.out.println(acdbalacne);
+		String circle = request.getParameter("circle");
+		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+		if (acdbalacne.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("acd", acdbalacne);
+			mav.addObject("title", "Service Type,Category Wise DCB Abstract For  "
+					+ (circle.equals("ALL") ? "APCPDCL" : circle) + ", " + monthYear);
+		}
+		return mav;
+	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();

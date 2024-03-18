@@ -44,28 +44,35 @@
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
+				<h2 class="text-center">${title}</h2>
 				<table
 					class="table card-table table-vcenter text-nowrap datatable display"
 					style="width: 100%;">
 					<thead>
-						<tr>
-							<th class="bg-primary text-white text-center" colspan="14">${title}</th>
+						<tr class="bg-primary text-white text-center">
+							<th class="text-white" rowspan="2"
+								style="vertical-align: middle;">S.NO</th>
+							<th class="text-white" rowspan="2"
+								style="vertical-align: middle;">DIVISION</th>
+							<th class="text-white" colspan="2">APR-${FI}</th>
+							<th class="text-white" colspan="2">MAY-${FI}</th>
+							<th class="text-white" colspan="2">JUN-${FI}</th>
+							<th class="text-white" colspan="2">JUL-${FI}</th>
+							<th class="text-white" colspan="2">AUG-${FI}</th>
+							<th class="text-white" colspan="2">SEP-${FI}</th>
+							<th class="text-white" colspan="2">OCT-${FI}</th>
+							<th class="text-white" colspan="2">NOV-${FI}</th>
+							<th class="text-white" colspan="2">DEC-${FI}</th>
+							<th class="text-white" colspan="2">JAN-${SI}</th>
+							<th class="text-white" colspan="2">FEB-${SI}</th>
+							<th class="text-white" colspan="2">MAR-${SI}</th>
 						</tr>
-						<tr>
-							<th>S.NO</th>
-							<th>CIRCLE</th>
-							<th class="text-right">APR-${FI}</th>
-							<th class="text-right">MAY-${FI}</th>
-							<th class="text-right">JUN-${FI}</th>
-							<th class="text-right">JUL-${FI}</th>
-							<th class="text-right">AUG-${FI}</th>
-							<th class="text-right">SEP-${FI}</th>
-							<th class="text-right">OCT-${FI}</th>
-							<th class="text-right">NOV-${FI}</th>
-							<th class="text-right">DEC-${FI}</th>
-							<th class="text-right">JAN-${SI}</th>
-							<th class="text-right">FEB-${SI}</th>
-							<th class="text-right">MAR-${SI}</th>
+						<tr class="bg-primary text-white text-center">
+							<c:forEach var="i" begin="1" end="12">
+								<th class="text-white">NOS</th>
+								<th class="text-white">AMT</th>
+							</c:forEach>
+
 						</tr>
 					</thead>
 					<tbody>

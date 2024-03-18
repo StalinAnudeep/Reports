@@ -560,6 +560,24 @@
 							,Category Wise DCB Abstract </a></td>
 					<td></td>
 				</tr>
+				
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT137</span></td>
+					<td><a href="serviceTypesubdivabstract">Service Type wise
+							Division,Sub-Division Wise DCB Abstract </a></td>
+					<td></td>
+				</tr>
+				
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT138</span></td>
+					<td><a href="serviceTypeFYabstract">Service Type wise
+							Division,Sub-Division Wise DCB FY Abstract </a></td>
+					<td></td>
+				</tr>
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"
@@ -600,11 +618,6 @@
 							Consumption DCB Report </a></td>
 					<td></td>
 				</tr>
-
-
-
-
-
 
 
 				<tr class="bg-primary">
@@ -837,25 +850,27 @@
 					<td><a href="TDSAbstract"> TDS Abstract </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr class="bg-primary">
 					<th class="text-center" colspan="3"
-						style="color: #fff !important; font-weight: bold !important;">HT- CMD BOOKLET
-						</th>
+						style="color: #fff !important; font-weight: bold !important;">HT-
+						CMD BOOKLET</th>
 
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT135</span></td>
-					<td><a href="cumilativeReport"> Circle/Div/SD/SEC wise CUM Dem Collection Report </a></td>
+					<td><a href="cumilativeReport"> Circle/Div/SD/SEC wise CUM
+							Dem Collection Report </a></td>
 					<td></td>
 				</tr>
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT136</span></td>
-					<td><a href="arrearsStatusReport">Break up Arrears Status Wise And Govt/Pvt Report </a></td>
+					<td><a href="arrearsStatusReport">Break up Arrears Status
+							Wise And Govt/Pvt Report </a></td>
 					<td></td>
 				</tr>
 
