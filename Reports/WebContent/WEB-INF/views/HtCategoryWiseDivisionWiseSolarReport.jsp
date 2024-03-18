@@ -105,7 +105,7 @@ color: #fff !important;
 									<%
 										if (!cricle.equals((String) request.getAttribute("cirl"))) {
 									%>
-									<td rowspan="${CIRCOUNT[cirl]}"><a href="HtCategoryWiseSubDivisionWiseDemandReport?cir=${mtrblc.CIRCLE}&mon_year=${mon}">${mtrblc.CIRCLE}</a></td>
+									<td rowspan="${CIRCOUNT[cirl]}"><a href="HtCategoryWiseSubDivisionWiseDemandReport?Division=${mtrblc.CIRCLE}&mon_year=${mon}">${mtrblc.CIRCLE}</a></td>
 									
 									<%
 										}

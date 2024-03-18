@@ -332,8 +332,70 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("salesDetails", salesDetails);
-			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("CIRCLE", request.getParameter("circle"));
+			mav.addObject("fy_year", year);
 			mav.addObject("CIRCOUNT", countFrequencies(salesDetails));
+			mav.addObject("title", "Financial Year Report From - " + year);
+
+		}
+
+		return mav;
+
+	}
+	
+	
+	@GetMapping("/fySalesReportForDivision")
+	public ModelAndView getFySalesReportForDivision(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fy_year") String year) throws ParseException {
+		ModelAndView mav = new ModelAndView("fySalesReportForDivision");
+		List<Map<String, Object>> divisionSalesDetails = newReportDao.getFySalesReportForDivision(circle,year);
+
+		if (divisionSalesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("divisionSalesDetails", divisionSalesDetails);
+			mav.addObject("CIRCLE", circle);
+			mav.addObject("fy_year", year);
+			mav.addObject("CIRCOUNT", countFrequencies(divisionSalesDetails));
+			mav.addObject("title", "Financial Year Report From - " + year);
+
+		}
+
+		return mav;
+
+	}
+	
+	@GetMapping("/fySalesReportForSubDivision")
+	public ModelAndView getFySalesReportForSubDivision(@RequestParam(name = "division") String division,
+			@RequestParam(name = "fy_year") String year) throws ParseException {
+		ModelAndView mav = new ModelAndView("fySalesReportForSubDivision");
+		List<Map<String, Object>> subDivisionSalesDetails = newReportDao.getFySalesReportForSubDivision(division,year);
+
+		if (subDivisionSalesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("subDivisionSalesDetails", subDivisionSalesDetails);
+			mav.addObject("fy_year", year);
+			mav.addObject("CIRCOUNT", countFrequencies(subDivisionSalesDetails));
+			mav.addObject("title", "Financial Year Report From - " + year);
+
+		}
+
+		return mav;
+
+	}
+	
+	@GetMapping("/fySalesReportForSection")
+	public ModelAndView getFySalesReportForSection(@RequestParam(name = "subDivision") String subDivision,
+			@RequestParam(name = "fy_year") String year) throws ParseException {
+		ModelAndView mav = new ModelAndView("fySalesReportForSection");
+		List<Map<String, Object>> sectionSalesDetails = newReportDao.getFySalesReportForSection(subDivision,year);
+
+		if (sectionSalesDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("sectionSalesDetails", sectionSalesDetails);
+			mav.addObject("CIRCOUNT", countFrequencies(sectionSalesDetails));
 			mav.addObject("title", "Financial Year Report From - " + year);
 
 		}
@@ -480,8 +542,7 @@ public class NewReportController {
 
 	@GetMapping("/HtCategoryWiseDivisionWiseSolarReport")
 	public ModelAndView getHtCategoryWiseDivisionWiseSolarReport(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
-			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
+			@RequestParam(name = "mon_year") String mon_year ) {
 
 		ModelAndView mav = new ModelAndView("HtCategoryWiseDivisionWiseSolarReport");
 		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseDivisionWiseSolarReport(circle,
@@ -503,9 +564,8 @@ public class NewReportController {
 	}
 
 	@GetMapping("/HtCategoryWiseSubDivisionWiseDemandReport")
-	public ModelAndView getHtCategoryWiseSubDivisionWiseDemandReport(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "type") String type,
-			@RequestParam(name = "div") String division, @RequestParam(name = "sub") String sub) {
+	public ModelAndView getHtCategoryWiseSubDivisionWiseDemandReport(@RequestParam(name = "Division") String circle,
+			@RequestParam(name = "mon_year") String mon_year) {
 
 		ModelAndView mav = new ModelAndView("HtCategoryWiseSubDivisionWiseDemandReport");
 		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseSubDivisionWiseDemandReport(circle,
@@ -937,6 +997,15 @@ public class NewReportController {
 					templist.add(pair.getValue().toString());
 				}
 				if (pair.getKey().equals("MON_YEAR")) {
+					templist.add(pair.getValue().toString());
+				}
+				if (pair.getKey().equals("DIVNAME")) {
+					templist.add(pair.getValue().toString());
+				}
+				if (pair.getKey().equals("SUBNAME")) {
+					templist.add(pair.getValue().toString());
+				}
+				if (pair.getKey().equals("SECNAME")) {
 					templist.add(pair.getValue().toString());
 				}
 
