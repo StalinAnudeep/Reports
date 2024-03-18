@@ -348,6 +348,7 @@ public class ReportController {
 	public ModelAndView getServiceDetail(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("servicehistory");
 		List<Map<String, Object>> account = reportDao.getServiceHistory(request);
+		List<Map<String, Object>> ledgerhist = reportDao.getLedgerHistory(request);
 	/*	String sd = (String) account.get(0).get("SD");*/
 		ConsumerDetails consumerdetails=reportDao.getConsumerDetails(request.getParameter("scno"));
 		String sd = reportDao.getCoustomerSD(request.getParameter("scno"));
@@ -370,6 +371,7 @@ public class ReportController {
 			request.getSession().setAttribute("fmonthYear", null);
 			request.getSession().setAttribute("tmonthYear", null);
 			request.getSession().setAttribute("sd", null);
+			request.getSession().setAttribute("ledgerhist", null);
 		} else {			
 			mav.addObject("consumerdetails", consumerdetails);
 			mav.addObject("account", account);
@@ -379,6 +381,7 @@ public class ReportController {
 			request.getSession().setAttribute("sd", sd);			
 			request.getSession().setAttribute("fmonthYear", fmonthYear);
 			request.getSession().setAttribute("tmonthYear", tmonthYear);
+			request.getSession().setAttribute("ledgerhist", ledgerhist);
 		}
 	      }else {
 	    	  mav.addObject("fail", "INVALID DATE RANGE");
@@ -387,6 +390,7 @@ public class ReportController {
 				request.getSession().setAttribute("fmonthYear", null);
 				request.getSession().setAttribute("tmonthYear", null);
 				request.getSession().setAttribute("sd", null);
+				request.getSession().setAttribute("ledgerhist", null);
 	      }
 		return mav;
 
