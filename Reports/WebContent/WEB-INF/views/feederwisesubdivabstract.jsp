@@ -22,7 +22,7 @@
                     <div class="col-md-2">
                       <div class="form-group">
                         <label class="form-label">Division</label>
-                        <select class="form-control" name="divison" id="division" required="required">
+                        <select class="form-control" name="division" id="division" required="required">
 						    <option value="">Select Division</option>
 						</select>
                       </div>
@@ -105,7 +105,10 @@
 								<th class="bg-primary text-white text-center" colspan="14">${title}</th>
 							</tr>
 						<tr>
-							<th class="text-center" rowspan="2" style="vertical-align: middle;">S.NO</th>														
+							<th class="text-center" rowspan="2" style="vertical-align: middle;">S.NO</th>
+							<th rowspan="2" style="vertical-align: middle;">CIRCLE</th>
+							<th rowspan="2" style="vertical-align: middle;">DIVISION</th>
+							<th rowspan="2" style="vertical-align: middle;">SUBDIVISION</th>														
 							<th rowspan="2" style="vertical-align: middle;">FEEDER CODE</th>
 							<th rowspan="2" style="vertical-align: middle;">FEEDER NAME</th>	
 							<th rowspan="2" style="vertical-align: middle;">NOS</th>
@@ -131,7 +134,10 @@
 					<tbody>
 						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
 							<tr>
-								<td>${tagStatus.index + 1}</td>								
+								<td>${tagStatus.index + 1}</td>	
+								<td  class="text-right">${mtrblc.CIRNAME}</td>
+								<td  class="text-right">${mtrblc.DIVNAME}</td>
+								<td  class="text-right">${mtrblc.SUBNAME}</td>							
 								<td id="fd">${mtrblc.FEEDER_CD}</td>
 								<td>${mtrblc.FEEDER_NAME}</td>
 								<td  class="text-right">${mtrblc.NOS}</td>

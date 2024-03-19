@@ -8538,47 +8538,65 @@ public class ReportDao {
 
 	public List<Map<String, Object>> getFDWiseSubDivisionAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
+		String division = request.getParameter("division");
 		String subdivision = request.getParameter("subdivision");
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
-		String deptcode = request.getParameter("feeder").equals("ALL") ? ""
-				: "AND ctfeeder_code='" + request.getParameter("feeder") + "'";
-		if (circle.equalsIgnoreCase("ALL")) {
+		String deptcode = request.getParameter("feeder");
+		try {
+			StringBuilder sqlBuilder = new StringBuilder();
+			sqlBuilder.append("Select UNIQUE MON_YEAR,CIRNAME,DIVNAME,SUBNAME, fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n");
+			sqlBuilder.append("SUM(nvl(REC_KWH,0)) KWH_UNITS,SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,SUM(Mn_Kvah) Sales,\r\n");
+			sqlBuilder.append("SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n");
+			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n");
+			sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n");
+			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+			sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n");
+			sqlBuilder.append("SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n");
+			sqlBuilder.append("SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast,MASTER.SPDCLMASTER\r\n");
+			sqlBuilder.append("where Mon_Year=?\r\n");
+			sqlBuilder.append("and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode\r\n");
+			
+			List<Object> params = new ArrayList<>();
+			params.add(monthYear);
 
-			String sql = "Select UNIQUE fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n"
-					+ "SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n" + "SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,\r\n"
-					+ "SUM(Mn_Kvah) Sales,\r\n" + "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
-					+ "SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n"
-					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
-					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n"
-					+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n"
-					+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast\r\n"
-					+ "where Mon_Year=?\r\n" + "and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode "
-					+ "and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? )"
-					+ "\r\n" + deptcode + " GROUP BY  FMFNAME,fmsapfcode\r\n" + "Order By fmsapfcode";
+			if (circle != null && !circle.isEmpty()) {
+				sqlBuilder.append("and substr(b.CTUscno,1,3) = ?\r\n");
+				params.add(circle);
+			}
 
+			if (division != null && !division.isEmpty() && !division.equals("0")) {
+				sqlBuilder.append("and DIVCD = ? \r\n");
+				params.add(division);
+			} else {
+				sqlBuilder.append("");
+			}
+
+			if (subdivision != null && !subdivision.isEmpty() && !subdivision.equals("0")) {
+				sqlBuilder.append("and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? )\r\n");
+				params.add(subdivision);
+			} else {
+				sqlBuilder.append("and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+))");
+			}
+
+			if (deptcode != null && !deptcode.isEmpty()&& !deptcode.equals("ALL")) {
+				sqlBuilder.append("AND ctfeeder_code=? \r\n");
+				params.add(deptcode);
+			}else {
+				sqlBuilder.append("");
+			}
+			sqlBuilder.append("AND SUBSTR(CTSECCD,-5)=SECCD\r\n");
+			sqlBuilder.append(
+					"GROUP BY MON_YEAR,CIRNAME,DIVNAME,SUBNAME,FMFNAME,fmsapfcode\r\n");
+			sqlBuilder.append("Order By MON_YEAR,CIRNAME,DIVNAME,SUBNAME,fmsapfcode\r\n");
+
+			String sql = sqlBuilder.toString();
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql, new Object[] { monthYear, subdivision });
-		} else {
-			String sql = "Select UNIQUE fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n"
-					+ "SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n" + "SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,\r\n"
-					+ "SUM(Mn_Kvah) Sales,\r\n" + "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
-					+ "SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n"
-					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
-					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n"
-					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n"
-					+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n"
-					+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast\r\n"
-					+ "where Mon_Year=?\r\n" + "and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode "
-					+ "and ctfeeder_code in (select ctfeeder_code from cons,master.spdclmaster where SUBSTR(CTSECCD,-5)=SECCD(+) and SUBCD = ? ) "
-					+ "and substr(b.CTUscno,1,3) = ? \r\n" + deptcode + " GROUP BY  FMFNAME,fmsapfcode\r\n"
-					+ "Order By fmsapfcode";
 
-			log.info(sql);
-			return jdbcTemplate.queryForList(sql, new Object[] { monthYear, subdivision, circle });
-
+			return jdbcTemplate.queryForList(sql, params.toArray());
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			return Collections.emptyList();
 		}
 
 	}

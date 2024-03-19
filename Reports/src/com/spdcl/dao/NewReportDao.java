@@ -1817,7 +1817,7 @@ public class NewReportDao {
 
 			sqlBuilder.append(
 					"GROUP BY MON_YEAR,SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,DIVCD,SUBCD,b.ctservtype,c.stdesc,b.CTCAT\r\n");
-			sqlBuilder.append("Order By TO_DATE(MON_YEAR,'MON-YYYY'),DIVNAME,SUBNAME,servtype,c.stdesc,b.CTCAT\r\n");
+			sqlBuilder.append("Order By TO_DATE(MON_YEAR,'MON-YYYY'),DIVNAME,SUBNAME,circle,c.stdesc,b.CTCAT\r\n");
 
 			String sql = sqlBuilder.toString();
 			log.info(sql);
