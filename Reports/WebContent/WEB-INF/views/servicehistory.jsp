@@ -703,7 +703,6 @@
 				</div>
 				<!-- target="_blank" -->
 			</div>
-
 			<div class="card-body row-no-padding table-responsive-sm dataTables_wrapper"
 				style="padding-left: 23px; padding-right: 23px; font-size: 12px; font-weight: bold;">
 				<c:if test="${ not empty fn:trim(ledgerhist)}">
