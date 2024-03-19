@@ -77,7 +77,7 @@ thead>tr>th {
 						<tr>
 							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
-						<tr  class= "bg-primary">
+						<tr  class= "bg-primary text-center">
 							<th style="vertical-align: middle;">CTUSCNO</th>
 							<th style="vertical-align: middle;">SALES</th>
 							<th style="vertical-align: middle;">KWH_UNITS</th>
