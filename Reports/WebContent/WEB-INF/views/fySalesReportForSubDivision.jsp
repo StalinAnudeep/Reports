@@ -121,27 +121,16 @@ thead>tr>th {
 									</c:if>
 									<c:if test="${ sd.CTCAT ne 'TOTAL'}">
 										<td class="text-center">${sd.CTCAT}</td>
-										<td class="text-center format">${sd.SCS}</td>
-										<td class="text-center format">${sd.CAPACITY}</td>
-										<td class="text-center format">${sd.SALES_MU}</td>
-										<td class="text-center format">${sd.DEMAND_LAKHS}</td>
-										<td class="text-center format">${sd.COLLECTION_LAKHS}</td>
-										<td class="text-center format">${sd.CB_LAKHS}</td>
+										<td class="text-right format">${sd.SCS}</td>
+										<td class="text-right format">${sd.CAPACITY}</td>
+										<td class="text-right format">${sd.SALES_MU}</td>
+										<td class="text-right format">${sd.DEMAND_LAKHS}</td>
+										<td class="text-right format">${sd.COLLECTION_LAKHS}</td>
+										<td class="text-right format">${sd.CB_LAKHS}</td>
 									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>
-						<tfoot>
-							<c:if test="${CIRCLE eq 'ALL'}">
-								<tr class="bg-primary text-light">
-									<th class="text-center text-light" colspan="4">Grand Total</th>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.SALES_MU).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.DEMAND_LAKHS).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.COLLECTION_LAKHS).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.CB_LAKHS).sum()}</td>
-								</tr>
-							</c:if>
-						</tfoot>
 					</table>
 				</form>
 			</div>
@@ -174,5 +163,23 @@ thead>tr>th {
 		}
 	})()
 </script>
+<script>
+	requirejs([ 'jquery' ], function($) {
+		$(".format").each(
+				function() {
+					if ($.isNumeric($(this).text())) {
+						// It isn't a number	
+						$(this).html(
+								parseFloat($(this).text()).toLocaleString(
+										'en-IN', {
+											style : 'decimal',
+											currency : 'INR'
+										}));
+					}
+				}
 
+		)
+
+	});
+</script>
 <jsp:include page="footer.jsp"></jsp:include>

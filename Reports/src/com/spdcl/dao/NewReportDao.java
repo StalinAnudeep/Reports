@@ -889,9 +889,11 @@ public class NewReportDao {
 				sqlBuilder.append("");
 			}
 
-			if (feederCode != null && !feederCode.isEmpty()) {
+			if (feederCode != null && !feederCode.isEmpty()&& !feederCode.equals("ALL")) {
 				sqlBuilder.append("AND ctfeeder_code=? \r\n");
 				params.add(feederCode);
+			}else {
+				sqlBuilder.append("");
 			}
 
 			sqlBuilder.append(
@@ -908,6 +910,76 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
+	
+	public List<Map<String, Object>> getFeederWiseConsumptionForNOS(String circle, String division, String subdiv,
+			String year, String feedercode) {
+		
+		String fyear = "01-04-" + year.split("-")[0];
+		String tyear = "31-03-" + year.split("-")[1];
+		try {
+			StringBuilder sqlBuilder = new StringBuilder();
+			sqlBuilder.append("Select UNIQUE ctuscno,sum(nvl(mn_kvah,0)) sales,SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n");
+			sqlBuilder.append(
+					"SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n");
+			sqlBuilder.append("SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n");
+			sqlBuilder.append(
+					"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+			sqlBuilder.append(
+					"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR, \r\n");
+			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+			sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n");
+			sqlBuilder.append(
+					"SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj, \r\n");
+			sqlBuilder.append(
+					"SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast,MASTER.SPDCLMASTER\r\n");
+			sqlBuilder.append("where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n");
+			sqlBuilder.append("and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode AND SUBSTR(CTSECCD,-5)=SECCD\r\n");
+
+			List<Object> params = new ArrayList<>();
+			params.add(fyear);
+			params.add(tyear);
+
+			if (circle != null && !circle.isEmpty()) {
+				sqlBuilder.append("AND SUBSTR(CTUSCNO,1,3)=?\r\n");
+				params.add(circle);
+			}
+
+			if (division != null && !division.isEmpty() && !division.equals("0")) {
+				sqlBuilder.append("AND DIVNAME=? \r\n");
+				params.add(division);
+			} else {
+				sqlBuilder.append("");
+			}
+
+			if (subdiv != null && !subdiv.isEmpty() && !subdiv.equals("0")) {
+				sqlBuilder.append("AND SUBNAME=?\r\n");
+				params.add(subdiv);
+			} else {
+				sqlBuilder.append("");
+			}
+
+			if (feedercode != null && !feedercode.isEmpty() && !feedercode.equals("ALL")) {
+				sqlBuilder.append("AND ctfeeder_code=? \r\n");
+				params.add(feedercode);
+			} else {
+				sqlBuilder.append("");
+			}
+
+			sqlBuilder.append(
+					"GROUP BY ctuscno\r\n");
+			sqlBuilder.append("Order By ctuscno\r\n");
+
+			String sql = sqlBuilder.toString();
+			log.info(sql);
+
+			return jdbcTemplate.queryForList(sql, params.toArray());
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			return Collections.emptyList();
+		}
+	}
+
 
 	public List<Map<String, Object>> gethtDCBCollectionSplitFYWise(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
@@ -1758,5 +1830,6 @@ public class NewReportDao {
 		}
 	}
 
+	
 
 }

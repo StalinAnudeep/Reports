@@ -342,13 +342,12 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/fySalesReportForDivision")
 	public ModelAndView getFySalesReportForDivision(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "fy_year") String year) throws ParseException {
 		ModelAndView mav = new ModelAndView("fySalesReportForDivision");
-		List<Map<String, Object>> divisionSalesDetails = newReportDao.getFySalesReportForDivision(circle,year);
+		List<Map<String, Object>> divisionSalesDetails = newReportDao.getFySalesReportForDivision(circle, year);
 
 		if (divisionSalesDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -364,12 +363,12 @@ public class NewReportController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/fySalesReportForSubDivision")
 	public ModelAndView getFySalesReportForSubDivision(@RequestParam(name = "division") String division,
 			@RequestParam(name = "fy_year") String year) throws ParseException {
 		ModelAndView mav = new ModelAndView("fySalesReportForSubDivision");
-		List<Map<String, Object>> subDivisionSalesDetails = newReportDao.getFySalesReportForSubDivision(division,year);
+		List<Map<String, Object>> subDivisionSalesDetails = newReportDao.getFySalesReportForSubDivision(division, year);
 
 		if (subDivisionSalesDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -384,12 +383,12 @@ public class NewReportController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/fySalesReportForSection")
 	public ModelAndView getFySalesReportForSection(@RequestParam(name = "subDivision") String subDivision,
 			@RequestParam(name = "fy_year") String year) throws ParseException {
 		ModelAndView mav = new ModelAndView("fySalesReportForSection");
-		List<Map<String, Object>> sectionSalesDetails = newReportDao.getFySalesReportForSection(subDivision,year);
+		List<Map<String, Object>> sectionSalesDetails = newReportDao.getFySalesReportForSection(subDivision, year);
 
 		if (sectionSalesDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -475,6 +474,29 @@ public class NewReportController {
 			mav.addObject("feederDetails", feederDetails);
 			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(feederDetails));
+			mav.addObject("year", year);
+		}
+
+		return mav;
+
+	}
+
+	@GetMapping("/feederWiseConsumptionForNOS")
+	public ModelAndView getFeederWiseConsumptionForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,
+			@RequestParam(name = "fyear") String year, @RequestParam(name = "feeder") String feedercode)
+			throws ParseException {
+		ModelAndView mav = new ModelAndView("feederWiseConsumptionForNOS");
+		List<Map<String, Object>> NOSfeederDetails = newReportDao.getFeederWiseConsumptionForNOS(circle, division, subdiv,
+				year, feedercode);
+		System.out.println(NOSfeederDetails);
+		if (NOSfeederDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("NOSfeederDetails", NOSfeederDetails);
+			mav.addObject("title", "Financial Year Report For - " + circle + " - " + year);
+			mav.addObject("CIRCOUNT", countFrequencies(NOSfeederDetails));
+			mav.addObject("year", year);
 
 		}
 
@@ -542,7 +564,7 @@ public class NewReportController {
 
 	@GetMapping("/HtCategoryWiseDivisionWiseSolarReport")
 	public ModelAndView getHtCategoryWiseDivisionWiseSolarReport(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "mon_year") String mon_year ) {
+			@RequestParam(name = "mon_year") String mon_year) {
 
 		ModelAndView mav = new ModelAndView("HtCategoryWiseDivisionWiseSolarReport");
 		List<Map<String, Object>> solarDetails = newReportDao.getHtCategoryWiseDivisionWiseSolarReport(circle,
@@ -939,9 +961,7 @@ public class NewReportController {
 	public String getServiceTypeFYabstract() {
 		return "serviceTypeFYabstract";
 	}
-	
-	
-	
+
 	@PostMapping("/serviceTypeFYabstract")
 	public ModelAndView getServiceTypeFYabstract(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("serviceTypeFYabstract");

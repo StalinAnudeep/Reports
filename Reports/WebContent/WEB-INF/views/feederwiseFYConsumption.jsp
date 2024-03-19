@@ -36,7 +36,6 @@
 							class="form-control" name="division" id="division"
 							required="required">
 							<option value="">Select Division</option>
-							<option value="ALL">ALL</option>
 						</select>
 					</div>
 				</div>
@@ -55,7 +54,8 @@
 						<label class="form-label">Feeder</label> <select
 							class="form-control" id="feeder" name="feeder"
 							required="required">
-
+							<option value="">Select Feeder</option>
+							<option value="ALL">ALL</option>
 						</select>
 					</div>
 				</div>
@@ -96,11 +96,11 @@
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 					style="width: 100%;">
-					<thead >
+					<thead>
 						<tr>
 							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
-						<tr >
+						<tr>
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">MON_YEAR</th>
 							<th rowspan="2" style="vertical-align: middle;">Circle</th>
@@ -146,48 +146,24 @@
 								<%
 								}
 								cricle = (String) request.getAttribute("cirl");
-								%><%-- <c:if test="${mtrblc.FMFNAME ne 'TOTAL'}"> --%>
-									<td class="text-right">${mtrblc.CIRCLE}</td>
-									<td class="text-right">${mtrblc.DIVNAME}</td>
-									<td class="text-right">${mtrblc.SUBNAME}</td>
-									<td class="text-right" id="fd">${mtrblc.FMSAPFCODE}</td>
-									<td class="text-right">${mtrblc.FMFNAME}</td>
-									<td class="text-right">${mtrblc.NOS}</td>
-									<td class="text-right">${mtrblc.SALES}</td>
-									<td class="text-right">${mtrblc.OB}</td>
-									<td class="text-right">${mtrblc.DEMAND}</td>
-									<td class="text-right">${mtrblc.DRJ}</td>
-									<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
-									<td class="text-right">${mtrblc.COLL_ARREAR}</td>
-									<td class="text-right">${mtrblc.COLL_DEMAND}</td>
-									<td class="text-right">${mtrblc.CRJ}</td>
-									<td class="text-right">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
-									<td class="text-right">${mtrblc.CB}</td>
-								<%-- </c:if> --%>
-								
-								
-								<%-- <c:if test="${mtrblc.FMFNAME eq 'TOTAL'}">
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.CIRCLE}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.DIVNAME}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.SUBNAME}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;" id="fd">${mtrblc.FMSAPFCODE}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.FMFNAME}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.NOS}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.OB}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.SALES}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.DEMAND}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.DRJ}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.DEMAND+mtrblc.DRJ}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.COLL_ARREAR}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.COLL_DEMAND}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.CRJ}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
-									<td class="text-right TOTAL bg-primary" style="padding-left: 5px;">${mtrblc.CB}</td>
-								</c:if>
-
-							</tr> --%>
-
-
+								%>
+								<td class="text-right">${mtrblc.CIRCLE}</td>
+								<td class="text-right">${mtrblc.DIVNAME}</td>
+								<td class="text-right">${mtrblc.SUBNAME}</td>
+								<td class="text-right" id="fd">${mtrblc.FMSAPFCODE}</td>
+								<td class="text-right">${mtrblc.FMFNAME}</td>
+								<td class="text-right"><a
+										href="feederWiseConsumptionForNOS?cir=${mtrblc.CIRCLE}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&fyear=${year}&feeder=${mtrblc.FMSAPFCODE}">${mtrblc.NOS}</a></td>
+								<td class="text-right">${mtrblc.SALES}</td>
+								<td class="text-right">${mtrblc.OB}</td>
+								<td class="text-right">${mtrblc.DEMAND}</td>
+								<td class="text-right">${mtrblc.DRJ}</td>
+								<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
+								<td class="text-right">${mtrblc.COLL_ARREAR}</td>
+								<td class="text-right">${mtrblc.COLL_DEMAND}</td>
+								<td class="text-right">${mtrblc.CRJ}</td>
+								<td class="text-right">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
+								<td class="text-right">${mtrblc.CB}</td>
 						</c:forEach>
 					</tbody>
 					<tfoot>
@@ -257,11 +233,8 @@
 														+ subdiv,
 												success : function(data) {
 													var slctSubcat = $('#feeder');
-													slctSubcat.empty();
-													$("#feeder")
-															.append(
-																	"<option value='0' selected> Select Feeder </option>");
-
+													
+													
 													var saptype = jQuery
 															.parseJSON(data);
 													$
@@ -372,25 +345,4 @@
 
 		}
 	})()
-</script>
-<script>
-	requirejs([ 'jquery' ], function($) {
-		$("td,th").each(
-				function() {
-					if ($.isNumeric($(this).text())) {
-						// It isn't a number	
-						if ($(this).attr('id') != 'fd') {
-							$(this).html(
-									parseFloat($(this).text()).toLocaleString(
-											'en-IN', {
-												style : 'decimal',
-												currency : 'INR'
-											}));
-						}
-					}
-				}
-
-		)
-
-	});
 </script>

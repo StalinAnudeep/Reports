@@ -46,6 +46,7 @@ color: #fff !important;
 .TOTAL{
 color: #fff !important;
     font-weight: bold  !important;
+    text-align : center;
 }
   thead>tr>th{
 	color: #fff !important;
@@ -72,7 +73,7 @@ color: #fff !important;
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label class="form-label">Year</label> <select id="year"
 							class="form-control" name="year" required="required">
@@ -155,12 +156,12 @@ color: #fff !important;
 									</c:if>
 									<c:if test="${ sd.CTCAT ne 'TOTAL'}">
 										<td class="text-center">${sd.CTCAT}</td>
-										<td class="text-center format">${sd.SCS}</td>
-										<td class="text-center format">${sd.CAPACITY}</td>
-										<td class="text-center format">${sd.SALES_MU}</td>
-										<td class="text-center format">${sd.DEMAND_LAKHS}</td>
-										<td class="text-center format">${sd.COLLECTION_LAKHS}</td>
-										<td class="text-center format">${sd.CB_LAKHS}</td>
+										<td class="text-right format">${sd.SCS}</td>
+										<td class="text-right format">${sd.CAPACITY}</td>
+										<td class="text-right format">${sd.SALES_MU}</td>
+										<td class="text-right format">${sd.DEMAND_LAKHS}</td>
+										<td class="text-right format">${sd.COLLECTION_LAKHS}</td>
+										<td class="text-right format">${sd.CB_LAKHS}</td>
 									</c:if>
 								</tr>
 							</c:forEach>
@@ -168,11 +169,13 @@ color: #fff !important;
 						<tfoot>
 							<c:if test="${CIRCLE eq 'ALL'}">
 								<tr class="bg-primary text-light">
-									<th class="text-center text-light" colspan="4">Grand Total</th>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.SALES_MU).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.DEMAND_LAKHS).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.COLLECTION_LAKHS).sum()}</td>
-									<td class="text-center format">${salesDetails.stream().map(sd -> sd.CB_LAKHS).sum()}</td>
+									<th class="text-right text-light" colspan="2">Grand Total</th>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.SCS).sum()}</td>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.CAPACITY).sum()}</td>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.SALES_MU).sum()}</td>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.DEMAND_LAKHS).sum()}</td>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.COLLECTION_LAKHS).sum()}</td>
+									<td class="text-right format">${salesDetails.stream().map(sd -> sd.CB_LAKHS).sum()}</td>
 								</tr>
 							</c:if>
 						</tfoot>
