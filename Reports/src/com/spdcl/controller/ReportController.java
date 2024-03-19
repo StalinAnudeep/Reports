@@ -348,6 +348,7 @@ public class ReportController {
 	public ModelAndView getServiceDetail(HttpServletRequest request) throws ParseException {
 		ModelAndView mav = new ModelAndView("servicehistory");
 		List<Map<String, Object>> account = reportDao.getServiceHistory(request);
+		List<Map<String, Object>> ledgerhist = reportDao.getLedgerHistory(request);
 	/*	String sd = (String) account.get(0).get("SD");*/
 		ConsumerDetails consumerdetails=reportDao.getConsumerDetails(request.getParameter("scno"));
 		String sd = reportDao.getCoustomerSD(request.getParameter("scno"));
@@ -370,6 +371,7 @@ public class ReportController {
 			request.getSession().setAttribute("fmonthYear", null);
 			request.getSession().setAttribute("tmonthYear", null);
 			request.getSession().setAttribute("sd", null);
+			request.getSession().setAttribute("ledgerhist", null);
 		} else {			
 			mav.addObject("consumerdetails", consumerdetails);
 			mav.addObject("account", account);
@@ -379,6 +381,7 @@ public class ReportController {
 			request.getSession().setAttribute("sd", sd);			
 			request.getSession().setAttribute("fmonthYear", fmonthYear);
 			request.getSession().setAttribute("tmonthYear", tmonthYear);
+			request.getSession().setAttribute("ledgerhist", ledgerhist);
 		}
 	      }else {
 	    	  mav.addObject("fail", "INVALID DATE RANGE");
@@ -387,6 +390,7 @@ public class ReportController {
 				request.getSession().setAttribute("fmonthYear", null);
 				request.getSession().setAttribute("tmonthYear", null);
 				request.getSession().setAttribute("sd", null);
+				request.getSession().setAttribute("ledgerhist", null);
 	      }
 		return mav;
 
@@ -5254,14 +5258,14 @@ public class ReportController {
 	public ModelAndView feederwisesubdivabstract(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("feederwisesubdivabstract");
 		List<Map<String, Object>> acdbalacne = reportDao.getFDWiseSubDivisionAbstract(request);
-		String circle = request.getParameter("circle");
+		String selectedLabel = request.getParameter("selectedLabel");
 		String subdivision = request.getParameter("subdivision");
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
 		if (acdbalacne.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
-			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ subdivision +", "+monthYear);
+			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ selectedLabel +", "+monthYear);
 		}
 		return mav;
 	}

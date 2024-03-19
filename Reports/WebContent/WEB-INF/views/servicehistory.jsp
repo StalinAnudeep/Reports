@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header_lg.jsp"></jsp:include>
 <script>
+
 requirejs([ 'jquery' ], function($) {
 $(document).ready(function() {
 	 var currentYear = (new Date()).getFullYear();

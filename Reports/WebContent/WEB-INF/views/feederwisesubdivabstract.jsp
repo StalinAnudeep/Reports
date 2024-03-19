@@ -31,6 +31,7 @@
                      <div class="col-md-2">
                       <div class="form-group">
                         <label class="form-label">Sub Division</label>
+                         <input type="hidden" name="selectedLabel" id="selectedLabel">
                         <select class="form-control" name="subdivision" id="subdivision" required="required">
 						    <option value="">Select Sub Division</option>
 						</select>
@@ -251,6 +252,18 @@
 						}
 					  
 					});
+				
+				});
+		
+
+		$("#feeder")
+		.change(
+				function() {
+					var yourvalue = $("#subdivision option:selected").text();
+					alert(yourvalue);
+					$("#comboboxid").val(yourvalue);
+				
+				
 				});
 
 	});

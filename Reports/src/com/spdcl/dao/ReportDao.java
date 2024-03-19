@@ -665,6 +665,22 @@ public class ReportDao {
 		}
 	}
 
+	public List<Map<String, Object>> getLedgerHistory(HttpServletRequest request) {
+		String uscno = request.getParameter("scno");
+		try {
+			String sql = "select ACCT_ID, MON_YEAR, NAM, USCNO, DISCOM, CIRCLE, DIVISION, ERO, SUBDIVISION, SECTION, LOAD, CAT, SCAT,\n" + 
+					"NVL(REC_KVAH,0) REC_KVAH , 	NVL(MN_KVAH,0) MN_KVAH , 	NVL(REC_MD,0) REC_MD , 	NVL(PF,0) PF , 	NVL(OB_EC,0) OB_EC , 	NVL(OB_ED,0) OB_ED , 	NVL(OB_LPC,0) OB_LPC , 	NVL(OB_EDI,0) OB_EDI , 	NVL(OB_FSA,0) OB_FSA , 	NVL(TOT_OB,0) TOT_OB , 	NVL(EC,0) EC , 	NVL(LPC,0) LPC , 	NVL(ED,0) ED , 	NVL(EDI,0) EDI , 	NVL(FSA,0) FSA , 	NVL(CMD,0) CMD , 	NVL(DRJ_EC,0) DRJ_EC , 	NVL(DRJ_ED,0) DRJ_ED , 	NVL(DRJ_LPC,0) DRJ_LPC , 	NVL(DRJ_IED,0) DRJ_IED , 	NVL(DRJ_FSA,0) DRJ_FSA , 	NVL(DRJ,0) DRJ , 	NVL(CRJ_EC,0) CRJ_EC , 	NVL(CRJ_ED,0) CRJ_ED , 	NVL(CRJ_LPC,0) CRJ_LPC , 	NVL(CRJ_IED,0) CRJ_IED , 	NVL(CRJ_FSA,0) CRJ_FSA , 	NVL(CRJ,0) CRJ , 	NVL(PAID_EC,0) PAID_EC , 	NVL(PAID_ED,0) PAID_ED , 	NVL(PAID_LPC,0) PAID_LPC , 	NVL(PAID_EDI,0) PAID_EDI , 	NVL(PAID_FSA,0) PAID_FSA , 	NVL(TOT_PAY,0) TOT_PAY , 	NVL(CB_EC,0) CB_EC , 	NVL(CB_LPC,0) CB_LPC , 	NVL(CB_ED,0) CB_ED , 	NVL(CB_IED,0) CB_IED , 	NVL(CB_FSA,0) CB_FSA , 	NVL(CBTOT,0) CBTOT , 	NVL(REC_KWH,0) REC_KWH , 	NVL(CB_SD,0) CB_SD , 	NVL(STATUS,0) STATUS , 	NVL(BMD,0) BMD , 	NVL(OB_OTH,0) OB_OTH , 	NVL(RJ_OTH,0) RJ_OTH , 	NVL(CB_OTH,0) CB_OTH , 	NVL(OB_CCLPC,0) OB_CCLPC , 	NVL(CCLPC,0) CCLPC , 	NVL(RJ_CCLPC,0) RJ_CCLPC , 	NVL(CB_CCLPC,0) CB_CCLPC , 	NVL(OB_SD,0) OB_SD , 	NVL(OBNSC_SD,0) OBNSC_SD , 	NVL(DRJ_SD,0) DRJ_SD , 	NVL(CRJ_SD,0) CRJ_SD , 	NVL(PAID_SD,0) PAID_SD , 	NVL(OB_TUPC,0) OB_TUPC , 	NVL(TUPC,0) TUPC , 	NVL(DRJ_TUPC,0) DRJ_TUPC , 	NVL(CRJ_TUPC,0) CRJ_TUPC , 	NVL(PAID_TUPC,0) PAID_TUPC , 	NVL(CB_TUPC,0) CB_TUPC , 	NVL(OB_OLD_FPP,0) OB_OLD_FPP , 	NVL(OLD_FPP,0) OLD_FPP , 	NVL(DRJ_OLD_FPP,0) DRJ_OLD_FPP , 	NVL(CRJ_OLD_FPP,0) CRJ_OLD_FPP , 	NVL(PAID_OLD_FPP,0) PAID_OLD_FPP , 	NVL(CB_OLD_FPP,0) CB_OLD_FPP , 	NVL(OB_NEW_FPP,0) OB_NEW_FPP , 	NVL(NEW_FPP,0) NEW_FPP , 	NVL(DRJ_NEW_FPP,0) DRJ_NEW_FPP , 	NVL(CRJ_NEW_FPP,0) CRJ_NEW_FPP , 	NVL(PAID_NEW_FPP,0) PAID_NEW_FPP , 	NVL(CB_NEW_FPP,0) CB_NEW_FPP \n" + 
+					" from LEDGER_HT_HIST where USCNO=? order by TO_DATE(MON_YEAR,'MON-YYYY')";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { uscno });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 	public List<Map<String, Object>> getThirdPartySalesDetails(HttpServletRequest request) {
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
 		try {
@@ -687,7 +703,6 @@ public class ReportDao {
 			return Collections.emptyList();
 		}
 	}
-
 	public List<Map<String, Object>> getCBAndDemandAbstractDetails(HttpServletRequest request) {
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
 		String circle = request.getParameter("circle");
