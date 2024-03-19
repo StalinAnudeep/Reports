@@ -968,13 +968,14 @@ public class NewReportController {
 		List<Map<String, Object>> acdbalacne = newReportDao.getServiceTypeFYabstract(request);
 		System.out.println(acdbalacne);
 		String circle = request.getParameter("circle");
-		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+		String monthYear =  request.getParameter("year");
 		if (acdbalacne.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
 			mav.addObject("title", "Service Type,Category Wise DCB Abstract For  "
 					+ (circle.equals("ALL") ? "APCPDCL" : circle) + ", " + monthYear);
+			mav.addObject("CIRCOUNT", countFrequencies(acdbalacne));
 		}
 		return mav;
 	}

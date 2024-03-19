@@ -96,6 +96,8 @@
 						</tr>
 						<tr>
 							<th class="text-center" rowspan="2"
+								style="vertical-align: middle;">MON_YEAR</th>
+							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">Circle</th>
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">Division</th>
@@ -129,8 +131,22 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
-							<tr>
+						<%
+							int flag = 0;
+							String cricle = "S";
+							String circletype = "S";
+							%>
+							<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
+								<c:set var="cirl" value="${mtrblc.MON_YEAR}" scope="request" />
+								<tr style="font-weight: 500;" >
+									<%
+									if (!cricle.equals((String) request.getAttribute("cirl"))) {
+									%>
+									<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${mtrblc.MON_YEAR}</td>
+									<%
+									}
+									cricle = (String) request.getAttribute("cirl");
+									%>
 								<td>${mtrblc.CIRCLE}</td>
 								<td>${mtrblc.DIVNAME}</td>
 								<td>${mtrblc.SUBNAME}</td>
