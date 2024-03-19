@@ -54,7 +54,7 @@
 							<th class="text-white" rowspan="2"
 								style="vertical-align: middle;">S.NO</th>
 							<th class="text-white" rowspan="2"
-								style="vertical-align: middle;">DIVISION</th>
+								style="vertical-align: middle;">CIRCLE</th>
 							<th class="text-white" colspan="2">APR-${FI}</th>
 							<th class="text-white" colspan="2">MAY-${FI}</th>
 							<th class="text-white" colspan="2">JUN-${FI}</th>
