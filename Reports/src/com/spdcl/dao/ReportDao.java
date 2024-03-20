@@ -6118,13 +6118,13 @@ public class ReportDao {
 
 		if (circle.equalsIgnoreCase("ALL")) {
 			try {
-				String sql = "SELECT distinct USCNO,NAM, round(NVL(CBTOT,0))+round(NVL(CB_OTH,0))+round(NVL(CB_CCLPC,0)) CBTOT,round(CB_SD) CB_SD,TO_CHAR(MTR.MDCLRDG_DT,'DD-MM-YYYY')MDCLRDG_DT,round(NVL(MTR.MDCLKVAH_HT,0)) MDCLKVAH_HT,DECODE(TRIM(CTGOVT_PVT),'Y','GOVT','N','PVT','') TYPE  FROM\r\n"
+				String sql = "SELECT distinct CIRCLE, DIVISION,SUBDIVISION,SECTION,USCNO,NAM, round(NVL(CBTOT,0))+round(NVL(CB_OTH,0))+round(NVL(CB_CCLPC,0)) CBTOT,round(CB_SD) CB_SD,TO_CHAR(MTR.MDCLRDG_DT,'DD-MM-YYYY')MDCLRDG_DT,round(NVL(MTR.MDCLKVAH_HT,0)) MDCLKVAH_HT,DECODE(TRIM(CTGOVT_PVT),'Y','GOVT','N','PVT','') TYPE  FROM\r\n"
 						+ "ACCOUNTCOPY,CONS,\r\n"
 						+ "(SELECT MSCNO,MDCLRDG_DT,MDCLKVAH_HT FROM MTRDAT_HIST A WHERE MDCLRDG_DT IN \r\n"
 						+ "(SELECT MAX(MDCLRDG_DT) FROM MTRDAT_HIST WHERE A.MSCNO=MSCNO GROUP BY MSCNO)) MTR\r\n"
 						+ "WHERE USCNO=CTUSCNO(+)\r\n" + "AND USCNO=MTR.MSCNO(+)\r\n"
 						+ " AND MON_YEAR = (select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY') from ACCOUNTCOPY) "
-						+ "AND CTSTATUS<>1 " + con + " ORDER BY USCNO";
+						+ "AND CTSTATUS<>1 " + con + " ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql, new Object[] {});
 			} catch (DataAccessException e) {
@@ -6134,13 +6134,13 @@ public class ReportDao {
 			}
 		} else {
 			try {
-				String sql = "SELECT distinct USCNO,NAM, round(NVL(CBTOT,0))+round(NVL(CB_OTH,0))+round(NVL(CB_CCLPC,0)) CBTOT,round(CB_SD) CB_SD,TO_CHAR(MTR.MDCLRDG_DT,'DD-MM-YYYY')MDCLRDG_DT,round(NVL(MTR.MDCLKVAH_HT,0)) MDCLKVAH_HT,DECODE(TRIM(CTGOVT_PVT),'Y','GOVT','N','PVT','') TYPE  FROM\r\n"
+				String sql = "SELECT distinct CIRCLE, DIVISION,SUBDIVISION,SECTION,USCNO,NAM, round(NVL(CBTOT,0))+round(NVL(CB_OTH,0))+round(NVL(CB_CCLPC,0)) CBTOT,round(CB_SD) CB_SD,TO_CHAR(MTR.MDCLRDG_DT,'DD-MM-YYYY')MDCLRDG_DT,round(NVL(MTR.MDCLKVAH_HT,0)) MDCLKVAH_HT,DECODE(TRIM(CTGOVT_PVT),'Y','GOVT','N','PVT','') TYPE  FROM\r\n"
 						+ "ACCOUNTCOPY,CONS,\r\n"
 						+ "(SELECT MSCNO,MDCLRDG_DT,MDCLKVAH_HT FROM MTRDAT_HIST A WHERE MDCLRDG_DT IN \r\n"
 						+ "(SELECT MAX(MDCLRDG_DT) FROM MTRDAT_HIST WHERE A.MSCNO=MSCNO GROUP BY MSCNO)) MTR\r\n"
 						+ "WHERE USCNO=CTUSCNO(+)\r\n" + "AND USCNO=MTR.MSCNO(+)\r\n"
 						+ " AND MON_YEAR = (select to_char(max(to_date(MON_YEAR,'MON-YYYY')),'MON-YYYY') from ACCOUNTCOPY) "
-						+ "AND CTSTATUS<>1 AND SUBSTR(USCNO,1,3)=?  " + con + " ORDER BY USCNO";
+						+ "AND CTSTATUS<>1 AND SUBSTR(USCNO,1,3)=?  " + con + " ORDER BY CIRCLE,DIVISION,SUBDIVISION,SECTION";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql, new Object[] { circle });
 			} catch (DataAccessException e) {

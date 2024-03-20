@@ -69,6 +69,10 @@
 				<thead>
 					<tr>
 						<th>S.NO</th>
+						<th>CIRCLE</th>
+						<th>DIVISION</th>
+						<th>SUBDIVISION</th>
+						<th>SECTION</th>
 						<th>USCNO</th>
 						<th>NAME</th>
 						<th>TYPE</th>
@@ -83,6 +87,10 @@
 					<c:forEach var="mtrblc" items="${bstop}" varStatus="tagStatus">
 						<tr>
 							<td>${tagStatus.index + 1}</td>
+							<td>${mtrblc.CIRCLE}</td>
+							<td>${mtrblc.DIVISION}</td>
+							<td>${mtrblc.SUBDIVISION}</td>
+							<td>${mtrblc.SECTION}</td>
 							<td>${mtrblc.USCNO}</td>
 							<td>${mtrblc.NAM}</td>
 							<td>${mtrblc.TYPE}</td>
