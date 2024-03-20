@@ -8564,7 +8564,7 @@ public class ReportDao {
 		String deptcode = request.getParameter("feeder");
 		try {
 			StringBuilder sqlBuilder = new StringBuilder();
-			sqlBuilder.append("Select UNIQUE MON_YEAR,CIRNAME,DIVNAME,SUBNAME, fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n");
+			sqlBuilder.append("Select UNIQUE MON_YEAR,substr(b.CTUscno,1,3)CIRNAME,DIVNAME,SUBNAME, fmsapfcode FEEDER_CD,FMFNAME FEEDER_NAME,count(distinct(ctuscno)) NOS,\r\n");
 			sqlBuilder.append("SUM(nvl(REC_KWH,0)) KWH_UNITS,SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,SUM(Mn_Kvah) Sales,\r\n");
 			sqlBuilder.append("SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n");
 			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN \r\n");
@@ -8606,7 +8606,7 @@ public class ReportDao {
 			}
 			sqlBuilder.append("AND SUBSTR(CTSECCD,-5)=SECCD\r\n");
 			sqlBuilder.append(
-					"GROUP BY MON_YEAR,CIRNAME,DIVNAME,SUBNAME,FMFNAME,fmsapfcode\r\n");
+					"GROUP BY MON_YEAR,substr(b.CTUscno,1,3),DIVNAME,SUBNAME,FMFNAME,fmsapfcode\r\n");
 			sqlBuilder.append("Order By MON_YEAR,CIRNAME,DIVNAME,SUBNAME,fmsapfcode\r\n");
 
 			String sql = sqlBuilder.toString();
