@@ -92,7 +92,7 @@
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="18">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="19">${title}</th>
 						</tr>
 						<tr>
 							<th class="text-center" rowspan="2"

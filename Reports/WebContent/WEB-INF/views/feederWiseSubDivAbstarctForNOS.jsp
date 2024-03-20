@@ -62,7 +62,7 @@ thead>tr>th {
 	</c:if>
 
 
-	<c:if test="${ not empty fn:trim(NOSfeederDetails)}">
+	<c:if test="${ not empty fn:trim(feederDetailsForNos)}">
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
@@ -71,7 +71,7 @@ thead>tr>th {
 					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
 				<div class="text-right">
-					<a href="feederwiseFYConsumption" class="btn btn-primary">Back</a>
+					<a href="feederwisesubdivabstract" class="btn btn-primary">Back</a>
 				</div>
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
@@ -96,7 +96,7 @@ thead>tr>th {
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="mtrblc" items="${NOSfeederDetails}"
+						<c:forEach var="mtrblc" items="${feederDetailsForNos}"
 							varStatus="tagStatus">
 							<tr style="font-weight: 500;">
 								<td class="text-right">${mtrblc.CTUSCNO}</td>
@@ -117,17 +117,17 @@ thead>tr>th {
 						<tr>
 
 							<th colspan="1" class="text-right">Grand Total</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 						</tr>
 					</tfoot>
 				</table>

@@ -62,7 +62,7 @@ thead>tr>th {
 	</c:if>
 
 
-	<c:if test="${ not empty fn:trim(NOSfeederDetails)}">
+	<c:if test="${ not empty fn:trim(cumilativeServiceDetails)}">
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
@@ -71,63 +71,53 @@ thead>tr>th {
 					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
 				<div class="text-right">
-					<a href="feederwiseFYConsumption" class="btn btn-primary">Back</a>
+					<a href="cumilativeReport" class="btn btn-primary">Back</a>
 				</div>
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="10">${title}</th>
 						</tr>
 						<tr class="bg-primary text-center">
-							<th style="vertical-align: middle;">CTUSCNO</th>
-							<th style="vertical-align: middle;">SALES</th>
-							<th style="vertical-align: middle;">KWH_UNITS</th>
-							<th style="vertical-align: middle;">BKVA_UNITS</th>
-							<th style="vertical-align: middle;">OB</th>
-							<th style="vertical-align: middle;">DEMAND</th>
-							<th style="vertical-align: middle;">COLL_ARREAR</th>
-							<th style="vertical-align: middle;">COLL_DEMAND</th>
-							<th style="vertical-align: middle;">COLLECTION</th>
-							<th style="vertical-align: middle;">DRJ</th>
-							<th style="vertical-align: middle;">CRJ</th>
-							<th style="vertical-align: middle;">CB</th>
+							<th class="text-center text-light">CIRCLE</th>
+							<th class="text-center text-light">DIVNAME</th>
+							<th class="text-center text-light">SUBNAME</th>
+							<th class="text-center text-light">SECNAME</th>
+							<th class="text-center text-light">TYPE</th>
+							<th class="text-center text-light">CTUSCNO</th>
+							<th class="text-center text-light">OB</th>
+							<th class="text-center text-light">DEMAND</th>
+							<th class="text-center text-light">COLLECTION</th>
+							<th class="text-center text-light">CB</th>
+
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="mtrblc" items="${NOSfeederDetails}"
+						<c:forEach var="mtrblc" items="${cumilativeServiceDetails}"
 							varStatus="tagStatus">
 							<tr style="font-weight: 500;">
+								<td class="text-right">${mtrblc.CIRCLE}</td>
+								<td class="text-right">${mtrblc.DIVNAME}</td>
+								<td class="text-right">${mtrblc.SUBNAME}</td>
+								<td class="text-right">${mtrblc.SECNAME}</td>
+								<td class="text-right">${mtrblc.TYPE}</td>
 								<td class="text-right">${mtrblc.CTUSCNO}</td>
-								<td class="text-right">${mtrblc.SALES}</td>
-								<td class="text-right">${mtrblc.KWH_UNITS}</td>
-								<td class="text-right">${mtrblc.BKVA_UNITS}</td>
 								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>
-								<td class="text-right">${mtrblc.COLL_ARREAR}</td>
-								<td class="text-right">${mtrblc.COLL_DEMAND}</td>
 								<td class="text-right">${mtrblc.COLLECTION}</td>
-								<td class="text-right">${mtrblc.DRJ}</td>
-								<td class="text-right">${mtrblc.CRJ}</td>
 								<td class="text-right">${mtrblc.CB}</td>
 						</c:forEach>
 					</tbody>
 					<tfoot>
 						<tr>
 
-							<th colspan="1" class="text-right">Grand Total</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+							<th colspan="6" class="text-right">Grand Total</th>
+							<th class="text-right">${cumilativeServiceDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
+							<th class="text-right">${cumilativeServiceDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${cumilativeServiceDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
+							<th class="text-right">${cumilativeServiceDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 						</tr>
 					</tfoot>
 				</table>

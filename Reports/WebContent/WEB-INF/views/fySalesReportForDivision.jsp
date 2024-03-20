@@ -70,7 +70,9 @@ thead>tr>th {
 					<div class="bg-info text-white text-center"
 						onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 						style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
-
+					<div class="text-right">
+						<a href="fySalesReport" class="btn btn-primary">Back</a>
+					</div>
 					<table id="multiLevelTable"
 						class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 						style="width: 100%;">

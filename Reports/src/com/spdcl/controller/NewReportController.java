@@ -487,8 +487,8 @@ public class NewReportController {
 			@RequestParam(name = "fyear") String year, @RequestParam(name = "feeder") String feedercode)
 			throws ParseException {
 		ModelAndView mav = new ModelAndView("feederWiseConsumptionForNOS");
-		List<Map<String, Object>> NOSfeederDetails = newReportDao.getFeederWiseConsumptionForNOS(circle, division, subdiv,
-				year, feedercode);
+		List<Map<String, Object>> NOSfeederDetails = newReportDao.getFeederWiseConsumptionForNOS(circle, division,
+				subdiv, year, feedercode);
 		System.out.println(NOSfeederDetails);
 		if (NOSfeederDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -887,6 +887,8 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("collectionDetails", collectionDetails);
+			mav.addObject("fyear", fromMonthYear);
+			mav.addObject("tyear", toMonthYear);
 			mav.addObject("CIRCOUNT", countFrequencies(collectionDetails));
 			if (circle.equals("ALL")) {
 				mav.addObject("title", "Circle/Div/SD/SEC wise CUM Dem Collection Report For - APCPDCL - "
@@ -895,6 +897,26 @@ public class NewReportController {
 				mav.addObject("title", "Circle/Div/SD/SEC wise CUM Dem Collection Report For - " + circle + " - "
 						+ fromMonthYear + " - " + toMonthYear);
 			}
+		}
+
+		return mav;
+
+	}
+	
+	@GetMapping("/cumilativeReportForServices")
+	public ModelAndView getCumilativeReportForServices(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,@RequestParam(name = "section") String section,@RequestParam(name = "fyear") String fyear,
+			@RequestParam(name = "tyear") String tyear, @RequestParam(name = "type") String type)
+			throws ParseException {
+		ModelAndView mav = new ModelAndView("cumilativeReportForServices");
+		List<Map<String, Object>> cumilativeServiceDetails = newReportDao.getCumilativeReportForServices(circle, division,
+				subdiv,section,fyear, tyear, type);
+		System.out.println(cumilativeServiceDetails);
+		if (cumilativeServiceDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("cumilativeServiceDetails", cumilativeServiceDetails);
+			mav.addObject("title", "Financial Year Report For - " + circle + " - " + fyear + " to " + tyear);
 		}
 
 		return mav;
@@ -968,7 +990,7 @@ public class NewReportController {
 		List<Map<String, Object>> acdbalacne = newReportDao.getServiceTypeFYabstract(request);
 		System.out.println(acdbalacne);
 		String circle = request.getParameter("circle");
-		String monthYear =  request.getParameter("year");
+		String monthYear = request.getParameter("year");
 		if (acdbalacne.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
@@ -978,6 +1000,30 @@ public class NewReportController {
 			mav.addObject("CIRCOUNT", countFrequencies(acdbalacne));
 		}
 		return mav;
+	}
+
+	// 103AForNos
+	@GetMapping("/feederWiseSubDivAbstarctForNOS")
+	public ModelAndView getFeederWiseSubDivAbstarctForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,@RequestParam(name = "month") String month,
+			@RequestParam(name = "year") String year, @RequestParam(name = "feeder") String feedercode)
+			throws ParseException {
+		ModelAndView mav = new ModelAndView("feederWiseSubDivAbstarctForNOS");
+		List<Map<String, Object>> feederDetailsForNos = newReportDao.getFeederWiseSubDivAbstarctForNOS(circle, division,
+				subdiv,month, year, feedercode);
+		System.out.println(feederDetailsForNos);
+		if (feederDetailsForNos.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("feederDetailsForNos", feederDetailsForNos);
+			mav.addObject("title", "Financial Year Report For - " + circle + " - " + year);
+			mav.addObject("CIRCOUNT", countFrequencies(feederDetailsForNos));
+			mav.addObject("year", year);
+
+		}
+
+		return mav;
+
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {

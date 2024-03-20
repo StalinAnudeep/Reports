@@ -145,18 +145,18 @@
 							<select class="form-control firstInput" name="fmonth"
 								required="required" id="fmonth" ng-model="obj.month">
 								<option value="">Month</option>
-								<option value="01">JANUARY</option>
-								<option value="02">FEBRUARY</option>
-								<option value="03">MARCH</option>
-								<option value="04">APRIL</option>
-								<option value="05">MAY</option>
-								<option value="06">JUNE</option>
-								<option value="07">JULY</option>
-								<option value="08">AUGUST</option>
-								<option value="09">SEPTEMBER</option>
-								<option value="10">OCTOBER</option>
-								<option value="11">NOVEMBER</option>
-								<option value="12">DECEMBER</option>
+								<option value="JAN">JANUARY</option>
+								<option value="FEB">FEBRUARY</option>
+								<option value="MAR">MARCH</option>
+								<option value="APR">APRIL</option>
+								<option value="MAY">MAY</option>
+								<option value="JUN">JUNE</option>
+								<option value="JUL">JULY</option>
+								<option value="AUG">AUGUST</option>
+								<option value="SEP">SEPTEMBER</option>
+								<option value="OCT">OCTOBER</option>
+								<option value="NOV">NOVEMBER</option>
+								<option value="DEC">DECEMBER</option>
 							</select> <select class="form-control secondInput" name="fyear"
 								required="required" id="fyear" ng-model="obj.year">
 								<option value="">Year</option>
@@ -280,7 +280,8 @@
 										<td class="text-right">${mtrblc.OB}</td>
 										<td class="text-right">${mtrblc.DEMAND}</td>
 										<td class="text-right">${mtrblc.COLLECTION}</td>
-										<td class="text-right">${mtrblc.CB}</td>
+										<td class="text-right"><a
+											href="cumilativeReportForServices?cir=${mtrblc.CIRCLE}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&section=${mtrblc.SECNAME}&type=${mtrblc.TYPE}&fyear=${fyear}&tyear=${tyear}">${mtrblc.CB}</a></td>
 									</c:if>
 								</tr>
 							</c:forEach>

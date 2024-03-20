@@ -47,6 +47,7 @@ public class NewReportDao {
 
 	private static Logger log = Logger.getLogger(NewReportDao.class);
 
+	//125
 	public List<Map<String, Object>> getFinancialConsumption(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fin_year = request.getParameter("year");
@@ -181,6 +182,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//23A
 	public List<Map<String, Object>> getEmailsAndSmsReport(HttpServletRequest request) {
 
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
@@ -254,6 +257,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//97D
 	public List<Map<String, Object>> getHtDCBCollectionSplitMonthlyWiseAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String levi_month = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
@@ -313,6 +318,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//123
 	public List<Map<String, Object>> getMonthWiseTariffReport(HttpServletRequest request) {
 
 		String month = request.getParameter("month");
@@ -361,6 +368,8 @@ public class NewReportDao {
 
 	}
 
+	
+	//124
 	public List<Map<String, Object>> getFinancialYearTariffReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -400,6 +409,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//126
 	public List<Map<String, Object>> getFyConsumption2(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromYear = "01-APR-" + request.getParameter("fyear");
@@ -422,6 +433,8 @@ public class NewReportDao {
 		return (List<Map<String, Object>>) out.get("PRC");
 	}
 
+	
+	//127
 	public List<Map<String, Object>> getTodConsumptionOfFyReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -456,6 +469,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//128
 	public List<Map<String, Object>> getTodConsumptionMonthReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -691,6 +706,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//130
 	public List<Map<String, Object>> getMonthSalesReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fin_year = request.getParameter("year");
@@ -740,6 +757,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//102A
 	public List<Map<String, Object>> getVoltagewiseFinancialYearAbstract(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-04-" + fin_year.split("-")[0];
@@ -825,6 +844,8 @@ public class NewReportDao {
 
 	}
 
+	
+	//103B
 	public List<Map<String, Object>> getFeederwiseFYConsumption(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -981,6 +1002,7 @@ public class NewReportDao {
 	}
 
 
+	//97C1
 	public List<Map<String, Object>> gethtDCBCollectionSplitFYWise(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-04-" + fin_year.split("-")[0];
@@ -1047,6 +1069,7 @@ public class NewReportDao {
 		}
 	}
 
+	//131
 	public List<Map<String, Object>> getHtSolarMonthReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String date = request.getParameter("month") + "-" + request.getParameter("year");
@@ -1228,6 +1251,8 @@ public class NewReportDao {
 
 	}
 
+	
+	//132
 	public List<Map<String, Object>> getOpenAccessReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1322,6 +1347,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//133
 	public List<Map<String, Object>> getOpenAccessCrossSubsidyReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1413,6 +1440,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//134
 	public List<Map<String, Object>> getOpenAccessWheelingChargesReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1504,6 +1533,8 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//135
 	public List<Map<String, Object>> getCumilativeReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromMonthYear = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
@@ -1569,7 +1600,43 @@ public class NewReportDao {
 
 		}
 	}
+	
+	
+	
+	public List<Map<String, Object>> getCumilativeReportForServices(String circle, String division, String subdiv,
+			String section, String fyear, String tyear, String type) {
+		try {
+			String sql = "SELECT SUBSTR(CTUSCNO,1,3) CIRCLE,CASE WHEN DIVNAME IS NULL THEN 'TOTAL' ELSE DIVNAME END DIVNAME,CASE WHEN SUBNAME IS NULL THEN 'TOTAL' ELSE SUBNAME END SUBNAME,\r\n"
+					+ "CASE WHEN SECNAME IS NULL THEN 'TOTAL' ELSE SECNAME END SECNAME,CASE WHEN TYPE IS NULL THEN 'TOTAL' ELSE TYPE END TYPE,CTUSCNO,\r\n"
+					+ "ROUND(SUM(OB/10000000),2)OB,ROUND(SUM(DEMAND/10000000),2)DEMAND,ROUND(SUM(COLLECTION/10000000),2)COLLECTION,ROUND(SUM(CB/10000000),2)CB FROM \r\n"
+					+ "(SELECT CTUSCNO,CTSECCD,CASE WHEN CTGOVT_PVT='Y' THEN 'GOVT' WHEN CTGOVT_PVT='N' THEN 'PVT' END TYPE FROM CONS), \r\n"
+					+ "(SELECT USCNO,SUM(ROUND(NVL(TOT_OB,0))+ROUND(NVL(OB_OTH,0))+ROUND(NVL(OB_CCLPC,0))) OB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY')  AND  \r\n"
+					+ "SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA')GROUP BY USCNO)A, \r\n"
+					+ "(SELECT USCNO,roUND(SUM(NVL(CMD,0) +NVL(CCLPC,0)+NVL(DRJ,0)+NVL(RJ_CCLPC,0)+NVL(RJ_OTH,0))) DEMAND, \r\n"
+					+ "ROUND(SUM(NVL(CRJ,0)+NVL(TOT_PAY,0))) COLLECTION FROM LEDGER_HT_HIST where \r\n"
+					+ "to_date(mon_year,'MON-YYYY') between TO_DATE(?,'DD-MM-YYYY') and TO_DATE(?,'DD-MM-YYYY') \r\n"
+					+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') group by uscno)B, \r\n"
+					+ "(SELECT USCNO,SUM(ROUND(NVL(CBTOT,0))+ROUND(NVL(CB_CCLPC,0))+ROUND(NVL(CB_OTH,0))) CB FROM LEDGER_HT_HIST WHERE MON_YEAR=TO_CHAR(TO_DATE(?,'DD-MM-YYYY'),'MON-YYYY') \r\n"
+					+ "AND SUBSTR(USCNO,1,3) IN('CRD','GNT','ONG','VJA') GROUP BY USCNO)C, \r\n"
+					+ "(SELECT * FROM MASTER.SPDCLMASTER)D \r\n"
+					+ "WHERE CTUSCNO=A.USCNO(+)  AND CTUSCNO=B.USCNO(+) AND CTUSCNO=C.USCNO(+) \r\n"
+					+ "AND SUBSTR(CTSECCD,-5)=SECCD AND SUBSTR(CTUSCNO,1,3)=?AND DIVNAME=?\r\n"
+					+ "AND SUBNAME=?AND SECNAME=? AND TYPE=?\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,SECNAME,type,CTUSCNO\r\n"
+					+ "ORDER BY CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE,CTUSCNO";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql,
+					new Object[] { fyear, fyear,tyear, tyear, circle , division,subdiv,section,type });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
 
+	
+	//136
 	public List<Map<String, Object>> getArrearsStatusReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String monthYear = "01-" + request.getParameter("month") + " - " + request.getParameter("year");
@@ -1830,6 +1897,38 @@ public class NewReportDao {
 		}
 	}
 
-	
+
+	public List<Map<String, Object>> getFeederWiseSubDivAbstarctForNOS(String circle, String division, String subdiv,String month,
+			String year, String feedercode) {
+		
+		String Mon_Year = month + "-" + year;
+		try {
+			String sql = "Select UNIQUE ctuscno,sum(nvl(mn_kvah,0)) sales,SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n"
+					+ "SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
+					+ "SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n"
+					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n"
+					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR, \r\n"
+					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n"
+					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n"
+					+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj, \r\n"
+					+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast,MASTER.SPDCLMASTER\r\n"
+					+ "where TO_DATE(MON_YEAR,'MON-YYYY') IN TO_DATE(?,'MON-YYYY')\r\n"
+					+ "and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
+					+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+					+ "AND DIVNAME=? \r\n"
+					+ "AND SUBNAME=?\r\n"
+					+ "AND ctfeeder_code=? \r\n"
+					+ "GROUP BY ctuscno\r\n"
+					+ "Order By ctuscno";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { Mon_Year, circle, division, subdiv, feedercode });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 
 }
