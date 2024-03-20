@@ -941,8 +941,17 @@
 				</tr>
 
 				<tr>
-					<td><span>HT09</span></td>
-					<td><a href="masterchangereport">Change History HT</a></td>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT09</span></td>
+					<td><a href="masterchangereport">
+					Change History HT</a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT09A</span></td>
+					<td><a href="sermasterchangereport">
+					Service Wise Change History HT</a></td>
 					<td></td>
 				</tr>
 				<tr>

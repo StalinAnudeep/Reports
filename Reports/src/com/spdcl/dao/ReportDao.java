@@ -3119,29 +3119,49 @@ public class ReportDao {
 		try {
 			String circle = request.getParameter("circle");
 			String mcode = request.getParameter("mcode");
-			String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
+			String fmonthYear = request.getParameter("fmonth") + "-" + request.getParameter("fyear");
+			String tmonthYear = request.getParameter("tmonth") + "-" + request.getParameter("tyear");
 			if (circle.equals("ALL")) {
 				if (mcode.equalsIgnoreCase("ALL")) {
-					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY FROM CHANGE_HISTORY WHERE to_char(EFF_DT,'MON-yyyy')=?  ORDER BY TO_NUMBER(substr(USCNO,4,6))";
+					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY,TO_CHAR(CRE_DTTM, 'DD-MM-YYYY') CRE_DTTM FROM CHANGE_HISTORY WHERE CRE_DTTM BETWEEN to_date(?,'MON-YYYY') and  to_date(?,'MON-YYYY')  ORDER BY TO_NUMBER(substr(USCNO,4,6))";
 					log.info(mastersql);
-					return jdbcTemplate.queryForList(mastersql, new Object[] { monthYear });
+					return jdbcTemplate.queryForList(mastersql, new Object[] { fmonthYear,tmonthYear });
 				} else {
-					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY FROM CHANGE_HISTORY WHERE to_char(EFF_DT,'MON-yyyy')=?  AND CHG_TYPE_CD=? ORDER BY TO_NUMBER(substr(USCNO,4,6))";
+					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY,TO_CHAR(CRE_DTTM, 'DD-MM-YYYY') CRE_DTTM FROM CHANGE_HISTORY WHERE CRE_DTTM BETWEEN to_date(?,'MON-YYYY') and  to_date(?,'MON-YYYY') AND CHG_TYPE_CD=? ORDER BY TO_NUMBER(substr(USCNO,4,6))";
 					log.info(mastersql);
-					return jdbcTemplate.queryForList(mastersql, new Object[] { monthYear, mcode });
+					return jdbcTemplate.queryForList(mastersql, new Object[] { fmonthYear,tmonthYear , mcode });
 				}
 
 			} else {
 				if (mcode.equalsIgnoreCase("ALL")) {
-					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY FROM CHANGE_HISTORY WHERE to_char(EFF_DT,'MON-yyyy')=? and substr(USCNO,1,3) = ?  ORDER BY TO_NUMBER(substr(USCNO,4,6))";
+					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY,TO_CHAR(CRE_DTTM, 'DD-MM-YYYY') CRE_DTTM FROM CHANGE_HISTORY WHERE CRE_DTTM BETWEEN to_date(?,'MON-YYYY') and  to_date(?,'MON-YYYY') and substr(USCNO,1,3) = ?  ORDER BY TO_NUMBER(substr(USCNO,4,6))";
 					log.info(mastersql);
-					return jdbcTemplate.queryForList(mastersql, new Object[] { monthYear, circle });
+					return jdbcTemplate.queryForList(mastersql, new Object[] { fmonthYear,tmonthYear , circle });
 				} else {
-					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY FROM CHANGE_HISTORY WHERE to_char(EFF_DT,'MON-yyyy')=? and substr(USCNO,1,3) = ? AND CHG_TYPE_CD=? ORDER BY TO_NUMBER(substr(USCNO,4,6))";
+					String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY,TO_CHAR(CRE_DTTM, 'DD-MM-YYYY') CRE_DTTM FROM CHANGE_HISTORY WHERE CRE_DTTM BETWEEN to_date(?,'MON-YYYY') and  to_date(?,'MON-YYYY') and substr(USCNO,1,3) = ? AND CHG_TYPE_CD=? ORDER BY TO_NUMBER(substr(USCNO,4,6))";
 					log.info(mastersql);
-					return jdbcTemplate.queryForList(mastersql, new Object[] { monthYear, circle, mcode });
+					return jdbcTemplate.queryForList(mastersql, new Object[] { fmonthYear,tmonthYear , circle, mcode });
 				}
 			}
+		} catch (DataAccessException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+
+	}
+	
+	public List<Map<String, Object>> getSerMasterReport(HttpServletRequest request) {
+		try {
+			String serviceno = request.getParameter("scno");
+			String fmonthYear = request.getParameter("fmonth") + "-" + request.getParameter("fyear");
+			String tmonthYear = request.getParameter("tmonth") + "-" + request.getParameter("tyear");
+
+			String mastersql = "SELECT  USCNO,CHG_TYPE_CD,OLD_VAL,NEW_VAL,TO_CHAR(EFF_DT, 'DD-MM-YYYY') EFF_DT,DEPT_ORDER_NO,TO_CHAR(DEPT_ORDER_DT,'YYYY-MM-DD')DEPT_ORDER_DT,CHANGED_BY,TO_CHAR(CRE_DTTM, 'DD-MM-YYYY') CRE_DTTM FROM CHANGE_HISTORY WHERE CRE_DTTM BETWEEN to_date(?,'MON-YYYY') and  to_date(?,'MON-YYYY') and USCNO=?  ORDER BY TO_NUMBER(substr(USCNO,4,6))";
+			log.info(mastersql);
+			return jdbcTemplate.queryForList(mastersql, new Object[] { fmonthYear, tmonthYear,serviceno });
+				
+			
 		} catch (DataAccessException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

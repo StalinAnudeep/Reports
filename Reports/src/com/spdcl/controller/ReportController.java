@@ -702,6 +702,22 @@ public class ReportController {
 		}
 		return mav;
 	}
+	@GetMapping("/sermasterchangereport")
+	public String serchangeHistoryPageShow() {
+		return "sermasterchangereport";
+	}
+
+	@PostMapping("/sermasterchangereport")
+	public ModelAndView getserMasterChangeReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("sermasterchangereport");
+		List<Map<String, Object>> list = reportDao.getSerMasterReport(request);
+		if (list.isEmpty()) {
+			mav.addObject("error", "NO DATA FOUND");
+		} else {
+			mav.addObject("list", list);
+		}
+		return mav;
+	}
 	@GetMapping("/SolarExport")
 	public String SolarExport() {
 		return "SolarExport";

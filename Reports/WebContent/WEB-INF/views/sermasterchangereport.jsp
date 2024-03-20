@@ -32,20 +32,19 @@
 
 </script>
 <div class="row row-cards row-deck">
-	<form class="card" action="masterchangereport" method="post">
+	<form class="card" action="sermasterchangereport" method="post">
 		<div class="card-body">
 			<h3 class="card-title"><strong>
-				<span class="text-danger">HT09</span> - Change History HT
+				<span class="text-danger">HT09A</span> - Service Wise Change History HT
 				</strong>
 			</h3>
 			<div class="row">
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<div class="form-group">
-						<label class="form-label">Circle</label> <select
-							class="form-control" name="circle" id="circle"
-							required="required">
-							<option value="">Select Circle</option>
-						</select>
+						<label for="inputCity">Enter Service
+								Number</label> <input type="text" class="form-control"
+							required="required" name="scno" id="scno"
+							placeholder="Enter Service Number">
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -100,14 +99,7 @@
 						</div>
 					</div>
 				</div>		
-				<div class="col-md-2">
-					<div class="form-group">
-						<label class="form-label">Master Changes</label> <select
-							class="form-control" name="mcode" required="required" id="mcode">
-							<option value="">--Select Master Change Codes--</option>
-						</select>
-					</div>
-				</div>
+
 				<div class="col-md-2">
 					<div class="form-group">
 						<label class="form-label">GET ChangeHistory</label>
