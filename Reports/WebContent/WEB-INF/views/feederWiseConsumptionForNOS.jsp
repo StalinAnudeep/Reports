@@ -73,22 +73,23 @@ thead>tr>th {
 							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
 					</div>
-					<%-- <div class="col-md-2">
+					<div class="col-md-2">
 						<div class="text-right">
 							<form class="card" action="feederwiseFYConsumption" method="post"
 								id="form">
-								<input type="text" value='${circle}' name="circle" id="circle">
-								<input type="text" value='${division}' name="division" id="division">
-								<input type="text" value='${subdivision}' name="subdivision" id="subdivision">
-								<input type="text" value='${feeder}' id="feeder" name="feeder">
-								<input type="text" value='${year}' id="year" name="year">
+								<input type="hidden" value='${circle}' name="circle" id="circle">
+								<input type="hidden" value='${division}' name="division"
+									id="division"> <input type="hidden"
+									value='${subdivision}' name="subdivision" id="subdivision">
+								<input type="hidden" value='${feeder}' id="feeder" name="feeder">
+								<input type="hidden" value='${year}' id="year" name="year">
 								<button type="submit" class="btn btn-link">
 									<i class="fa fa-arrow-left" aria-hidden="true"></i> Back
 								</button>
 
 							</form>
 						</div>
-					</div> --%>
+					</div>
 				</div>
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"

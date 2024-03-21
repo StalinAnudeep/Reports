@@ -153,7 +153,8 @@
 								<td class="text-right" id="fd">${mtrblc.FMSAPFCODE}</td>
 								<td class="text-right">${mtrblc.FMFNAME}</td>
 								<td class="text-right"><a
-										href="feederWiseConsumptionForNOS?cir=${mtrblc.CIRCLE}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&fyear=${year}&feeder=${mtrblc.FMSAPFCODE}">${mtrblc.NOS}</a></td>
+										href="feederWiseConsumptionForNOS?cir=${mtrblc.CIRCLE}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&fyear=${year}&feeder=${mtrblc.FMSAPFCODE}
+										&fcir=${circle}&fdivision=${division}&fsubdiv=${subdivision}&year=${year}&ffeeder=${feeder}">${mtrblc.NOS}</a></td>
 								<td class="text-right">${mtrblc.SALES}</td>
 								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>

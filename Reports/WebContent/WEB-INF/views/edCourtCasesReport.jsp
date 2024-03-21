@@ -169,13 +169,13 @@
 									<td>${tagStatus.index + 1}</td>
 									<td>${mtrblc.CIRCLE}</td>
 									<td class="text-right"><a
-										href="edCourtCasesForHT2MinEDRate?circle=${mtrblc.CIRCLE}">${mtrblc.HT2_MIN_EDRATE}</a></td>
+										href="edCourtCasesForHT2MinEDRate?circle=${mtrblc.CIRCLE}&fcircle=${circle}">${mtrblc.HT2_MIN_EDRATE}</a></td>
 									<td class="text-right"><a
-										href="edCourtCasesForHT2MaxEDRate?cir=${mtrblc.CIRCLE}">${mtrblc.HT2_MAX_EDRATE}</a></td>
+										href="edCourtCasesForHT2MaxEDRate?cir=${mtrblc.CIRCLE}&fcircle=${circle}">${mtrblc.HT2_MAX_EDRATE}</a></td>
 									<td class="text-right"><a
-										href="edCourtCasesForHT3MinEDRate?cir=${mtrblc.CIRCLE}">${mtrblc.HT3_MIN_EDRATE}</a></td>
+										href="edCourtCasesForHT3MinEDRate?cir=${mtrblc.CIRCLE}&fcircle=${circle}">${mtrblc.HT3_MIN_EDRATE}</a></td>
 									<td class="text-right"><a
-										href="edCourtCasesForHT3MaxEDRate?cir=${mtrblc.CIRCLE}">${mtrblc.HT3_MAX_EDRATE}</a></td>
+										href="edCourtCasesForHT3MaxEDRate?cir=${mtrblc.CIRCLE}&fcircle=${circle}">${mtrblc.HT3_MAX_EDRATE}</a></td>
 
 								</tr>
 							</c:forEach>
