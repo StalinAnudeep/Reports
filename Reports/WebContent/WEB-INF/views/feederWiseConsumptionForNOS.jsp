@@ -67,11 +67,28 @@ thead>tr>th {
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
 				<h2 class="text-center">${title}</h2>
-				<div class="bg-info text-white text-center"
-					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
-					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
-				<div class="text-right">
-					<a href="feederwiseFYConsumption" class="btn btn-primary">Back</a>
+				<div class="row">
+					<div class="col-md-10">
+						<div class="bg-info text-white text-center"
+							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+					</div>
+					<%-- <div class="col-md-2">
+						<div class="text-right">
+							<form class="card" action="feederwiseFYConsumption" method="post"
+								id="form">
+								<input type="text" value='${circle}' name="circle" id="circle">
+								<input type="text" value='${division}' name="division" id="division">
+								<input type="text" value='${subdivision}' name="subdivision" id="subdivision">
+								<input type="text" value='${feeder}' id="feeder" name="feeder">
+								<input type="text" value='${year}' id="year" name="year">
+								<button type="submit" class="btn btn-link">
+									<i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+								</button>
+
+							</form>
+						</div>
+					</div> --%>
 				</div>
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
@@ -80,36 +97,44 @@ thead>tr>th {
 						<tr>
 							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
-						<tr class="bg-primary text-center">
-							<th style="vertical-align: middle;">CTUSCNO</th>
-							<th style="vertical-align: middle;">SALES</th>
-							<th style="vertical-align: middle;">KWH_UNITS</th>
-							<th style="vertical-align: middle;">BKVA_UNITS</th>
-							<th style="vertical-align: middle;">OB</th>
-							<th style="vertical-align: middle;">DEMAND</th>
-							<th style="vertical-align: middle;">COLL_ARREAR</th>
-							<th style="vertical-align: middle;">COLL_DEMAND</th>
-							<th style="vertical-align: middle;">COLLECTION</th>
-							<th style="vertical-align: middle;">DRJ</th>
-							<th style="vertical-align: middle;">CRJ</th>
-							<th style="vertical-align: middle;">CB</th>
+						<tr class="bg-primary text-white text-center">
+							<th class="text-center align-middle" rowspan="2">SNO</th>
+							<th rowspan="2" style="vertical-align: middle;">USCNO</th>
+							<th rowspan="2" style="vertical-align: middle;">SALES</th>
+							<th rowspan="2" style="vertical-align: middle;">OB</th>
+							<th colspan="3" class="text-center">DEMAND</th>
+
+							<th colspan="4" class="text-center">COLLECTION</th>
+							<!-- <th  rowspan="2">DRJ</th> -->
+
+							<th rowspan="2" class="text-center"
+								style="vertical-align: middle;">CB</th>
+						</tr>
+						<tr class="bg-primary text-white text-center">
+							<th>DEMAND</th>
+							<th>DRJ</th>
+							<th>TOTAL</th>
+							<th>COLL ARREAR</th>
+							<th>COLL DEMAND</th>
+							<th>CRJ</th>
+							<th>TOTAL</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="mtrblc" items="${NOSfeederDetails}"
 							varStatus="tagStatus">
 							<tr style="font-weight: 500;">
+								<td class="text-right">${tagStatus.index + 1}</td>
 								<td class="text-right">${mtrblc.CTUSCNO}</td>
 								<td class="text-right">${mtrblc.SALES}</td>
-								<td class="text-right">${mtrblc.KWH_UNITS}</td>
-								<td class="text-right">${mtrblc.BKVA_UNITS}</td>
 								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>
+								<td class="text-right">${mtrblc.DRJ}</td>
+								<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
 								<td class="text-right">${mtrblc.COLL_ARREAR}</td>
 								<td class="text-right">${mtrblc.COLL_DEMAND}</td>
-								<td class="text-right">${mtrblc.COLLECTION}</td>
-								<td class="text-right">${mtrblc.DRJ}</td>
 								<td class="text-right">${mtrblc.CRJ}</td>
+								<td class="text-right">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
 								<td class="text-right">${mtrblc.CB}</td>
 						</c:forEach>
 					</tbody>
@@ -118,15 +143,15 @@ thead>tr>th {
 
 							<th colspan="1" class="text-right">Grand Total</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum() + NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
 						</tr>
 					</tfoot>

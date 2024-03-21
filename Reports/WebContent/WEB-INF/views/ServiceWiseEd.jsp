@@ -90,16 +90,16 @@
 						<c:forEach var="mtrblc" items="${ed}" varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td>${mtrblc.CTNAME}</td>
 								<td>${mtrblc.CIRNAME}</td>
 								<td>${mtrblc.DIVNAME}</td>
 								<td>${mtrblc.SUBNAME}</td>
 								<td>${mtrblc.SECNAME}</td>
 								<td>${mtrblc.BTSCNO}</td>
+								<td>${mtrblc.CTNAME}</td>
 								<td >${mtrblc.CAT}</td>
-								<td class = "text-rigth">${mtrblc.BTED}</td>
-								<td class = "text-rigth">${mtrblc.BTED_INT}</td>
-								<td class = "text-rigth">${mtrblc.BTEDKVAH}</td>
+								<td class = "text-right">${mtrblc.BTED}</td>
+								<td class = "text-right">${mtrblc.BTED_INT}</td>
+								<td class = "text-right">${mtrblc.BTEDKVAH}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

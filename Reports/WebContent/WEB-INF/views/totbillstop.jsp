@@ -76,7 +76,6 @@
 						<th>USCNO</th>
 						<th>NAME</th>
 						<th>TYPE</th>
-						
 						<th>BILL STOP ARREAR </th>
 						<th>DEPOSIT </th>
 						<th>Closing Reading</th>

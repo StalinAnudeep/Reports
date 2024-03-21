@@ -873,6 +873,8 @@
 							Wise And Govt/Pvt Report </a></td>
 					<td></td>
 				</tr>
+				
+				
 
 			</table>
 		</div>
@@ -993,6 +995,21 @@
 					<td><a href="ServiceWiseEd">HT Service Wise ED Report</a></td>
 					<td></td>
 				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new.gif"
+							style="width: 40px;">HT111</span></td>
+					<td><a href="EDAbstract">ED Abstract</a></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT139</span></td>
+					<td><a href="edCourtCasesReport">ED Court Cases Report </a></td>
+					<td></td>
+				</tr>
+				
 				<tr>
 					<td><span>HT81</span></td>
 					<td><a href="liveandbilstopcategory">Circle Wise Category
@@ -1138,12 +1155,7 @@
 					<td></td>
 				</tr>
 
-				<tr>
-					<td><span><img src="./demo/brand/new.gif"
-							style="width: 40px;">HT111</span></td>
-					<td><a href="EDAbstract">ED Abstract</a></td>
-					<td></td>
-				</tr>
+				
 
 				<tr>
 					<td><span><img src="./demo/brand/new.gif"

@@ -497,6 +497,10 @@ public class NewReportController {
 			mav.addObject("title", "Financial Year Report For - " + circle + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(NOSfeederDetails));
 			mav.addObject("year", year);
+			mav.addObject("circle", circle);
+			mav.addObject("division",division);
+			mav.addObject("subdivision",subdiv);
+			mav.addObject("feeder", feedercode);
 
 		}
 
@@ -902,15 +906,16 @@ public class NewReportController {
 		return mav;
 
 	}
-	
+
 	@GetMapping("/cumilativeReportForServices")
 	public ModelAndView getCumilativeReportForServices(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,@RequestParam(name = "section") String section,@RequestParam(name = "fyear") String fyear,
+			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,
+			@RequestParam(name = "section") String section, @RequestParam(name = "fyear") String fyear,
 			@RequestParam(name = "tyear") String tyear, @RequestParam(name = "type") String type)
 			throws ParseException {
 		ModelAndView mav = new ModelAndView("cumilativeReportForServices");
-		List<Map<String, Object>> cumilativeServiceDetails = newReportDao.getCumilativeReportForServices(circle, division,
-				subdiv,section,fyear, tyear, type);
+		List<Map<String, Object>> cumilativeServiceDetails = newReportDao.getCumilativeReportForServices(circle,
+				division, subdiv, section, fyear, tyear, type);
 		System.out.println(cumilativeServiceDetails);
 		if (cumilativeServiceDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -1005,12 +1010,12 @@ public class NewReportController {
 	// 103AForNos
 	@GetMapping("/feederWiseSubDivAbstarctForNOS")
 	public ModelAndView getFeederWiseSubDivAbstarctForNOS(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,@RequestParam(name = "month") String month,
-			@RequestParam(name = "year") String year, @RequestParam(name = "feeder") String feedercode)
-			throws ParseException {
+			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,
+			@RequestParam(name = "month") String month, @RequestParam(name = "year") String year,
+			@RequestParam(name = "feeder") String feedercode) throws ParseException {
 		ModelAndView mav = new ModelAndView("feederWiseSubDivAbstarctForNOS");
 		List<Map<String, Object>> feederDetailsForNos = newReportDao.getFeederWiseSubDivAbstarctForNOS(circle, division,
-				subdiv,month, year, feedercode);
+				subdiv, month, year, feedercode);
 		System.out.println(feederDetailsForNos);
 		if (feederDetailsForNos.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -1020,6 +1025,99 @@ public class NewReportController {
 			mav.addObject("CIRCOUNT", countFrequencies(feederDetailsForNos));
 			mav.addObject("year", year);
 
+		}
+
+		return mav;
+
+	}
+
+	// 139
+	@GetMapping("/edCourtCasesReport")
+	public String getEdCourtCasesReport() {
+		return "edCourtCasesReport";
+	}
+
+	@PostMapping("/edCourtCasesReport")
+	public ModelAndView getEdCourtCasesReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("edCourtCasesReport");
+		List<Map<String, Object>> caseDetails = newReportDao.getEdCourtCasesReport(request);
+		System.out.println(caseDetails);
+		String circle = request.getParameter("circle");
+		if (caseDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("caseDetails", caseDetails);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("title",
+					"ED Court Cases For  " + (circle.equals("ALL") ? "APCPDCL" : circle));
+		}
+		return mav;
+	}
+	
+	@GetMapping("/edCourtCasesForHT2MinEDRate")
+	public ModelAndView getEdCourtCasesForHT2MinEDRate(@RequestParam(name = "circle") String circle) throws ParseException {
+		ModelAndView mav = new ModelAndView("edCourtCasesForHT2MinEDRate");
+		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT2MinEDRate(circle);
+		System.out.println(courtDetais);
+		if (courtDetais.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("courtDetais", courtDetais);
+			mav.addObject("circle", circle);
+			mav.addObject("title", "ED Court cases For - " + circle );
+		}
+
+		return mav;
+
+	}
+	
+	
+	@GetMapping("/edCourtCasesForHT2MaxEDRate")
+	public ModelAndView getEdCourtCasesForHT2MaxEDRate(@RequestParam(name = "cir") String circle) throws ParseException {
+		ModelAndView mav = new ModelAndView("edCourtCasesForHT2MaxEDRate");
+		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT2MaxEDRate(circle);
+		System.out.println(courtDetais);
+		if (courtDetais.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("courtDetais", courtDetais);
+			mav.addObject("circle", circle);
+			mav.addObject("title", "ED Court cases For - " + circle );
+		}
+
+		return mav;
+
+	}
+	
+	
+	@GetMapping("/edCourtCasesForHT3MinEDRate")
+	public ModelAndView getEdCourtCasesForHT3MinEDRate(@RequestParam(name = "cir") String circle) throws ParseException {
+		ModelAndView mav = new ModelAndView("edCourtCasesForHT3MinEDRate");
+		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT3MinEDRate(circle);
+		System.out.println(courtDetais);
+		if (courtDetais.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("courtDetais", courtDetais);
+			mav.addObject("circle", circle);
+			mav.addObject("title", "ED Court cases For - " + circle );
+		}
+
+		return mav;
+
+	}
+	
+	@GetMapping("/edCourtCasesForHT3MaxEDRate")
+	public ModelAndView getEdCourtCasesForHT3MaxEDRate(@RequestParam(name = "cir") String circle) throws ParseException {
+		ModelAndView mav = new ModelAndView("edCourtCasesForHT3MaxEDRate");
+		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT3MaxEDRate(circle);
+		System.out.println(courtDetais);
+		if (courtDetais.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("courtDetais", courtDetais);
+			mav.addObject("circle", circle);
+			mav.addObject("title", "ED Court cases For - " + circle );
 		}
 
 		return mav;

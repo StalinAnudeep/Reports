@@ -47,7 +47,7 @@ public class NewReportDao {
 
 	private static Logger log = Logger.getLogger(NewReportDao.class);
 
-	//125
+	// 125
 	public List<Map<String, Object>> getFinancialConsumption(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fin_year = request.getParameter("year");
@@ -182,8 +182,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//23A
+	// 23A
 	public List<Map<String, Object>> getEmailsAndSmsReport(HttpServletRequest request) {
 
 		String monthYear = request.getParameter("month") + "-" + request.getParameter("year");
@@ -257,8 +256,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//97D
+	// 97D
 	public List<Map<String, Object>> getHtDCBCollectionSplitMonthlyWiseAbstract(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String levi_month = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
@@ -318,8 +316,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//123
+	// 123
 	public List<Map<String, Object>> getMonthWiseTariffReport(HttpServletRequest request) {
 
 		String month = request.getParameter("month");
@@ -368,8 +365,7 @@ public class NewReportDao {
 
 	}
 
-	
-	//124
+	// 124
 	public List<Map<String, Object>> getFinancialYearTariffReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -409,8 +405,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//126
+	// 126
 	public List<Map<String, Object>> getFyConsumption2(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromYear = "01-APR-" + request.getParameter("fyear");
@@ -433,8 +428,7 @@ public class NewReportDao {
 		return (List<Map<String, Object>>) out.get("PRC");
 	}
 
-	
-	//127
+	// 127
 	public List<Map<String, Object>> getTodConsumptionOfFyReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -469,8 +463,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//128
+	// 128
 	public List<Map<String, Object>> getTodConsumptionMonthReport(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -549,16 +542,12 @@ public class NewReportDao {
 						+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
 						+ "GROUP BY USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR))A,\r\n"
 						+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
-						+ "WHERE CTUSCNO=A.USCNO \r\n"
-						+ "AND CTUSCNO=B.USCNO \r\n"
-						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
+						+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n" + "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
 						+ "GROUP BY SUBSTR(CTUSCNO,1,3), FINANCIAL_YEAR, CTCAT\r\n"
-						+ "ORDER BY CIRCLE,FINANCIAL_YEAR,CTCAT)\r\n"
-						+ "GROUP BY ROLLUP(CIRCLE,CTCAT)\r\n"
+						+ "ORDER BY CIRCLE,FINANCIAL_YEAR,CTCAT)\r\n" + "GROUP BY ROLLUP(CIRCLE,CTCAT)\r\n"
 						+ "ORDER BY\r\n"
 						+ "case when CIRCLE = 'VJA' then '001' when CIRCLE = 'GNT' then '002' when CIRCLE = 'ONG' then '003'  \r\n"
-						+ "when CIRCLE = 'CRD' then '009' else CIRCLE end,CTCAT)\r\n"
-						+ "WHERE CIRCLE IS NOT NULL";
+						+ "when CIRCLE = 'CRD' then '009' else CIRCLE end,CTCAT)\r\n" + "WHERE CIRCLE IS NOT NULL";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, load_year, circle });
 			} catch (DataAccessException e) {
@@ -590,12 +579,9 @@ public class NewReportDao {
 						+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
 						+ "GROUP BY USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR))A,\r\n"
 						+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
-						+ "WHERE CTUSCNO=A.USCNO \r\n"
-						+ "AND CTUSCNO=B.USCNO \r\n"
-						+ "AND SUBSTR(CTSECCD,-5)=SECCD(+)\r\n"
-						+ "GROUP BY DIVNAME, FINANCIAL_YEAR, CTCAT\r\n"
-						+ "ORDER BY DIVNAME,FINANCIAL_YEAR,CTCAT)\r\n"
-						+ "GROUP BY CUBE(DIVNAME,CTCAT)\r\n"
+						+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n"
+						+ "AND SUBSTR(CTSECCD,-5)=SECCD(+)\r\n" + "GROUP BY DIVNAME, FINANCIAL_YEAR, CTCAT\r\n"
+						+ "ORDER BY DIVNAME,FINANCIAL_YEAR,CTCAT)\r\n" + "GROUP BY CUBE(DIVNAME,CTCAT)\r\n"
 						+ "ORDER BY\r\n"
 						+ "case when DIVNAME = 'VJA' then '001' when DIVNAME = 'GNT' then '002' when DIVNAME = 'ONG' then '003'  \r\n"
 						+ "when DIVNAME = 'CRD' then '009' else DIVNAME end,CTCAT) WHERE DIVNAME IS NOT NULL";
@@ -609,8 +595,7 @@ public class NewReportDao {
 			}
 		} else {
 			try {
-				String sql = "SELECT * FROM(\r\n"
-						+ "(SELECT DIVNAME,\r\n"
+				String sql = "SELECT * FROM(\r\n" + "(SELECT DIVNAME,\r\n"
 						+ "case when CTCAT is null then 'TOTAL' ELSE CTCAT END CTCAT,COUNT(*)SCS,ROUND(SUM(CAPACITY))CAPACITY,ROUND(SUM(SALES))SALES_MU,\r\n"
 						+ "ROUND(SUM(DEMAND))DEMAND_LAKHS,ROUND(SUM(COLLECTION))COLLECTION_LAKHS,ROUND(SUM(CB))CB_LAKHS FROM CONS,MASTER.SPDCLMASTER,\r\n"
 						+ "(SELECT USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR)FINANCIAL_YEAR,ROUND(SUM(MN_KVAH)/1000,2) SALES,\r\n"
@@ -619,11 +604,8 @@ public class NewReportDao {
 						+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
 						+ "GROUP BY USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR))A,\r\n"
 						+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
-						+ "WHERE CTUSCNO=A.USCNO \r\n"
-						+ "AND CTUSCNO=B.USCNO \r\n"
-						+ "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
-						+ "GROUP BY ROLLUP(DIVNAME, CTCAT)\r\n"
+						+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n" + "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
+						+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n" + "GROUP BY ROLLUP(DIVNAME, CTCAT)\r\n"
 						+ "ORDER BY DIVNAME,CTCAT)) WHERE DIVNAME IS NOT NULL";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, load_year, circle });
@@ -635,18 +617,14 @@ public class NewReportDao {
 			}
 		}
 	}
-	
-	
-	
+
 	public List<Map<String, Object>> getFySalesReportForSubDivision(String division, String year) {
 		String fromdate = "01-APR-" + year.split("-")[0];
 		String todate = "31-MAR-" + year.split("-")[1];
 		String load_year = "MAR-" + year.split("-")[1];
-		
-		
+
 		try {
-			String sql = "SELECT * FROM(\r\n"
-					+ "(SELECT SUBNAME,\r\n"
+			String sql = "SELECT * FROM(\r\n" + "(SELECT SUBNAME,\r\n"
 					+ "case when CTCAT is null then 'TOTAL' ELSE CTCAT END CTCAT,COUNT(*)SCS,ROUND(SUM(CAPACITY))CAPACITY,ROUND(SUM(SALES))SALES_MU,\r\n"
 					+ "ROUND(SUM(DEMAND))DEMAND_LAKHS,ROUND(SUM(COLLECTION))COLLECTION_LAKHS,ROUND(SUM(CB))CB_LAKHS FROM CONS,MASTER.SPDCLMASTER,\r\n"
 					+ "(SELECT USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR)FINANCIAL_YEAR,ROUND(SUM(MN_KVAH)/1000,2) SALES,\r\n"
@@ -655,11 +633,8 @@ public class NewReportDao {
 					+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
 					+ "GROUP BY USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR))A,\r\n"
 					+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
-					+ "WHERE CTUSCNO=A.USCNO \r\n"
-					+ "AND CTUSCNO=B.USCNO \r\n"
-					+ "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-					+ "AND DIVNAME=?\r\n"
-					+ "GROUP BY ROLLUP(SUBNAME, CTCAT)\r\n"
+					+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n" + "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
+					+ "AND DIVNAME=?\r\n" + "GROUP BY ROLLUP(SUBNAME, CTCAT)\r\n"
 					+ "ORDER BY SUBNAME,CTCAT)) WHERE SUBNAME IS NOT NULL";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, load_year, division });
@@ -669,19 +644,16 @@ public class NewReportDao {
 			e.printStackTrace();
 			return Collections.emptyList();
 		}
-	
+
 	}
-	
-	
+
 	public List<Map<String, Object>> getFySalesReportForSection(String subDivision, String year) {
 		String fromdate = "01-APR-" + year.split("-")[0];
 		String todate = "31-MAR-" + year.split("-")[1];
 		String load_year = "MAR-" + year.split("-")[1];
-		
-		
+
 		try {
-			String sql = "SELECT * FROM(\r\n"
-					+ "(SELECT SECNAME,\r\n"
+			String sql = "SELECT * FROM(\r\n" + "(SELECT SECNAME,\r\n"
 					+ "case when CTCAT is null then 'TOTAL' ELSE CTCAT END CTCAT,COUNT(*)SCS,ROUND(SUM(CAPACITY))CAPACITY,ROUND(SUM(SALES))SALES_MU,\r\n"
 					+ "ROUND(SUM(DEMAND))DEMAND_LAKHS,ROUND(SUM(COLLECTION))COLLECTION_LAKHS,ROUND(SUM(CB))CB_LAKHS FROM CONS,MASTER.SPDCLMASTER,\r\n"
 					+ "(SELECT USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR)FINANCIAL_YEAR,ROUND(SUM(MN_KVAH)/1000,2) SALES,\r\n"
@@ -690,11 +662,8 @@ public class NewReportDao {
 					+ "FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
 					+ "GROUP BY USCNO,GET_FINANCIAL_YEAR_LEDGER(MON_YEAR))A,\r\n"
 					+ "(SELECT USCNO,SUM(LOAD )CAPACITY FROM LEDGER_HT_HIST WHERE MON_YEAR=? GROUP BY USCNO)B\r\n"
-					+ "WHERE CTUSCNO=A.USCNO \r\n"
-					+ "AND CTUSCNO=B.USCNO \r\n"
-					+ "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-					+ "AND SUBNAME=?\r\n"
-					+ "GROUP BY ROLLUP(SECNAME, CTCAT)\r\n"
+					+ "WHERE CTUSCNO=A.USCNO \r\n" + "AND CTUSCNO=B.USCNO \r\n" + "AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
+					+ "AND SUBNAME=?\r\n" + "GROUP BY ROLLUP(SECNAME, CTCAT)\r\n"
 					+ "ORDER BY SECNAME,CTCAT)) WHERE SECNAME IS NOT NULL";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { fromdate, todate, load_year, subDivision });
@@ -706,8 +675,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//130
+	// 130
 	public List<Map<String, Object>> getMonthSalesReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fin_year = request.getParameter("year");
@@ -757,8 +725,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//102A
+	// 102A
 	public List<Map<String, Object>> getVoltagewiseFinancialYearAbstract(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-04-" + fin_year.split("-")[0];
@@ -844,8 +811,7 @@ public class NewReportDao {
 
 	}
 
-	
-	//103B
+	// 103B
 	public List<Map<String, Object>> getFeederwiseFYConsumption(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-APR-" + fin_year.split("-")[0];
@@ -910,10 +876,10 @@ public class NewReportDao {
 				sqlBuilder.append("");
 			}
 
-			if (feederCode != null && !feederCode.isEmpty()&& !feederCode.equals("ALL")) {
+			if (feederCode != null && !feederCode.isEmpty() && !feederCode.equals("ALL")) {
 				sqlBuilder.append("AND ctfeeder_code=? \r\n");
 				params.add(feederCode);
-			}else {
+			} else {
 				sqlBuilder.append("");
 			}
 
@@ -931,10 +897,10 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
-	
+
 	public List<Map<String, Object>> getFeederWiseConsumptionForNOS(String circle, String division, String subdiv,
 			String year, String feedercode) {
-		
+
 		String fyear = "01-04-" + year.split("-")[0];
 		String tyear = "31-03-" + year.split("-")[1];
 		try {
@@ -943,17 +909,18 @@ public class NewReportDao {
 			sqlBuilder.append(
 					"SUM(nvl(Mn_Kvah,0)) BKVA_UNITS,SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n");
 			sqlBuilder.append("SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,\r\n");
-			sqlBuilder.append(
-					"SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
+			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
 			sqlBuilder.append(
 					"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR, \r\n");
 			sqlBuilder.append("SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n");
-			sqlBuilder.append("CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n");
+			sqlBuilder.append(
+					"CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,\r\n");
 			sqlBuilder.append(
 					"SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj, \r\n");
 			sqlBuilder.append(
 					"SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast,MASTER.SPDCLMASTER\r\n");
-			sqlBuilder.append("where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n");
+			sqlBuilder.append(
+					"where TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n");
 			sqlBuilder.append("and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode AND SUBSTR(CTSECCD,-5)=SECCD\r\n");
 
 			List<Object> params = new ArrayList<>();
@@ -986,8 +953,7 @@ public class NewReportDao {
 				sqlBuilder.append("");
 			}
 
-			sqlBuilder.append(
-					"GROUP BY ctuscno\r\n");
+			sqlBuilder.append("GROUP BY ctuscno\r\n");
 			sqlBuilder.append("Order By ctuscno\r\n");
 
 			String sql = sqlBuilder.toString();
@@ -1001,8 +967,7 @@ public class NewReportDao {
 		}
 	}
 
-
-	//97C1
+	// 97C1
 	public List<Map<String, Object>> gethtDCBCollectionSplitFYWise(HttpServletRequest request) {
 		String fin_year = request.getParameter("year");
 		String fromdate = "01-04-" + fin_year.split("-")[0];
@@ -1069,7 +1034,7 @@ public class NewReportDao {
 		}
 	}
 
-	//131
+	// 131
 	public List<Map<String, Object>> getHtSolarMonthReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String date = request.getParameter("month") + "-" + request.getParameter("year");
@@ -1251,8 +1216,7 @@ public class NewReportDao {
 
 	}
 
-	
-	//132
+	// 132
 	public List<Map<String, Object>> getOpenAccessReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1347,8 +1311,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//133
+	// 133
 	public List<Map<String, Object>> getOpenAccessCrossSubsidyReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1440,8 +1403,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//134
+	// 134
 	public List<Map<String, Object>> getOpenAccessWheelingChargesReport(HttpServletRequest request) {
 		String fyear[] = request.getParameter("year").split("-");
 
@@ -1533,8 +1495,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//135
+	// 135
 	public List<Map<String, Object>> getCumilativeReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromMonthYear = "01-" + request.getParameter("fmonth") + "-" + request.getParameter("fyear");
@@ -1600,9 +1561,7 @@ public class NewReportDao {
 
 		}
 	}
-	
-	
-	
+
 	public List<Map<String, Object>> getCumilativeReportForServices(String circle, String division, String subdiv,
 			String section, String fyear, String tyear, String type) {
 		try {
@@ -1626,7 +1585,7 @@ public class NewReportDao {
 					+ "ORDER BY CIRCLE,DIVNAME,SUBNAME,SECNAME,TYPE,CTUSCNO";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql,
-					new Object[] { fyear, fyear,tyear, tyear, circle , division,subdiv,section,type });
+					new Object[] { fyear, fyear, tyear, tyear, circle, division, subdiv, section, type });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
@@ -1635,8 +1594,7 @@ public class NewReportDao {
 		}
 	}
 
-	
-	//136
+	// 136
 	public List<Map<String, Object>> getArrearsStatusReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String monthYear = "01-" + request.getParameter("month") + " - " + request.getParameter("year");
@@ -1897,10 +1855,9 @@ public class NewReportDao {
 		}
 	}
 
+	public List<Map<String, Object>> getFeederWiseSubDivAbstarctForNOS(String circle, String division, String subdiv,
+			String month, String year, String feedercode) {
 
-	public List<Map<String, Object>> getFeederWiseSubDivAbstarctForNOS(String circle, String division, String subdiv,String month,
-			String year, String feedercode) {
-		
 		String Mon_Year = month + "-" + year;
 		try {
 			String sql = "Select UNIQUE ctuscno,sum(nvl(mn_kvah,0)) sales,SUM(nvl(REC_KWH,0)) KWH_UNITS,\r\n"
@@ -1914,12 +1871,8 @@ public class NewReportDao {
 					+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb from ledger_ht_hist a,cons b,feedermast,MASTER.SPDCLMASTER\r\n"
 					+ "where TO_DATE(MON_YEAR,'MON-YYYY') IN TO_DATE(?,'MON-YYYY')\r\n"
 					+ "and  A.Uscno=B.CTUscno and ctfeeder_code=fmsapfcode AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
-					+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n"
-					+ "AND DIVNAME=? \r\n"
-					+ "AND SUBNAME=?\r\n"
-					+ "AND ctfeeder_code=? \r\n"
-					+ "GROUP BY ctuscno\r\n"
-					+ "Order By ctuscno";
+					+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n" + "AND DIVNAME=? \r\n" + "AND SUBNAME=?\r\n"
+					+ "AND ctfeeder_code=? \r\n" + "GROUP BY ctuscno\r\n" + "Order By ctuscno";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { Mon_Year, circle, division, subdiv, feedercode });
 		} catch (DataAccessException e) {
@@ -1930,5 +1883,88 @@ public class NewReportDao {
 		}
 	}
 
+	// 139
+	public List<Map<String, Object>> getEdCourtCasesReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String circleString = circle.equals(("ALL")) ? "" : "AND substr(ctuscno,1,3) = '" + circle + "'";
+		try {
+			String sql = "SELECT * FROM(\r\n" + "SELECT circle ,ctcat,\r\n"
+					+ "CASE WHEN ED_COUNT IS NOT NULL THEN ED_COUNT ELSE 0 END MIN_EDRATE,\r\n"
+					+ "CASE WHEN BILL_COUNT IS NOT NULL THEN BILL_COUNT ELSE 0 END MAX_EDRATE\r\n" + "FROM(\r\n"
+					+ "select substr(ctuscno,1,3) circle ,ctcat,\r\n"
+					+ "COUNT(CASE WHEN btscno in(select distinct htscno from ed_court_cases) AND ctcat in('HT2','HT3') THEN BTSCNO ELSE NULL END) ED_COUNT,\r\n"
+					+ "COUNT(CASE WHEN btscno NOT in(select distinct htscno from ed_court_cases) and ctcat in('HT2','HT3')  THEN BTSCNO ELSE NULL END) BILL_COUNT\r\n"
+					+ "from cons,bill where ctuscno=btscno and ctcat in('HT2','HT3')\r\n" + circleString
+					+ "GROUP BY substr(ctuscno,1,3),ctcat\r\n" + "order by circle,ctcat))\r\n" + "PIVOT(\r\n"
+					+ "SUM(MIN_EDRATE) AS MIN_EDRATE,SUM(MAX_EDRATE) AS MAX_EDRATE FOR CTCAT IN ('HT2' HT2,'HT3' HT3))\r\n"
+					+ "ORDER BY CIRCLE";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {});
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getEdCourtCasesForHT2MinEDRate(String circle) {
+		try {
+			String sql = "select cirname,divname,subname,secname,ctuscno,ctname,ctcat,DECODE(ctgovt_pvt,'Y','GOVT','N','PVT')TYPE,BTRKVAH_HT,BTBKVAH,bted,bted*0.06 \r\n"
+					+ "from cons,bill,master.spdclmaster\r\n"
+					+ "where ctuscno=btscno and substr(ctseccd,-5)=seccd and substr(ctuscno,1,3) = ? and ctcat='HT2' AND BTSCNO IN(SELECT HTSCNO FROM ED_COURT_CASES)";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getEdCourtCasesForHT2MaxEDRate(String circle) {
+		try {
+			String sql = "select cirname,divname,subname,secname,ctuscno,ctname,ctcat,DECODE(ctgovt_pvt,'Y','GOVT','N','PVT')TYPE,BTRKVAH_HT,BTBKVAH,bted,bted*1 from cons,bill,master.spdclmaster\r\n"
+					+ "where ctuscno=btscno and substr(ctseccd,-5)=seccd and substr(ctuscno,1,3) = ? and ctcat='HT2' AND BTSCNO NOT IN(SELECT HTSCNO FROM ED_COURT_CASES)";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getEdCourtCasesForHT3MinEDRate(String circle) {
+		try {
+			String sql = "select cirname,divname,subname,secname,ctuscno,ctname,ctcat,DECODE(ctgovt_pvt,'Y','GOVT','N','PVT')TYPE,BTRKVAH_HT,BTBKVAH,bted,bted*0.06 from cons,bill,master.spdclmaster\r\n"
+					+ "where ctuscno=btscno and substr(ctseccd,-5)=seccd and substr(ctuscno,1,3) = ? and ctcat='HT3' AND BTSCNO IN(SELECT HTSCNO FROM ED_COURT_CASES)";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getEdCourtCasesForHT3MaxEDRate(String circle) {
+		try {
+			String sql = "select cirname,divname,subname,secname,ctuscno,ctname,ctcat,DECODE(ctgovt_pvt,'Y','GOVT','N','PVT')TYPE,BTRKVAH_HT,BTBKVAH,bted,bted*1\r\n"
+					+ "from cons,bill,master.spdclmaster\r\n"
+					+ "where ctuscno=btscno and substr(ctseccd,-5)=seccd and substr(ctuscno,1,3) = ? \r\n"
+					+ "and ctcat='HT3' AND BTSCNO NOT IN(SELECT HTSCNO FROM ED_COURT_CASES)";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
 
 }
