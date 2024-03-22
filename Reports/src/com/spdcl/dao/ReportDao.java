@@ -9180,7 +9180,6 @@ public class ReportDao {
 			return jdbcTemplate.queryForList(sql, new Object[] { monthYear, monthYear });
 		}
 	}
-
 	public List<Map<String, Object>> getEnergyAuditSales(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromDate = request.getParameter("fromdate");
