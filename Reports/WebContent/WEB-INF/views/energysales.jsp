@@ -75,6 +75,7 @@
 							<th>SERVICE TYPE</th>
 							<th>OPEN ACCESS (70%)</th>
 							<th>OPEN ACCESS (30%)</th> 
+							<th>Back Billing Units</th> 
 						</tr>
 					</thead>
 					<tbody>
@@ -107,6 +108,7 @@
 								<td>${mtrblc.STDESC}</td>
 								<td class="text-right">${mtrblc.BTOA_KVAH}</td>
 								<td class="text-right">${mtrblc.KVAH_UNITS}</td>
+								<td class="text-right">${mtrblc.BB_KVAH_UNITS}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

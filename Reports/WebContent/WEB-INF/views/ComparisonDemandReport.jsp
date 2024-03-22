@@ -69,9 +69,9 @@
 							<th class="text-center">BMD(${premonth})</th>
 							<th class="text-center">ENGCHG(${monthYear})</th>
 							<th class="text-center">ENGCHG(${premonth})</th>
-							<th class="text-center">CMD(${monthYear})</th>
-							<th class="text-center">CMD(${premonth})</th>
-							<th class="text-center">CMD DIFFERENCE</th>
+							<th class="text-center">DEMAND(${monthYear})</th>
+							<th class="text-center">DEMAND(${premonth})</th>
+							<th class="text-center">DEMAND DIFFERENCE</th>
 						</tr>
 					</thead>
 					<tbody>
