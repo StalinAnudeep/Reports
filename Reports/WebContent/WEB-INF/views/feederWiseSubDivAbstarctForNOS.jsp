@@ -64,85 +64,108 @@ thead>tr>th {
 
 	<c:if test="${ not empty fn:trim(feederDetailsForNos)}">
 
-		<div
-			class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
-			<h2 class="text-center">${title}</h2>
-			<div class="bg-info text-white text-center"
-				onclick="exportThisWithParameter('multiLevelTable', '${title}')"
-				style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
-			<table id="multiLevelTable"
-				class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
-				style="width: 100%;">
-				<thead>
-					<tr>
-						<th class="bg-primary text-white text-center" colspan="17">${title}</th>
-					</tr>
-					<tr class="bg-primary text-white text-center">
-						<th class="text-center" rowspan="2"
-							style="vertical-align: middle;">S.NO</th>
-						<th rowspan="2" style="vertical-align: middle;">USCNO</th>
-						<th rowspan="2" style="vertical-align: middle;">SALES</th>
-						<th rowspan="2" style="vertical-align: middle;">OB</th>
-						<th colspan="3" class="text-center">DEMAND</th>
+		<div class="card ">
+			<div
+				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
+				<h2 class="text-center">${title}</h2>
+				<div class="row">
+					<div class="col-md-10">
+						<div class="bg-info text-white text-center"
+							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+					</div>
+					<div class="col-md-2">
+						<div class="text-right">
+							<form class="card" action="feederwisesubdivabstract" method="post"
+								id="form">
+								<input type="hidden" value='${circle}' name="circle" id="circle">
+								<input type="hidden" value='${division}' name="division"
+									id="division"> <input type="hidden"
+									value='${subdivision}' name="subdivision" id="subdivision">
+								<input type="hidden" value='${feeder}' id="feeder" name="feeder">
+								<input type="hidden" value='${fmonth}' id="month" name="month">
+								<input type="hidden" value='${year}' id="year" name="year">
+								<button type="submit" class="btn btn-link">
+									<i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+								</button>
 
-						<th colspan="4" class="text-center">COLLECTION</th>
-
-						<th rowspan="2" class="text-center"
-							style="vertical-align: middle;">CB</th>
-					</tr>
-					<tr class="bg-primary text-white text-center">
-						<th>DEMAND</th>
-						<th>DRJ</th>
-						<th>TOTAL</th>
-						<th>COLL ARREAR</th>
-						<th>COLL DEMAND</th>
-						<th>CRJ</th>
-						<th>TOTAL</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="mtrblc" items="${feederDetailsForNos}"
-						varStatus="tagStatus">
+							</form>
+						</div>
+					</div>
+				</div>
+				<table id="multiLevelTable"
+					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
+					style="width: 100%;">
+					<thead>
 						<tr>
-							<td>${tagStatus.index + 1}</td>
-							<td class="text-right">${mtrblc.CTUSCNO}</td>
-							<td class="text-right">${mtrblc.SALES}</td>
-							<td class="text-right">${mtrblc.OB}</td>
-							<td class="text-right">${mtrblc.DEMAND}</td>
-							<td class="text-right">${mtrblc.DRJ}</td>
-							<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
-							<td class="text-right">${mtrblc.COLL_ARREAR}</td>
-							<td class="text-right">${mtrblc.COLL_DEMAND}</td>
-							<td class="text-right">${mtrblc.CRJ}</td>
-							<td class="text-right">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
-							<td class="text-right">${mtrblc.CB}</td>
-
+							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
+						<tr class="bg-primary text-white text-center">
+							<th class="text-center" rowspan="2"
+								style="vertical-align: middle;">S.NO</th>
+							<th rowspan="2" style="vertical-align: middle;">USCNO</th>
+							<th rowspan="2" style="vertical-align: middle;">SALES</th>
+							<th rowspan="2" style="vertical-align: middle;">OB</th>
+							<th colspan="3" class="text-center">DEMAND</th>
+
+							<th colspan="4" class="text-center">COLLECTION</th>
+
+							<th rowspan="2" class="text-center"
+								style="vertical-align: middle;">CB</th>
+						</tr>
+						<tr class="bg-primary text-white text-center">
+							<th>DEMAND</th>
+							<th>DRJ</th>
+							<th>TOTAL</th>
+							<th>COLL ARREAR</th>
+							<th>COLL DEMAND</th>
+							<th>CRJ</th>
+							<th>TOTAL</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="mtrblc" items="${feederDetailsForNos}"
+							varStatus="tagStatus">
+							<tr>
+								<td>${tagStatus.index + 1}</td>
+								<td class="text-right">${mtrblc.CTUSCNO}</td>
+								<td class="text-right">${mtrblc.SALES}</td>
+								<td class="text-right">${mtrblc.OB}</td>
+								<td class="text-right">${mtrblc.DEMAND}</td>
+								<td class="text-right">${mtrblc.DRJ}</td>
+								<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
+								<td class="text-right">${mtrblc.COLL_ARREAR}</td>
+								<td class="text-right">${mtrblc.COLL_DEMAND}</td>
+								<td class="text-right">${mtrblc.CRJ}</td>
+								<td class="text-right">${mtrblc.COLLECTION + mtrblc.CRJ}</td>
+								<td class="text-right">${mtrblc.CB}</td>
+
+							</tr>
 
 
-					</c:forEach>
-				</tbody>
-				<tfoot>
-					<tr>
+						</c:forEach>
+					</tbody>
+					<tfoot>
+						<tr>
 
-						<th colspan="1" class="text-right">Grand Total</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
-						<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
-					</tr>
-				</tfoot>
-			</table>
+							<th colspan="2" class="text-right">Grand Total</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.KWH_UNITS).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.BKVA_UNITS).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${feederDetailsForNos.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
 		</div>
-
 	</c:if>
+
 </div>
 
 <script type="text/javascript">

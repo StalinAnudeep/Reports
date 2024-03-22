@@ -475,11 +475,11 @@ public class NewReportController {
 			mav.addObject("title", "Financial Year Report For - " + request.getParameter("circle") + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(feederDetails));
 			mav.addObject("year", year);
-			mav.addObject("circle",request.getParameter("circle"));
+			mav.addObject("circle", request.getParameter("circle"));
 			mav.addObject("division", request.getParameter("division"));
 			mav.addObject("subdivision", request.getParameter("subdivision"));
 			mav.addObject("feeder", request.getParameter("feeder"));
-			
+
 		}
 
 		return mav;
@@ -490,10 +490,9 @@ public class NewReportController {
 	public ModelAndView getFeederWiseConsumptionForNOS(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,
 			@RequestParam(name = "fyear") String year, @RequestParam(name = "feeder") String feedercode,
-			@RequestParam(name = "fcir") String fcircle,@RequestParam(name = "fdivision") String fdivision,
-			@RequestParam(name = "fsubdiv") String fsubdiv,@RequestParam(name = "year") String fyear,
-			@RequestParam(name = "ffeeder") String ffeeder)
-			throws ParseException {
+			@RequestParam(name = "fcir") String fcircle, @RequestParam(name = "fdivision") String fdivision,
+			@RequestParam(name = "fsubdiv") String fsubdiv, @RequestParam(name = "year") String fyear,
+			@RequestParam(name = "ffeeder") String ffeeder) throws ParseException {
 		ModelAndView mav = new ModelAndView("feederWiseConsumptionForNOS");
 		List<Map<String, Object>> NOSfeederDetails = newReportDao.getFeederWiseConsumptionForNOS(circle, division,
 				subdiv, year, feedercode);
@@ -506,8 +505,8 @@ public class NewReportController {
 			mav.addObject("CIRCOUNT", countFrequencies(NOSfeederDetails));
 			mav.addObject("year", fyear);
 			mav.addObject("circle", fcircle);
-			mav.addObject("division",fdivision);
-			mav.addObject("subdivision",fsubdiv);
+			mav.addObject("division", fdivision);
+			mav.addObject("subdivision", fsubdiv);
 			mav.addObject("feeder", ffeeder);
 
 		}
@@ -1020,7 +1019,10 @@ public class NewReportController {
 	public ModelAndView getFeederWiseSubDivAbstarctForNOS(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "divsion") String division, @RequestParam(name = "subdiv") String subdiv,
 			@RequestParam(name = "month") String month, @RequestParam(name = "year") String year,
-			@RequestParam(name = "feeder") String feedercode) throws ParseException {
+			@RequestParam(name = "feeder") String feedercode, @RequestParam(name = "fcir") String fcircle,
+			@RequestParam(name = "fdivision") String fdivision, @RequestParam(name = "fsubdiv") String fsubdiv,
+			@RequestParam(name = "fyear") String fyear, @RequestParam(name = "ffeeder") String ffeeder,@RequestParam(name = "fmonth") String fmonth)
+			throws ParseException {
 		ModelAndView mav = new ModelAndView("feederWiseSubDivAbstarctForNOS");
 		List<Map<String, Object>> feederDetailsForNos = newReportDao.getFeederWiseSubDivAbstarctForNOS(circle, division,
 				subdiv, month, year, feedercode);
@@ -1032,6 +1034,12 @@ public class NewReportController {
 			mav.addObject("title", "Financial Year Report For - " + circle + " - " + year);
 			mav.addObject("CIRCOUNT", countFrequencies(feederDetailsForNos));
 			mav.addObject("year", year);
+			mav.addObject("fyear", fyear);
+			mav.addObject("circle", fcircle);
+			mav.addObject("division", fdivision);
+			mav.addObject("subdivision", fsubdiv);
+			mav.addObject("feeder", ffeeder);
+			mav.addObject("fmonth", fmonth);
 
 		}
 
@@ -1056,14 +1064,14 @@ public class NewReportController {
 		} else {
 			mav.addObject("caseDetails", caseDetails);
 			mav.addObject("circle", request.getParameter("circle"));
-			mav.addObject("title",
-					"ED Court Cases For  " + (circle.equals("ALL") ? "APCPDCL" : circle));
+			mav.addObject("title", "ED Court Cases For  " + (circle.equals("ALL") ? "APCPDCL" : circle));
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/edCourtCasesForHT2MinEDRate")
-	public ModelAndView getEdCourtCasesForHT2MinEDRate(@RequestParam(name = "circle") String circle,@RequestParam(name = "fcircle") String fcircle) throws ParseException {
+	public ModelAndView getEdCourtCasesForHT2MinEDRate(@RequestParam(name = "circle") String circle,
+			@RequestParam(name = "fcircle") String fcircle) throws ParseException {
 		ModelAndView mav = new ModelAndView("edCourtCasesForHT2MinEDRate");
 		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT2MinEDRate(circle);
 		System.out.println(courtDetais);
@@ -1072,16 +1080,16 @@ public class NewReportController {
 		} else {
 			mav.addObject("courtDetais", courtDetais);
 			mav.addObject("circle", fcircle);
-			mav.addObject("title", "ED Court cases For - " + circle );
+			mav.addObject("title", "ED Court cases For - " + circle);
 		}
 
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/edCourtCasesForHT2MaxEDRate")
-	public ModelAndView getEdCourtCasesForHT2MaxEDRate(@RequestParam(name = "cir") String circle,@RequestParam(name = "fcircle") String fcircle) throws ParseException {
+	public ModelAndView getEdCourtCasesForHT2MaxEDRate(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fcircle") String fcircle) throws ParseException {
 		ModelAndView mav = new ModelAndView("edCourtCasesForHT2MaxEDRate");
 		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT2MaxEDRate(circle);
 		System.out.println(courtDetais);
@@ -1090,16 +1098,16 @@ public class NewReportController {
 		} else {
 			mav.addObject("courtDetais", courtDetais);
 			mav.addObject("circle", fcircle);
-			mav.addObject("title", "ED Court cases For - " + circle );
+			mav.addObject("title", "ED Court cases For - " + circle);
 		}
 
 		return mav;
 
 	}
-	
-	
+
 	@GetMapping("/edCourtCasesForHT3MinEDRate")
-	public ModelAndView getEdCourtCasesForHT3MinEDRate(@RequestParam(name = "cir") String circle,@RequestParam(name = "fcircle") String fcircle) throws ParseException {
+	public ModelAndView getEdCourtCasesForHT3MinEDRate(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fcircle") String fcircle) throws ParseException {
 		ModelAndView mav = new ModelAndView("edCourtCasesForHT3MinEDRate");
 		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT3MinEDRate(circle);
 		System.out.println(courtDetais);
@@ -1108,15 +1116,16 @@ public class NewReportController {
 		} else {
 			mav.addObject("courtDetais", courtDetais);
 			mav.addObject("circle", fcircle);
-			mav.addObject("title", "ED Court cases For - " + circle );
+			mav.addObject("title", "ED Court cases For - " + circle);
 		}
 
 		return mav;
 
 	}
-	
+
 	@GetMapping("/edCourtCasesForHT3MaxEDRate")
-	public ModelAndView getEdCourtCasesForHT3MaxEDRate(@RequestParam(name = "cir") String circle,@RequestParam(name = "fcircle") String fcircle) throws ParseException {
+	public ModelAndView getEdCourtCasesForHT3MaxEDRate(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fcircle") String fcircle) throws ParseException {
 		ModelAndView mav = new ModelAndView("edCourtCasesForHT3MaxEDRate");
 		List<Map<String, Object>> courtDetais = newReportDao.getEdCourtCasesForHT3MaxEDRate(circle);
 		System.out.println(courtDetais);
@@ -1125,7 +1134,7 @@ public class NewReportController {
 		} else {
 			mav.addObject("courtDetais", courtDetais);
 			mav.addObject("circle", fcircle);
-			mav.addObject("title", "ED Court cases For - " + circle );
+			mav.addObject("title", "ED Court cases For - " + circle);
 		}
 
 		return mav;

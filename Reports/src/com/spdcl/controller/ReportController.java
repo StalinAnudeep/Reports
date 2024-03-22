@@ -5281,8 +5281,14 @@ public class ReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
-			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("fyear", monthYear);
 			mav.addObject("month", request.getParameter("month"));
+			mav.addObject("fmonth", request.getParameter("month"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("circle",request.getParameter("circle"));
+			mav.addObject("division", request.getParameter("division"));
+			mav.addObject("subdivision", request.getParameter("subdivision"));
+			mav.addObject("feeder", request.getParameter("feeder"));
 			mav.addObject("title","Feeder Wise , Sub Division Wise DCB Abstract For  "+ selectedLabel +", "+monthYear);
 		}
 		return mav;

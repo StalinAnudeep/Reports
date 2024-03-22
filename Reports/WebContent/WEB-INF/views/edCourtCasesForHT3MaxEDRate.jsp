@@ -49,9 +49,9 @@
 							<th class="text-center text-light">NAME</th>
 							<th class="text-center text-light">CAT</th>
 							<th class="text-center text-light">TYPE</th>
-							<th class="text-center text-light">RECORDED KVH</th>
-							<th class="text-center text-light">BILLED KVH</th>
-							<th class="text-center text-light">RECORDED KVH * 1</th>
+							<th class="text-center text-light">RECORDED KVAH</th>
+							<th class="text-center text-light">BILLED KVAH</th>
+							<th class="text-center text-light">RECORDED KVAH * 1</th>
 						</tr>
 					</thead>
 					<tbody>

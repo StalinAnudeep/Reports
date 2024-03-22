@@ -154,7 +154,8 @@
 								<td id="fd">${mtrblc.FEEDER_CD}</td>
 								<td>${mtrblc.FEEDER_NAME}</td>
 								<td class="text-right"><a
-									href="feederWiseSubDivAbstarctForNOS?cir=${mtrblc.CIRNAME}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&month=${month}&year=${year}&feeder=${mtrblc.FEEDER_CD}">${mtrblc.NOS}</a></td>
+									href="feederWiseSubDivAbstarctForNOS?cir=${mtrblc.CIRNAME}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&month=${month}&year=${year}&feeder=${mtrblc.FEEDER_CD}
+									&fcir=${circle}&fdivision=${division}&fsubdiv=${subdivision}&fyear=${year}&ffeeder=${feeder}&fmonth=${month}">${mtrblc.NOS}</a></td>
 								<td class="text-right">${mtrblc.SALES}</td>
 								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>

@@ -142,7 +142,7 @@ thead>tr>th {
 					<tfoot>
 						<tr>
 
-							<th colspan="1" class="text-right">Grand Total</th>
+							<th colspan="2" class="text-right">Grand Total</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
@@ -150,7 +150,6 @@ thead>tr>th {
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
-							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum() + NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
 							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
