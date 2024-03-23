@@ -147,11 +147,11 @@
 								}
 								cricle = (String) request.getAttribute("cirl");
 								%>
-								<td class="text-right">${mtrblc.CIRCLE}</td>
-								<td class="text-right">${mtrblc.DIVNAME}</td>
-								<td class="text-right">${mtrblc.SUBNAME}</td>
+								<td class="text-left">${mtrblc.CIRCLE}</td>
+								<td class="text-left">${mtrblc.DIVNAME}</td>
+								<td class="text-left">${mtrblc.SUBNAME}</td>
 								<td class="text-right" id="fd">${mtrblc.FMSAPFCODE}</td>
-								<td class="text-right">${mtrblc.FMFNAME}</td>
+								<td class="text-left">${mtrblc.FMFNAME}</td>
 								<td class="text-right"><a
 										href="feederWiseConsumptionForNOS?cir=${mtrblc.CIRCLE}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&fyear=${year}&feeder=${mtrblc.FMSAPFCODE}
 										&fcir=${circle}&fdivision=${division}&fsubdiv=${subdivision}&year=${year}&ffeeder=${feeder}">${mtrblc.NOS}</a></td>

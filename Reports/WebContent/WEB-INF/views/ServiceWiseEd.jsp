@@ -80,6 +80,7 @@
 							<th>SECTION</th>
 							<th>USCNO</th>
 							<th>NAME</th>
+							<th>TYPE</th>
 							<th>CAT</th>
 							<th>ED</th>
 							<th>EDI</th>
@@ -96,6 +97,7 @@
 								<td>${mtrblc.SECNAME}</td>
 								<td>${mtrblc.BTSCNO}</td>
 								<td>${mtrblc.CTNAME}</td>
+								<td>${mtrblc.TYPE}</td>
 								<td >${mtrblc.CAT}</td>
 								<td class = "text-right">${mtrblc.BTED}</td>
 								<td class = "text-right">${mtrblc.BTED_INT}</td>

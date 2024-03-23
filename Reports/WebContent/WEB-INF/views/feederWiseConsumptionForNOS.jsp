@@ -126,7 +126,7 @@ thead>tr>th {
 							varStatus="tagStatus">
 							<tr style="font-weight: 500;">
 								<td class="text-right">${tagStatus.index + 1}</td>
-								<td class="text-right">${mtrblc.CTUSCNO}</td>
+								<td class="text-left">${mtrblc.CTUSCNO}</td>
 								<td class="text-right">${mtrblc.SALES}</td>
 								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>

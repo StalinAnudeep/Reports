@@ -1021,8 +1021,8 @@ public class NewReportController {
 			@RequestParam(name = "month") String month, @RequestParam(name = "year") String year,
 			@RequestParam(name = "feeder") String feedercode, @RequestParam(name = "fcir") String fcircle,
 			@RequestParam(name = "fdivision") String fdivision, @RequestParam(name = "fsubdiv") String fsubdiv,
-			@RequestParam(name = "fyear") String fyear, @RequestParam(name = "ffeeder") String ffeeder,@RequestParam(name = "fmonth") String fmonth)
-			throws ParseException {
+			@RequestParam(name = "fyear") String fyear, @RequestParam(name = "ffeeder") String ffeeder,
+			@RequestParam(name = "fmonth") String fmonth) throws ParseException {
 		ModelAndView mav = new ModelAndView("feederWiseSubDivAbstarctForNOS");
 		List<Map<String, Object>> feederDetailsForNos = newReportDao.getFeederWiseSubDivAbstarctForNOS(circle, division,
 				subdiv, month, year, feedercode);
@@ -1141,6 +1141,31 @@ public class NewReportController {
 
 	}
 
+	// 140
+	@GetMapping("/highAndLowGridReport")
+	public String getHighAndLowGridReport() {
+		return "highAndLowGridReport";
+	}
+
+	@PostMapping("/highAndLowGridReport")
+	public ModelAndView getHighAndLowGridReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("highAndLowGridReport");
+		List<Map<String, Object>> serviceDetails = newReportDao.getHighAndLowGridReport(request);
+		System.out.println(serviceDetails);
+		String circle = request.getParameter("circle");
+		if (serviceDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("serviceDetails", serviceDetails);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("CIRCOUNT",countFrequencies(serviceDetails));
+			mav.addObject("TYPECOUNT",countFrequencies(serviceDetails));
+			mav.addObject("title", "Single Service High Grid _Low Grid Month wise consumption Details For "
+					+ (circle.equals("ALL") ? "APCPDCL" : circle) + "  " + request.getParameter("year"));
+		}
+		return mav;
+	}
+
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();
 		List<String> templist = new ArrayList<String>();
@@ -1188,6 +1213,12 @@ public class NewReportController {
 					templist.add(pair.getValue().toString());
 				}
 				if (pair.getKey().equals("SECNAME")) {
+					templist.add(pair.getValue().toString());
+				}
+				if (pair.getKey().equals("HGD_LGD_NOR")) {
+					templist.add(pair.getValue().toString());
+				}
+				if (pair.getKey().equals("USCNO")) {
 					templist.add(pair.getValue().toString());
 				}
 

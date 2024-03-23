@@ -1,8 +1,11 @@
 package com.spdcl.dao;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1967,5 +1970,52 @@ public class NewReportDao {
 		}
 	}
 
-	
+	// 140
+	public List<Map<String, Object>> getHighAndLowGridReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String serviceType = request.getParameter("servicetype");
+		String year = request.getParameter("year");
+		String fyear = "01-04-" + year.split("-")[0];
+		String tyear = "31-03-" + year.split("-")[1];
+		String serviceString = serviceType.equals("ALL") ? "" : "AND CTSERVTYPE='" + serviceType + "'";
+		String circleString = circle.equals(("ALL")) ? "" : "AND substr(ctuscno,1,3) = '" + circle + "'";
+		String loadYear = "";
+		LocalDate now = LocalDate.now();
+		int lyear = now.getYear();
+		if(lyear > Integer.parseInt(year.split("-")[1])) {
+			loadYear = "MAR-" + year.split("-")[1];
+		}else {
+			loadYear = "FEB-" + year.split("-")[1];
+		}
+		try {
+			String sql = "SELECT SUBSTR(CTUSCNO,1,3)CIRCLE,DIVNAME,SUBNAME,SECNAME,CTUSCNO USCNO,CTNAME NAME,CTCAT CAT,CTSUBCAT SUBCAT,SUM(A.LOAD)LOAD,NVL(STDESC,'NA')PURPOSE_OF_SUPPLY,\r\n"
+					+ "CASE WHEN TO_CHAR(TO_DATE(L.MON_YEAR,'MON-YYYY'),'MON') IN('FEB','MAR','APR','MAY','SEP','OCT') THEN 'HIGH_GRID'\r\n"
+					+ "WHEN TO_CHAR(TO_DATE(L.MON_YEAR,'MON-YYYY'),'MON') IN('JUN','JUL','AUG','NOV','DEC','JAN') THEN  'LOW_GRID' END HGD_LGD_NOR,L.MON_YEAR,\r\n"
+					+ "sum(NVL(BTTOD2,0)+NVL(BTTOD5,0))PEAK, \r\n" + "sum(NVL(BTTOD3,0)+NVL(BTTOD1,0)) OFFPEAK,  \r\n"
+					+ "sum(NVL(BTTOD4,0)+NVL(BTTOD6,0)) NOR, \r\n"
+					+ "SUM(NVL(BTRKVAH_HT,0))REC_KVAH,SUM(NVL(BTBKVAH,0))BILLED_KVAH,SUM(NVL(BTBLCOLNY_HT,0))COL_UNITS, SUM(NVL(BTBLSOLAR_HT,0))SOLAR_UNITS,SUM(NVL(BTOA_KVAH,0))OA_UNITS,\r\n"
+					+ "SUM(NVL(OA_PEAK,0))OA_PEAK,SUM(NVL(OA_OFFPEAK,0))OA_OFFPEAK FROM CONS,\r\n"
+					+ "(SELECT USCNO,MON_YEAR,LOAD FROM LEDGER_HT_HIST WHERE MON_YEAR=?)A,\r\n" + "SERVTYPE,\r\n"
+					+ "(SELECT * FROM LEDGER_HT_HIST WHERE TO_DATE(MON_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')) L,\r\n"
+					+ "(SELECT * FROM BILL_HIST WHERE BTBLDT BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')),\r\n"
+					+ "(SELECT OAUSCNO,BILL_MON ||'-'|| BILL_YEAR BYEAR,SUM(TOD_ADJ_PEAK)OA_PEAK,SUM(TOD_ADJ_OFF)OA_OFFPEAK FROM OPEN_ACCESS_HIST WHERE \r\n"
+					+ "TO_DATE(BILL_MON ||'-'|| BILL_YEAR,'MON-YYYY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY')\r\n"
+					+ "GROUP BY OAUSCNO,BILL_MON ||'-'|| BILL_YEAR)O,MASTER.SPDCLMASTER\r\n"
+					+ "WHERE CTUSCNO=A.USCNO(+) AND CTUSCNO=L.USCNO(+) AND CTUSCNO=BTSCNO(+) AND CTSERVTYPE=STCODE(+) AND L.MON_YEAR=TO_CHAR(BTBLDT,'MON-YYYY')\r\n"
+					+ "AND CTUSCNO=OAUSCNO(+) AND L.MON_YEAR=BYEAR(+) AND SUBSTR(CTSECCD,-5)=SECCD(+)\r\n"
+					+ circleString + serviceString
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,SECNAME,CTUSCNO,CTNAME,CTCAT,CTSUBCAT,STDESC,\r\n"
+					+ "CASE WHEN TO_CHAR(TO_DATE(L.MON_YEAR,'MON-YYYY'),'MON') IN('FEB','MAR','APR','MAY','SEP','OCT') THEN 'HIGH_GRID'\r\n"
+					+ "WHEN TO_CHAR(TO_DATE(L.MON_YEAR,'MON-YYYY'),'MON') IN('JUN','JUL','AUG','NOV','DEC','JAN') THEN  'LOW_GRID' END,L.MON_YEAR\r\n"
+					+ "ORDER BY CTUSCNO,CTNAME,CTCAT,CTSUBCAT,STDESC,HGD_LGD_NOR,TO_DATE(L.MON_YEAR,'MON-YYYY')";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { loadYear, fyear, tyear, fyear, tyear, fyear, tyear });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 }

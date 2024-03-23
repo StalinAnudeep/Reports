@@ -148,11 +148,11 @@
 						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td class="text-right">${mtrblc.CIRNAME}</td>
-								<td class="text-right">${mtrblc.DIVNAME}</td>
-								<td class="text-right">${mtrblc.SUBNAME}</td>
+								<td class="text-left">${mtrblc.CIRNAME}</td>
+								<td class="text-left">${mtrblc.DIVNAME}</td>
+								<td class="text-left">${mtrblc.SUBNAME}</td>
 								<td id="fd">${mtrblc.FEEDER_CD}</td>
-								<td>${mtrblc.FEEDER_NAME}</td>
+								<td class="text-left">${mtrblc.FEEDER_NAME}</td>
 								<td class="text-right"><a
 									href="feederWiseSubDivAbstarctForNOS?cir=${mtrblc.CIRNAME}&divsion=${mtrblc.DIVNAME}&subdiv=${mtrblc.SUBNAME}&month=${month}&year=${year}&feeder=${mtrblc.FEEDER_CD}
 									&fcir=${circle}&fdivision=${division}&fsubdiv=${subdivision}&fyear=${year}&ffeeder=${feeder}&fmonth=${month}">${mtrblc.NOS}</a></td>
