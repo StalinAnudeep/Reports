@@ -1158,12 +1158,34 @@ public class NewReportController {
 		} else {
 			mav.addObject("serviceDetails", serviceDetails);
 			mav.addObject("circle", request.getParameter("circle"));
-			mav.addObject("CIRCOUNT",countFrequencies(serviceDetails));
-			mav.addObject("TYPECOUNT",countFrequencies(serviceDetails));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("service", request.getParameter("servicetype"));
 			mav.addObject("title", "Single Service High Grid _Low Grid Month wise consumption Details For "
 					+ (circle.equals("ALL") ? "APCPDCL" : circle) + "  " + request.getParameter("year"));
 		}
 		return mav;
+	}
+
+	@GetMapping("/highAndLowGridReportForNOS")
+	public ModelAndView getHighAndLowGridReportForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "fyear") String fyear, @RequestParam(name = "service") String service,
+			@RequestParam(name = "fcir") String fcircle, @RequestParam(name = "fservice") String fservice,
+			@RequestParam(name = "year") String year) throws ParseException {
+		ModelAndView mav = new ModelAndView("highAndLowGridReportForNOS");
+		List<Map<String, Object>> courtDetaisForNos = newReportDao.getHighAndLowGridReportForNOS(circle, fyear , service ,year);
+		System.out.println(courtDetaisForNos);
+		if (courtDetaisForNos.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("courtDetaisForNos", courtDetaisForNos);
+			mav.addObject("circle", fcircle);
+			mav.addObject("service", fservice);
+			mav.addObject("year", year);
+			mav.addObject("title", "Single Service High Grid _Low Grid Month wise consumption Details For - " + circle);
+		}
+
+		return mav;
+
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {

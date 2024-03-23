@@ -1,3 +1,4 @@
+<%@page import="javafx.scene.shape.Circle"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -6,92 +7,105 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="header_lg.jsp"></jsp:include>
 <style>
-.null{
-font-weight: bold;
-}
-.LOW_GRID{
-background-color: #cef4ff;
-font-weight: bold;
-}
-.HIGH_GRID{
-background-color: #fff0dd;
-font-weight: bold;
+.null {
+	font-weight: bold;
 }
 
+.CRD {
+	background-color: #cef4ff;
+	font-weight: bold;
+}
 
+.ONG {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.VJA {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.GNT {
+	background-color: #cef4ff;
+	font-weight: bold;
+}
+
+.APCPDCL {
+	background-color: #fff0dd;
+	font-weight: bold;
+}
+
+.NOSTAT {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+.NULLCIR {
+	font-weight: bold !important;
+	background-color: #4ff1f1;
+}
+
+.TOTAL {
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+thead>tr>th {
+	color: #fff !important;
+	font-weight: bold !important;
+}
 </style>
 <div class="row row-cards row-deck">
-	<form class="card" action="highAndLowGridReport" method="post">
-		<div class="card-body">
-			<h3 class="card-title">
-				<strong><span class="text-danger">HT140</span> - Single
-					Service High Grid _Low Grid Month wise consumption Report</strong>
-			</h3>
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label class="form-label">Circle</label> <select
-							class="form-control" name="circle" id="circle"
-							required="required">
-							<option value="">Select Circle</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="col-md-2">
-					<div class="form-group">
-						<label class="form-label">Service Type</label> <select
-							class="form-control" id="servicetype" name="servicetype"
-							required="required">
-							<option value="">Select Service Type</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<label class="form-label">Year</label> <select id="year"
-							class="form-control" name="year" required="required">
-							<option value="">Select Financial Year</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="form-label">GET Single service High&Low Grid
-							Report </label>
-						<button type="submit" class="btn btn-primary">GET Single
-							service High&Low Grid Report</button>
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-	</form>
 	<c:if test="${ not empty fn:trim(fail)}">
 		<div id="exist" class="alert alert-danger" role="alert">${fail}</div>
 	</c:if>
 
 
-	<c:if test="${ not empty fn:trim(serviceDetails)}">
+	<c:if test="${ not empty fn:trim(courtDetaisForNos)}">
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
 				<h2 class="text-center">${title}</h2>
-				<div class="bg-info text-white text-center"
-					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
-					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+				<div class="row">
+					<div class="col-md-10">
+						<div class="bg-info text-white text-center"
+							onclick="exportThisWithParameter('multiLevelTable', '${title}')"
+							style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
+					</div>
+					<div class="col-md-2">
+						<div class="text-right">
+							<form class="card" action="highAndLowGridReport" method="post"
+								id="form">
+								<input type="hidden" value='${circle}' name="circle" id="circle">
+								<input type="hidden" value='${service}' name="servicetype"
+									id="servicetype"> <input type="hidden"
+									value='${subdivision}' name="subdivision" id="subdivision">
+								<input type="hidden" value='${year}' id="year" name="year">
+								<button type="submit" class="btn btn-link">
+									<i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+								</button>
+
+							</form>
+						</div>
+					</div>
+				</div>
 				<table id="multiLevelTable"
 					class="table table-sm card-table table-vcenter text-nowrap datatable display dataTable no-footer"
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="19">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="22">${title}</th>
 						</tr>
-						<tr>
+						<tr class="bg-primary text-white text-center">
 							<th>CIRCLE</th>
-							<th>SCS</th>
+							<th>DIVISION</th>
+							<th>SUBDIVISION</th>
+							<th>SECTION</th>
+							<th>USCNO</th>
+							<th>NAME</th>
+							<th>CAT</th>
+							<th>SUBCAT</th>
 							<th>LOAD</th>
 							<th>PURPOSE_OF_SUPPLY</th>
 							<th>HGD_LGD_NOR</th>
@@ -108,13 +122,17 @@ font-weight: bold;
 							<th>OA_OFFPEAK</th>
 					</thead>
 					<tbody>
-						<c:forEach var="mtrblc" items="${serviceDetails}"
+						<c:forEach var="mtrblc" items="${courtDetaisForNos}"
 							varStatus="tagStatus">
 							<tr style="font-weight: 500;" class = "${mtrblc.HGD_LGD_NOR}">
 								<td class="text-left">${mtrblc.CIRCLE}</td>
-								<td class="text-left"><a
-										href="highAndLowGridReportForNOS?cir=${mtrblc.CIRCLE}&fyear=${mtrblc.MON_YEAR}&service=${mtrblc.PURPOSE_OF_SUPPLY}
-										&fcir=${circle}&year=${year}&fservice=${service}">${mtrblc.SCS}</a></td>
+								<td class="text-left">${mtrblc.DIVNAME}</td>
+								<td class="text-left">${mtrblc.SUBNAME}</td>
+								<td class="text-left">${mtrblc.SECNAME}</td>
+								<td class="text-left">${mtrblc.USCNO}</td>
+								<td class="text-left">${mtrblc.NAME}</td>
+								<td class="text-left">${mtrblc.CAT}</td>
+								<td class="text-center">${mtrblc.SUBCAT}</td>
 								<td class="text-right">${mtrblc.LOAD}</td>
 								<td class="text-left">${mtrblc.PURPOSE_OF_SUPPLY}</td>
 								<td class="text-left">${mtrblc.HGD_LGD_NOR}</td>
@@ -130,65 +148,29 @@ font-weight: bold;
 								<td class="text-right">${mtrblc.OA_PEAK}</td>
 								<td class="text-right">${mtrblc.OA_OFFPEAK}</td>
 							</tr>
-
-
 						</c:forEach>
 					</tbody>
+					<%-- <tfoot>
+						<tr>
+
+							<th colspan="2" class="text-right">Grand Total</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + NOSfeederDetails.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_ARREAR).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLL_DEMAND).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.COLLECTION).sum() + NOSfeederDetails.stream().map(mtrblc -> mtrblc.CRJ).sum()}</th>
+							<th class="text-right">${NOSfeederDetails.stream().map(mtrblc -> mtrblc.CB).sum()}</th>
+						</tr>
+					</tfoot> --%>
 				</table>
 			</div>
 		</div>
 	</c:if>
 </div>
-
-
-<script>
-	requirejs([ 'jquery' ], function($) {
-		$("#circle").append("<option value=ALL>ALL</option>");
-		$(document).ready(
-				function() {
-					$.ajax({
-						type : "POST",
-						url : "getCircles",
-						success : function(data) {
-							var saptype = jQuery.parseJSON(data);
-							$.each(saptype, function(k, v) {
-								$("#circle").append(
-										"<option value="+k+">" + v
-												+ "</option>");
-
-							});
-						}
-
-					});
-				});
-
-		$(document).ready(
-				function() {
-					$.ajax({
-						type : "POST",
-						url : "getServiceTypes",
-						success : function(data) {
-							var saptype = jQuery.parseJSON(data);
-							$.each(saptype, function(k, v) {
-								$("#servicetype").append(
-										"<option value="+k+">" + v
-												+ "</option>");
-
-							});
-						}
-
-					});
-				});
-
-		var currentYear = (new Date()).getFullYear();
-		for (var j = currentYear; j > 2015; j--) {
-			var jj = j - 1 + "-" + j;
-			$("#year").append("<option value="+jj+">" + jj + "</option>");
-		}
-		$('#year option[value="' + currentYear + '"]').prop('selected', true);
-
-	});
-</script>
 
 <script type="text/javascript">
 	var exportThisWithParameter = (function() {
@@ -215,9 +197,9 @@ font-weight: bold;
 		}
 	})()
 </script>
-<!-- <script>
+<script>
 	requirejs([ 'jquery' ], function($) {
-		$("td,th").each(
+		$(".format").each(
 				function() {
 					if ($.isNumeric($(this).text())) {
 						// It isn't a number	
@@ -233,4 +215,5 @@ font-weight: bold;
 		)
 
 	});
-</script> -->
+</script>
+<jsp:include page="footer.jsp"></jsp:include>

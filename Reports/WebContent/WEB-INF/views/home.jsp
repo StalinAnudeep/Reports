@@ -1312,6 +1312,14 @@
 					<td></td>
 				</tr>
 
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT141</span></td>
+					<td><a href="singleServiceRedingReport"> Single
+							Service Month wise Reading Details Report</a></td>
+					<td></td>
+				</tr>
+
 
 			</table>
 		</div>
