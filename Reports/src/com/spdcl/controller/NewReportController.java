@@ -1172,7 +1172,8 @@ public class NewReportController {
 			@RequestParam(name = "fcir") String fcircle, @RequestParam(name = "fservice") String fservice,
 			@RequestParam(name = "year") String year) throws ParseException {
 		ModelAndView mav = new ModelAndView("highAndLowGridReportForNOS");
-		List<Map<String, Object>> courtDetaisForNos = newReportDao.getHighAndLowGridReportForNOS(circle, fyear , service ,year);
+		List<Map<String, Object>> courtDetaisForNos = newReportDao.getHighAndLowGridReportForNOS(circle, fyear, service,
+				year);
 		System.out.println(courtDetaisForNos);
 		if (courtDetaisForNos.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -1186,6 +1187,31 @@ public class NewReportController {
 
 		return mav;
 
+	}
+
+	// 141
+	@GetMapping("/singleServiceRedingReport")
+	public String getSingleServiceRedingReport() {
+		return "singleServiceRedingReport";
+	}
+	
+	@PostMapping("/singleServiceRedingReport")
+	public ModelAndView getSingleServiceRedingReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("singleServiceRedingReport");
+		List<Map<String, Object>> readingDetails = newReportDao.getSingleServiceRedingReport(request);
+		System.out.println(readingDetails);
+		String circle = request.getParameter("circle");
+		if (readingDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("readingDetails", readingDetails);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("service", request.getParameter("servicetype"));
+			mav.addObject("title", "Single Service High Grid _Low Grid Month wise consumption Details For "
+					+ (circle.equals("ALL") ? "APCPDCL" : circle) + "  " + request.getParameter("month") + " - " + request.getParameter("year"));
+		}
+		return mav;
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
