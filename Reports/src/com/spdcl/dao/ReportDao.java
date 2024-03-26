@@ -8470,13 +8470,13 @@ public class ReportDao {
 		String tmonthYear = "MAR-" + request.getParameter("year").split("-")[1];
 		String emptoyear = tmonthYear.equals("MAR-2024") ? "JAN-2024" : tmonthYear;
 
-		String st = "";
-		String[] items = request.getParameterValues("servicetype");
-		for (String s : items) {
-			st = st + s + ",";
-		}
-		st = st.substring(0, st.length() - 1);
-		String deptcode = " AND b.CTSERVTYPE in (" + st + ")";
+		//String st = "";
+		String serviceType = request.getParameter("servicetype");
+		/*
+		 * for (String s : items) { st = st + s + ","; }
+		 */
+		//st = st.substring(0, st.length() - 1);
+		String deptcode = serviceType.equals("ALL") ? "" : " AND b.CTSERVTYPE ='" + serviceType + "'";
 		System.out.println(deptcode);
 
 		if (circle.equalsIgnoreCase("ALL")) {
@@ -8501,7 +8501,7 @@ public class ReportDao {
 					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
 					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n"
 					+ "From (select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where to_date(Mon_Year,'MON-YYYY') between to_date(?,'MON-YYYY') and LAST_DAY(to_date(?,'MON-YYYY')) union all select * from accountcopy where to_date(Mon_Year,'MON-YYYY') between to_date(?,'MON-YYYY') and LAST_DAY(to_date(?,'MON-YYYY'))) A,CONS B,servtype C\r\n"
-					+ "Where A.Uscno=B.CTUscno  AND SUBSTR(A.Uscno,1,3) = ?\r\n" + "And b.ctservtype=c.stcode\r\n"
+					+ "Where A.Uscno=B.CTUscno  AND SUBSTR(A.Uscno,1,3) = ?\r\n" + "And b.ctservtype=c.stcode\r\n" + deptcode
 					+ deptcode + " GROUP BY  b.ctservtype,c.stdesc\r\n" + "Order By 1,2,3,4";
 
 			log.info(sql);
