@@ -1319,6 +1319,14 @@
 							Service Month wise Reading Details Report</a></td>
 					<td></td>
 				</tr>
+				
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT142</span></td>
+					<td><a href="billedUnitsReport"> Circle wise,
+							Month Wise Billed_Units Report</a></td>
+					<td></td>
+				</tr>
 
 
 			</table>

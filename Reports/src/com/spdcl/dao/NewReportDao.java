@@ -2224,4 +2224,31 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//142
+	public List<Map<String, Object>> getBilledUnitsReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String fromDate = "01-04-" + request.getParameter("year").split("-")[0];
+		String toDate = "31-03-" + request.getParameter("year").split("-")[1];
+		String circleString = circle.equals(("ALL")) ? "" : "AND substr(ctuscno,1,3) = '" + circle + "'";
+
+		try {
+			String sql = "SELECT CIRCLE, DIVNAME, SUBNAME, SECNAME, MON_YEAR,NVL(HT1,0)HT1,NVL(HT2,0)HT2,NVL(HT3,0)HT3,NVL(HT4,0)HT4,NVL(HT5,0)HT5 FROM(\r\n"
+					+ "select SUBSTR(CTUSCNO,1,3)CIRCLE,DIVNAME,SUBNAME,SECNAME,mon_year,CTCAT ,sum(mn_kvah)billed_units from cons,ledger_ht_hist,MASTER.SPDCLMASTER\r\n"
+					+ "where ctuscno=uscno and SUBSTR(CTSECCD,-5)=SECCD AND\r\n"
+					+ "to_date(mon_year,'mon-yyyy') between to_date(?,'dd-mm-yyyy') and to_date(?,'dd-mm-yyyy')\r\n" + circleString
+					+ "group by SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,SECNAME,mon_year,ctcat order by CIRCLE,DIVNAME,SUBNAME,SECNAME,to_date(mon_year,'mon-yyyy'),ctcat)\r\n"
+					+ "PIVOT\r\n"
+					+ "(SUM(billed_units) FOR CTCAT IN('HT1' AS HT1,'HT2' HT2,'HT3' HT3,'HT4' HT4,'HT5' HT5))\r\n"
+					+ "ORDER BY CIRCLE,DIVNAME,SUBNAME,SECNAME,TO_DATE(MON_YEAR,'MON-YYYY')";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { fromDate , toDate });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 }

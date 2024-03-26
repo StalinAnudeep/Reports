@@ -1276,10 +1276,10 @@ public class NewReportController {
 	// 138 For Nos
 	@GetMapping("/serviceTypeFYabstractForNOS")
 	public ModelAndView getServiceTypeFYabstractForNOS(@RequestParam(name = "cir") String circle,
-			@RequestParam(name = "service") String service, @RequestParam(name = "year") String year,@RequestParam(name = "mon_year") String mon_year,
-			@RequestParam(name = "division") String division, @RequestParam(name = "subdivision") String subdivision,
-			@RequestParam(name = "fcir") String fcircle, @RequestParam(name = "fservice") String fservice)
-			throws ParseException {
+			@RequestParam(name = "service") String service, @RequestParam(name = "year") String year,
+			@RequestParam(name = "mon_year") String mon_year, @RequestParam(name = "division") String division,
+			@RequestParam(name = "subdivision") String subdivision, @RequestParam(name = "fcir") String fcircle,
+			@RequestParam(name = "fservice") String fservice) throws ParseException {
 		ModelAndView mav = new ModelAndView("serviceTypeFYabstractForNOS");
 		List<Map<String, Object>> serviceNosDetails = newReportDao.getServiceTypeFYabstractForNOS(circle, division,
 				subdivision, service, mon_year);
@@ -1297,9 +1297,8 @@ public class NewReportController {
 		return mav;
 
 	}
-	
-	
-	//100B For NOS
+
+	// 100B For NOS
 	@GetMapping("/servicetypecatwiseabstractForNOS")
 	public ModelAndView getServicetypecatwiseabstractForNOS(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "month") String month, @RequestParam(name = "service") String service,
@@ -1322,6 +1321,30 @@ public class NewReportController {
 
 		return mav;
 
+	}
+
+	// 142
+	@GetMapping("/billedUnitsReport")
+	public String billedUnitsReport() {
+		return "billedUnitsReport";
+	}
+
+	@PostMapping("/billedUnitsReport")
+	public ModelAndView getBilledUnitsReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("billedUnitsReport");
+		List<Map<String, Object>> billingDetails = newReportDao.getBilledUnitsReport(request);
+		System.out.println(billingDetails);
+		String circle = request.getParameter("circle");
+		if (billingDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("billingDetails", billingDetails);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("title", "CIRCLE WISE BILLING UNITS REPORT FOR " + (circle.equals("ALL") ? "APCPDCL" : circle)
+					+ "  " + request.getParameter("year"));
+		}
+		return mav;
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
