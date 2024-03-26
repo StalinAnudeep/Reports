@@ -116,7 +116,9 @@
 								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td>${mtrblc.CTCAT}</td>
-								<td  class="text-right">${mtrblc.NOS}</td>
+								<td class="text-right"><a
+									href="servicetypecatwiseabstractForNOS?cir=${mtrblc.CIRCLE}&service=${mtrblc.SERVTYPE}
+										&fcir=${circle}&year=${year}&month=${month}&fservice=${service}">${mtrblc.NOS}</a></td>
 								<td  class="text-right">${mtrblc.LOAD}</td>
 								<td  class="text-right">${mtrblc.REC_MD}</td>
 								<td class="text-right">${mtrblc.OB}</td>
@@ -258,7 +260,7 @@
 		}
 	})()
 </script>
-<script> 
+<!-- <script> 
 	requirejs([ 'jquery' ], function($) {
 			$("td,th").each(function() { 
 				if ($.isNumeric( $(this).text())) {
@@ -273,4 +275,4 @@
 	});
 	
 	
-</script>
+</script> -->

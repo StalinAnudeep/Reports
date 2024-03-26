@@ -5217,6 +5217,10 @@ public class ReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
+			mav.addObject("month", request.getParameter("month"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("circle", circle);
+			mav.addObject("service", request.getParameter("servicetype"));
 			mav.addObject("title","Service Type,Category Wise DCB Abstract For  "+(circle.equals("ALL")?"APCPDCL":circle)+", "+monthYear);
 		}
 		return mav;

@@ -1297,6 +1297,32 @@ public class NewReportController {
 		return mav;
 
 	}
+	
+	
+	//100B For NOS
+	@GetMapping("/servicetypecatwiseabstractForNOS")
+	public ModelAndView getServicetypecatwiseabstractForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "month") String month, @RequestParam(name = "service") String service,
+			@RequestParam(name = "year") String year, @RequestParam(name = "fcir") String fcircle,
+			@RequestParam(name = "fservice") String fservice) throws ParseException {
+		ModelAndView mav = new ModelAndView("servicetypecatwiseabstractForNOS");
+		List<Map<String, Object>> serviceNosDetails = newReportDao.getServicetypecatwiseabstractForNOS(circle, month,
+				service, year);
+		System.out.println(serviceNosDetails);
+		if (serviceNosDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("serviceNosDetails", serviceNosDetails);
+			mav.addObject("fcircle", fcircle);
+			mav.addObject("fservice", fservice);
+			mav.addObject("year", year);
+			mav.addObject("month", month);
+			mav.addObject("title", "servicetypewiseabstarct For - " + circle);
+		}
+
+		return mav;
+
+	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
 		Map<String, Integer> countmap = new HashMap<String, Integer>();

@@ -546,7 +546,7 @@
 				</tr>
 				<tr>
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT100A</span></td>
 					<td><a href="servicetyperevenue">Service Type Sales &
 							Revenue Report </a></td>
@@ -554,7 +554,7 @@
 				</tr>
 
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT100B</span></td>
 					<td><a href="servicetypecatwiseabstract">Service Type
 							,Category Wise DCB Abstract </a></td>
