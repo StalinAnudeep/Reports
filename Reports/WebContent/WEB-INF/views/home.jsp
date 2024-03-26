@@ -538,7 +538,7 @@
 				</tr>
 
 				<tr>
-					<td><span><img src="./demo/brand/new.gif"
+					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT100</span></td>
 					<td><a href="servicetypewiseabstract">Service Type Wise
 							DCB Abstract </a></td>

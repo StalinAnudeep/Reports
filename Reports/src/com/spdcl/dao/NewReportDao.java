@@ -2114,5 +2114,34 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
+	
+	
+    //100 For Nos
+	public List<Map<String, Object>> getServicetypewiseabstarctForNOS(String circle, String month, String service,
+			String year) {
+		String mon_year = month + "-" + year;
+		try {
+			String sql = "Select b.CTSERVTYPE servtype,c.stdesc,ctuscno uscno,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
+					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
+					+ "SUM(Mn_Kvah) Sales\r\n"
+					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
+					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,SUM(round(Nvl(Tot_Pay,0))) Collection,\r\n"
+					+ "SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n"
+					+ "From (select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where Mon_Year=? union all select * from accountcopy where Mon_Year=?) A,CONS B,servtype C\r\n"
+					+ "Where A.Uscno=B.CTUscno \r\n"
+					+ "And b.ctservtype=c.stcode \r\n"
+					+ "and CTSERVTYPE=?\r\n"
+					+ "AND SUBSTR(CTUSCNO,1,3)= ? \r\n"
+					+ "GROUP BY  b.ctservtype,c.stdesc,ctuscno\r\n"
+					+ "Order By 2,3,4";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {mon_year , mon_year , service , circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
 
 }

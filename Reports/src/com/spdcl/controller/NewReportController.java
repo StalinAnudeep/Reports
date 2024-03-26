@@ -1208,10 +1208,35 @@ public class NewReportController {
 			mav.addObject("circle", request.getParameter("circle"));
 			mav.addObject("year", request.getParameter("year"));
 			mav.addObject("service", request.getParameter("servicetype"));
-			mav.addObject("title", "Single Service High Grid _Low Grid Month wise consumption Details For "
+			mav.addObject("title", "Single Service Reading Details For "
 					+ (circle.equals("ALL") ? "APCPDCL" : circle) + "  " + request.getParameter("month") + " - " + request.getParameter("year"));
 		}
 		return mav;
+	}
+	
+	
+    //100 For Nos
+	@GetMapping("/servicetypewiseabstarctForNOS")
+	public ModelAndView getServicetypewiseabstarctForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "month") String month, @RequestParam(name = "service") String service,
+			@RequestParam(name = "year") String year,@RequestParam(name = "fcir") String fcircle,
+			@RequestParam(name = "fservice") String fservice) throws ParseException {
+		ModelAndView mav = new ModelAndView("servicetypewiseabstarctForNOS");
+		List<Map<String, Object>> serviceNosDetails = newReportDao.getServicetypewiseabstarctForNOS(circle , month , service ,year);
+		System.out.println(serviceNosDetails);
+		if (serviceNosDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("serviceNosDetails", serviceNosDetails);
+			mav.addObject("fcircle", fcircle);
+			mav.addObject("fservice", fservice);
+			mav.addObject("year", year);
+			mav.addObject("month", month);
+			mav.addObject("title", "ED Court cases For - " + circle);
+		}
+
+		return mav;
+
 	}
 
 	public Map<String, Integer> countFrequencies(List<Map<String, Object>> list) {
