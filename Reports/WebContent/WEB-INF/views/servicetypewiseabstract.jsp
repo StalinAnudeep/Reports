@@ -89,7 +89,7 @@
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="15">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
 						<tr>
 							<th class="text-center" rowspan="2"
@@ -153,7 +153,7 @@
 					<tfoot>
 						<tr>
 
-							<th colspan="3" class="text-right">Grand Total</th>
+							<th colspan="4" class="text-right">Grand Total</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.LOAD).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.REC_MD).sum()}</th>
