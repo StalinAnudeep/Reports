@@ -1011,6 +1011,10 @@ public class NewReportController {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
 			mav.addObject("acd", acdbalacne);
+			mav.addObject("month", request.getParameter("month"));
+			mav.addObject("year", request.getParameter("year"));
+			mav.addObject("circle", circle);
+			mav.addObject("service", request.getParameter("servicetype"));
 			mav.addObject("title", "Service Type,Category Wise DCB Abstract For  "
 					+ (circle.equals("ALL") ? "APCPDCL" : circle) + ", " + monthYear);
 			mav.addObject("CIRCOUNT", countFrequencies(acdbalacne));
@@ -1247,11 +1251,12 @@ public class NewReportController {
 	@GetMapping("/servicetypesubdivabstarctForNOS")
 	public ModelAndView getServicetypesubdivabstarctForNOS(@RequestParam(name = "cir") String circle,
 			@RequestParam(name = "month") String month, @RequestParam(name = "service") String service,
-			@RequestParam(name = "year") String year,@RequestParam(name = "division") String division,@RequestParam(name = "subdivision") String subdivision, @RequestParam(name = "fcir") String fcircle,
+			@RequestParam(name = "year") String year, @RequestParam(name = "division") String division,
+			@RequestParam(name = "subdivision") String subdivision, @RequestParam(name = "fcir") String fcircle,
 			@RequestParam(name = "fservice") String fservice) throws ParseException {
 		ModelAndView mav = new ModelAndView("servicetypesubdivabstarctForNOS");
-		List<Map<String, Object>> serviceNosDetails = newReportDao.getServicetypesubdivabstarctForNOS(circle, month,division,subdivision,
-				service, year);
+		List<Map<String, Object>> serviceNosDetails = newReportDao.getServicetypesubdivabstarctForNOS(circle, month,
+				division, subdivision, service, year);
 		System.out.println(serviceNosDetails);
 		if (serviceNosDetails.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
@@ -1261,6 +1266,31 @@ public class NewReportController {
 			mav.addObject("fservice", fservice);
 			mav.addObject("year", year);
 			mav.addObject("month", month);
+			mav.addObject("title", "SERVICE TYPE,CATEGORY WISE DCB ABSTRACT FOR - " + circle);
+		}
+
+		return mav;
+
+	}
+
+	// 138 For Nos
+	@GetMapping("/serviceTypeFYabstractForNOS")
+	public ModelAndView getServiceTypeFYabstractForNOS(@RequestParam(name = "cir") String circle,
+			@RequestParam(name = "service") String service, @RequestParam(name = "year") String year,@RequestParam(name = "mon_year") String mon_year,
+			@RequestParam(name = "division") String division, @RequestParam(name = "subdivision") String subdivision,
+			@RequestParam(name = "fcir") String fcircle, @RequestParam(name = "fservice") String fservice)
+			throws ParseException {
+		ModelAndView mav = new ModelAndView("serviceTypeFYabstractForNOS");
+		List<Map<String, Object>> serviceNosDetails = newReportDao.getServiceTypeFYabstractForNOS(circle, division,
+				subdivision, service, mon_year);
+		System.out.println(serviceNosDetails);
+		if (serviceNosDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("serviceNosDetails", serviceNosDetails);
+			mav.addObject("fcircle", fcircle);
+			mav.addObject("fservice", fservice);
+			mav.addObject("year", year);
 			mav.addObject("title", "SERVICE TYPE,CATEGORY WISE DCB ABSTRACT FOR - " + circle);
 		}
 

@@ -132,27 +132,29 @@
 					</thead>
 					<tbody>
 						<%
-							int flag = 0;
-							String cricle = "S";
-							String circletype = "S";
-							%>
-							<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
-								<c:set var="cirl" value="${mtrblc.MON_YEAR}" scope="request" />
-								<tr style="font-weight: 500;" >
-									<%
-									if (!cricle.equals((String) request.getAttribute("cirl"))) {
-									%>
-									<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${mtrblc.MON_YEAR}</td>
-									<%
-									}
-									cricle = (String) request.getAttribute("cirl");
-									%>
+						int flag = 0;
+						String cricle = "S";
+						String circletype = "S";
+						%>
+						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
+							<c:set var="cirl" value="${mtrblc.MON_YEAR}" scope="request" />
+							<tr style="font-weight: 500;">
+								<%
+								if (!cricle.equals((String) request.getAttribute("cirl"))) {
+								%>
+								<td rowspan="${CIRCOUNT[cirl]}" class="text-center">${mtrblc.MON_YEAR}</td>
+								<%
+								}
+								cricle = (String) request.getAttribute("cirl");
+								%>
 								<td>${mtrblc.CIRCLE}</td>
 								<td>${mtrblc.DIVNAME}</td>
 								<td>${mtrblc.SUBNAME}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td>${mtrblc.CTCAT}</td>
-								<td class="text-right">${mtrblc.NOS}</td>
+								<td class="text-right"><a
+									href="serviceTypeFYabstractForNOS?cir=${mtrblc.CIRCLE}&division=${mtrblc.DIVCD}&subdivision=${mtrblc.SUBCD}&mon_year=${mtrblc.MON_YEAR}
+										&service=${mtrblc.SERVTYPE}&fcir=${circle}&year=${year}&month=${month}&fservice=${service}">${mtrblc.NOS}</a></td>
 								<td class="text-right">${mtrblc.LOAD}</td>
 								<td class="text-right">${mtrblc.REC_MD}</td>
 								<td class="text-right">${mtrblc.OB}</td>
@@ -386,7 +388,7 @@
 		}
 	})()
 </script>
-<script>
+<!-- <script>
 	requirejs([ 'jquery' ], function($) {
 		$("td,th").each(
 				function() {
@@ -404,4 +406,4 @@
 		)
 
 	});
-</script>
+</script> -->
