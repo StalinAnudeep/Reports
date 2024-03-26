@@ -2114,28 +2114,54 @@ public class NewReportDao {
 			return Collections.emptyList();
 		}
 	}
-	
-	
-    //100 For Nos
+
+	// 100 For Nos
 	public List<Map<String, Object>> getServicetypewiseabstarctForNOS(String circle, String month, String service,
 			String year) {
 		String mon_year = month + "-" + year;
 		try {
 			String sql = "Select b.CTSERVTYPE servtype,c.stdesc,ctuscno uscno,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
-					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n"
-					+ "SUM(Mn_Kvah) Sales\r\n"
+					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n" + "SUM(Mn_Kvah) Sales\r\n"
 					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
 					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,SUM(round(Nvl(Tot_Pay,0))) Collection,\r\n"
 					+ "SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n"
 					+ "From (select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where Mon_Year=? union all select * from accountcopy where Mon_Year=?) A,CONS B,servtype C\r\n"
-					+ "Where A.Uscno=B.CTUscno \r\n"
-					+ "And b.ctservtype=c.stcode \r\n"
-					+ "and CTSERVTYPE=?\r\n"
-					+ "AND SUBSTR(CTUSCNO,1,3)= ? \r\n"
-					+ "GROUP BY  b.ctservtype,c.stdesc,ctuscno\r\n"
+					+ "Where A.Uscno=B.CTUscno \r\n" + "And b.ctservtype=c.stcode \r\n" + "and CTSERVTYPE=?\r\n"
+					+ "AND SUBSTR(CTUSCNO,1,3)= ? \r\n" + "GROUP BY  b.ctservtype,c.stdesc,ctuscno\r\n"
 					+ "Order By 2,3,4";
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql, new Object[] {mon_year , mon_year , service , circle });
+			return jdbcTemplate.queryForList(sql, new Object[] { mon_year, mon_year, service, circle });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public List<Map<String, Object>> getServicetypesubdivabstarctForNOS(String circle, String month, String division,
+			String subdivision, String service, String year) {
+		String mon_year = month + "-" + year;
+		try {
+			String sql = "Select SUBSTR(CTUSCNO,1,3)CIRCLE,DIVNAME,DIVCD,SUBNAME,SUBCD,\r\n"
+					+ "b.CTSERVTYPE servtype,c.stdesc,b.CTCAT,ctuscno USCNO,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
+					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,SUM(Mn_Kvah) Sales\r\n"
+					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n"
+					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR, \r\n"
+					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0\r\n"
+					+ "THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0))\r\n"
+					+ "THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND, \r\n"
+					+ "SUM(round(Nvl(Tot_Pay,0))) Collection,SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,\r\n"
+					+ "SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n"
+					+ "From (select * from Ledger_Ht_HIST  where Mon_Year=?)A,\r\n"
+					+ "CONS B,servtype C,MASTER.SPDCLMASTER\r\n"
+					+ "Where A.Uscno=B.CTUscno And b.ctservtype=c.stcode AND SUBSTR(CTSECCD,-5)=SECCD(+)\r\n"
+					+ "AND SUBSTR(CTUSCNO,1,3)=?  \r\n" + "AND DIVCD=?\r\n" + "AND SUBCD=?\r\n"
+					+ "AND b.CTSERVTYPE=?\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,DIVCD,SUBCD,SUBNAME, b.ctservtype,c.stdesc,b.CTCAT,CTUSCNO\r\n"
+					+ "Order By 1,2,3,4,5,7,8,9";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { mon_year, circle, division, subdivision, service });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
