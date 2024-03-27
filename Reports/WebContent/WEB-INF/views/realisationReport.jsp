@@ -130,19 +130,21 @@ thead>tr>th {
 						<tr class="bg-primary text-white text-center">
 							<th class="text-center" rowspan="2">CIRCLE</th>
 							<th class="text-center" rowspan="2">CATEGORY</th>
-							<th class="text-center" colspan="4">FY ${year } (CY)</th>
-							<th class="text-center" colspan="4">FY ${previousYear } (PY)</th>
+							<th class="text-center bg-info" colspan="4">FY ${year } (CY)</th>
+							<th class="text-center bg-success" colspan="4">FY ${previousYear } (PY)</th>
 
 						</tr>
-						<tr class="bg-primary text-white text-center">
-							<th class="text-center">NOS</th>
-							<th class="text-center">SALES</th>
-							<th class="text-center">REVENUE</th>
-							<th class="text-center">AVG_Realisation Per Unit</th>
-							<th class="text-center">NOS</th>
-							<th class="text-center">SALES</th>
-							<th class="text-center">REVENUE</th>
-							<th class="text-center">AVG_Realisation Per Unit</th>
+						<tr>
+							<th class="text-center bg-info">NOS</th>
+							<th class="text-center bg-info">SALES</th>
+							<th class="text-center bg-info">REVENUE</th>
+							<th class="text-center bg-info">AVG_Realisation<br> Per Unit
+							</th>
+							<th class="text-center bg-success">NOS</th>
+							<th class="text-center bg-success">SALES</th>
+							<th class="text-center bg-success">REVENUE</th>
+							<th class="text-center bg-success">AVG_Realisation<br> Per Unit
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -150,14 +152,14 @@ thead>tr>th {
 							<tr style="font-weight: 500;">
 								<td class="text-center">${frc.circle}</td>
 								<td class="text-center">${frc.cyCategory}</td>
-								<td class="text-right">${frc.cyNos}</td>
-								<td class="text-right">${frc.cySales}</td>
-								<td class="text-right">${frc.cyRevenue}</td>
-								<td class="text-right format">${frc.cyRevenue/frc.cySales}</td>
-								<td class="text-right">${frc.pyNos}</td>
-								<td class="text-right">${frc.pySales}</td>
-								<td class="text-right">${frc.pyRevenue}</td>
-								<td class="text-right format">${frc.pyRevenue/frc.pySales}</td>
+								<td class="text-right" style="background-color: #cef4ff;">${frc.cyNos}</td>
+								<td class="text-right" style="background-color: #cef4ff;">${frc.cySales}</td>
+								<td class="text-right" style="background-color: #cef4ff;">${frc.cyRevenue}</td>
+								<td class="text-right format" style="background-color: #cef4ff;">${frc.cyRevenue/frc.cySales}</td>
+								<td class="text-right" style="background-color: #fff0dd;">${frc.pyNos}</td>
+								<td class="text-right" style="background-color: #fff0dd;">${frc.pySales}</td>
+								<td class="text-right" style="background-color: #fff0dd;">${frc.pyRevenue}</td>
+								<td class="text-right format" style="background-color: #fff0dd;">${frc.pyRevenue/frc.pySales}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -165,15 +167,15 @@ thead>tr>th {
 					<tfoot>
 						<tr>
 							<th colspan="2" class="text-right">Grand Total</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.cyNos).sum()}</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.cySales).sum()}</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.cyRevenue).sum()}</th>
-							<th class="text-right format">${list.stream().map(mtrblc -> mtrblc.cyRevenue).sum()
+							<th class="text-right" style="background-color: #cef4ff;">${list.stream().map(mtrblc -> mtrblc.cyNos).sum()}</th>
+							<th class="text-right" style="background-color: #cef4ff;">${list.stream().map(mtrblc -> mtrblc.cySales).sum()}</th>
+							<th class="text-right" style="background-color: #cef4ff;">${list.stream().map(mtrblc -> mtrblc.cyRevenue).sum()}</th>
+							<th class="text-right format" style="background-color: #cef4ff;">${list.stream().map(mtrblc -> mtrblc.cyRevenue).sum()
 								/ list.stream().map(mtrblc -> mtrblc.cySales).sum()}</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.pyNos).sum()}</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.pySales).sum()}</th>
-							<th class="text-right">${list.stream().map(mtrblc -> mtrblc.pyRevenue).sum()}</th>
-							<th class="text-right format">${list.stream().map(mtrblc -> mtrblc.pyRevenue).sum()
+							<th class="text-right" style="background-color: #fff0dd;">${list.stream().map(mtrblc -> mtrblc.pyNos).sum()}</th>
+							<th class="text-right" style="background-color: #fff0dd;">${list.stream().map(mtrblc -> mtrblc.pySales).sum()}</th>
+							<th class="text-right" style="background-color: #fff0dd;">${list.stream().map(mtrblc -> mtrblc.pyRevenue).sum()}</th>
+							<th class="text-right format" style="background-color: #fff0dd;">${list.stream().map(mtrblc -> mtrblc.pyRevenue).sum()
 								/ list.stream().map(mtrblc -> mtrblc.pySales).sum()}</th>
 						</tr>
 					</tfoot>
@@ -191,7 +193,8 @@ thead>tr>th {
 		<div class="card ">
 			<div
 				class="card-body row-no-padding table-responsive-sm dataTables_wrapper">
-				<h2 class="text-center">CIRCLE WISE BILLING UNITS REPORT ${year}</h2>
+				<h2 class="text-center">CIRCLE WISE BILLING UNITS REPORT
+					${year}</h2>
 				<div class="bg-info text-white text-center"
 					onclick="exportThisWithParameter('multiLevelTable', '${title}')"
 					style="cursor: pointer; border: 1px solid #ccc; text-align: center; width: 19%; padding-bottom: 10px; padding-top: 10px;">Excel</div>
@@ -208,6 +211,7 @@ thead>tr>th {
 							<th class="text-center">HT3</th>
 							<th class="text-center">HT4</th>
 							<th class="text-center">HT5</th>
+							<th class="text-center">TOTAL</th>
 
 						</tr>
 					</thead>
@@ -223,6 +227,7 @@ thead>tr>th {
 								<td class="text-right">${frc.HT3}</td>
 								<td class="text-right">${frc.HT4}</td>
 								<td class="text-right">${frc.HT5}</td>
+								<td class="text-right">${frc.HT1 + frc.HT2 + frc.HT3 +frc.HT4 + frc.HT5}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -234,6 +239,7 @@ thead>tr>th {
 							<th class="text-right">${billingDetails.stream().map(mtrblc -> mtrblc.HT3).sum()}</th>
 							<th class="text-right">${billingDetails.stream().map(mtrblc -> mtrblc.HT4).sum()}</th>
 							<th class="text-right">${billingDetails.stream().map(mtrblc -> mtrblc.HT5).sum()}</th>
+							<th class="text-right">${billingDetails.stream().map(mtrblc -> mtrblc.HT1).sum() + billingDetails.stream().map(mtrblc -> mtrblc.HT2).sum() + billingDetails.stream().map(mtrblc -> mtrblc.HT3).sum() + billingDetails.stream().map(mtrblc -> mtrblc.HT4).sum() + billingDetails.stream().map(mtrblc -> mtrblc.HT5).sum() }</th>
 						</tr>
 					</tfoot>
 

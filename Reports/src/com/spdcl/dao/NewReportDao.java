@@ -2120,14 +2120,14 @@ public class NewReportDao {
 			String year) {
 		String mon_year = month + "-" + year;
 		try {
-			String sql = "Select b.CTSERVTYPE servtype,c.stdesc,ctuscno uscno,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
+			String sql = "Select b.CTSERVTYPE servtype,CTCAT,CTNAME,c.stdesc,ctuscno uscno,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
 					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,\r\n" + "SUM(Mn_Kvah) Sales\r\n"
 					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
 					+ "SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)<(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)-(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) END ELSE (NVL(Tot_Pay,0)) END ),0)) COLL_DEMAND,SUM(round(Nvl(Tot_Pay,0))) Collection,\r\n"
 					+ "SUM(round(Nvl(Rj_Oth,0)+Nvl(Drj,0)+Nvl(Rj_Cclpc,0))) Drj,SUM(round(Nvl(Crj,0))) Crj,SUM(round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0))) Cb\r\n"
 					+ "From (select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where Mon_Year=? union all select * from accountcopy where Mon_Year=?) A,CONS B,servtype C\r\n"
 					+ "Where A.Uscno=B.CTUscno \r\n" + "And b.ctservtype=c.stcode \r\n" + "and CTSERVTYPE=?\r\n"
-					+ "AND SUBSTR(CTUSCNO,1,3)= ? \r\n" + "GROUP BY  b.ctservtype,c.stdesc,ctuscno\r\n"
+					+ "AND SUBSTR(CTUSCNO,1,3)= ? \r\n" + "GROUP BY  b.ctservtype,c.stdesc,ctuscno,CTCAT,CTNAME\r\n"
 					+ "Order By 2,3,4";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { mon_year, mon_year, service, circle });
@@ -2145,7 +2145,7 @@ public class NewReportDao {
 		String mon_year = month + "-" + year;
 		try {
 			String sql = "Select SUBSTR(CTUSCNO,1,3)CIRCLE,DIVNAME,DIVCD,SUBNAME,SUBCD,\r\n"
-					+ "b.CTSERVTYPE servtype,c.stdesc,b.CTCAT,ctuscno USCNO,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
+					+ "b.CTSERVTYPE servtype,c.stdesc,b.CTCAT,CTNAME,ctuscno USCNO,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
 					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,SUM(Mn_Kvah) Sales\r\n"
 					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n"
 					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR, \r\n"
@@ -2159,7 +2159,7 @@ public class NewReportDao {
 					+ "Where A.Uscno=B.CTUscno And b.ctservtype=c.stcode AND SUBSTR(CTSECCD,-5)=SECCD(+)\r\n"
 					+ "AND SUBSTR(CTUSCNO,1,3)=?  \r\n" + "AND DIVCD=?\r\n" + "AND SUBCD=?\r\n"
 					+ "AND b.CTSERVTYPE=?\r\n"
-					+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,DIVCD,SUBCD,SUBNAME, b.ctservtype,c.stdesc,b.CTCAT,CTUSCNO\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),DIVNAME,DIVCD,SUBCD,SUBNAME, b.ctservtype,c.stdesc,b.CTCAT,CTNAME,CTUSCNO\r\n"
 					+ "Order By 1,2,3,4,5,7,8,9";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { mon_year, circle, division, subdivision, service });
@@ -2177,7 +2177,7 @@ public class NewReportDao {
 
 		try {
 			String sql = "Select MON_YEAR,SUBSTR(CTUSCNO,1,3)CIRCLE,DIVNAME,SUBNAME,DIVCD,SUBCD,\r\n"
-					+ "b.CTSERVTYPE servtype,c.stdesc,b.CTCAT,ctuscno USCNO,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
+					+ "b.CTSERVTYPE servtype,c.stdesc,b.CTCAT,CTNAME,ctuscno USCNO,SUM(LOAD) LOAD,SUM(REC_MD) REC_MD,\r\n"
 					+ "SUM(Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0))) Ob,SUM(Mn_Kvah) Sales\r\n"
 					+ ",SUM(round(Nvl(Cmd,0)+Nvl(Cclpc,0))) Demand,SUM(Nvl(round(CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>0 THEN\r\n"
 					+ "CASE WHEN Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)>(NVL(Tot_Pay,0)) THEN (NVL(Tot_Pay,0)) ELSE Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0) END END),0)) COLL_ARREAR,\r\n"
@@ -2190,7 +2190,7 @@ public class NewReportDao {
 					+ "CONS B,servtype C,MASTER.SPDCLMASTER\r\n"
 					+ "Where A.Uscno=B.CTUscno And b.ctservtype=c.stcode AND SUBSTR(CTSECCD,-5)=SECCD\r\n"
 					+ "AND SUBSTR(CTUSCNO,1,3)=?\r\n" + "AND DIVCD=?\r\n" + "AND SUBCD=?\r\n" + "AND b.CTSERVTYPE=?\r\n"
-					+ "GROUP BY MON_YEAR,SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,DIVCD,SUBCD,b.ctservtype,c.stdesc,b.CTCAT,CTUSCNO\r\n"
+					+ "GROUP BY MON_YEAR,SUBSTR(CTUSCNO,1,3),DIVNAME,SUBNAME,DIVCD,SUBCD,b.ctservtype,c.stdesc,b.CTCAT,CTUSCNO,CTNAME\r\n"
 					+ "Order By TO_DATE(MON_YEAR,'MON-YYYY'),DIVNAME,SUBNAME,circle,c.stdesc,b.CTCAT";
 			log.info(sql);
 			return jdbcTemplate.queryForList(sql, new Object[] { year, circle, division, subdivision, service });
@@ -2224,7 +2224,7 @@ public class NewReportDao {
 		}
 	}
 
-	// 142
+	// 142 for Billing
 	public List<Map<String, Object>> getBilledUnitsReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromDate = "01-04-" + request.getParameter("year").split("-")[0];
@@ -2235,8 +2235,8 @@ public class NewReportDao {
 			String sql = "SELECT CIRCLE, BTBLDT,NVL(HT1,0)HT1,NVL(HT2,0)HT2,NVL(HT3,0)HT3,NVL(HT4,0)HT4,NVL(HT5,0)HT5 FROM(\r\n"
 					+ "select SUBSTR(CTUSCNO,1,3)CIRCLE,BTBLDT,CTCAT ,sum(NVL(BTBKVAH,0)+NVL(BTBLCOLNY_HT,0))billed_units from cons,BILL_HIST\r\n"
 					+ "where ctuscno=BTscno AND\r\n"
-					+ "to_date(BTBLDT,'DD-MM-YY') between to_date(?,'dd-mm-yyyy') and to_date(?,'dd-mm-yyyy')\r\n" + circleString
-					+ "group by SUBSTR(CTUSCNO,1,3),BTBLDT,ctcat order by CIRCLE,BTBLDT,ctcat)\r\n"
+					+ "to_date(BTBLDT,'DD-MM-YY') between to_date(?,'dd-mm-yyyy') and to_date(?,'dd-mm-yyyy')\r\n"
+					+ circleString + "group by SUBSTR(CTUSCNO,1,3),BTBLDT,ctcat order by CIRCLE,BTBLDT,ctcat)\r\n"
 					+ "PIVOT\r\n"
 					+ "(SUM(billed_units) FOR CTCAT IN('HT1' AS HT1,'HT2' HT2,'HT3' HT3,'HT4' HT4,'HT5' HT5))\r\n"
 					+ "ORDER BY CIRCLE,BTBLDT";
@@ -2250,7 +2250,7 @@ public class NewReportDao {
 		}
 	}
 
-	// 143
+	// 142 for Relisation
 	public List<Map<String, Object>> getRealisationReport(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String fromDate = "01-04-" + request.getParameter("year").split("-")[0];
@@ -2259,18 +2259,16 @@ public class NewReportDao {
 		String circleString = circle.equals(("ALL")) ? "" : "AND substr(A.ctuscno,1,3) = '" + circle + "'";
 
 		try {
-			String sql = "SELECT SUBSTR(A.CTUSCNO,1,3)CIRCLE,C.CTCAT CAT,COUNT(A.NOS)NOS,SUM(NVL(BTBKVAH,0))SALES,\r\n"
-					+ "SUM(NVL(BTCURDEM,0))REVENUE\r\n"
-					+ "FROM CONS C,MASTER.SPDCLMASTER,\r\n"
-					+ "(SELECT SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT,COUNT(*)NOS FROM BILL_HIST,CONS WHERE BTSCNO=CTUSCNO AND TO_DATE(BTBLDT,'DD-MM-YY')=to_date(?,'DD-MM-YYYY') GROUP BY SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT)A,\r\n"
-					+ "(SELECT BTSCNO,SUM(NVL(BTBKVAH,0))BTBKVAH,SUM(NVL(BTCURDEM,0))BTCURDEM FROM BILL_HIST WHERE\r\n"
+			String sql = "SELECT SUBSTR(A.CTUSCNO,1,3)CIRCLE,C.CTCAT CAT,COUNT(A.NOS)NOS,ROUND(SUM(NVL(BTBKVAH,0)+NVL(BTBLCOLNY_HT,0)))SALES,\r\n"
+					+ "ROUND(SUM(NVL(BTCURDEM,0)))REVENUE\r\n" + "FROM CONS C,MASTER.SPDCLMASTER,\r\n"
+					+ "(SELECT SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT,COUNT(*)NOS FROM BILL_HIST,CONS WHERE BTSCNO=CTUSCNO AND TO_DATE(BTBLDT,'DD-MM-YY')=TO_DATE(?,'DD-MM-YYYY')\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT)A,\r\n"
+					+ "(SELECT BTSCNO,SUM(NVL(BTBKVAH,0))BTBKVAH,SUM(NVL(BTBLCOLNY_HT,0))BTBLCOLNY_HT,SUM(NVL(BTCURDEM,0))BTCURDEM FROM BILL_HIST WHERE\r\n"
 					+ "TO_DATE(BTBLDT,'DD-MM-YY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') GROUP BY BTSCNO)B\r\n"
-					+ "WHERE C.CTUSCNO=B.BTSCNO AND SUBSTR(CTSECCD,-5)=SECCD \r\n"
-					+ "AND C.CTUSCNO=A.CTUSCNO \r\n" + circleString
-					+ "GROUP BY SUBSTR(A.CTUSCNO,1,3),C.CTCAT\r\n"
-					+ "ORDER BY CIRCLE,C.CTCAT";
+					+ "WHERE C.CTUSCNO=B.BTSCNO AND SUBSTR(CTSECCD,-5)=SECCD(+) \r\n" + "AND C.CTUSCNO=A.CTUSCNO \r\n"
+					+ circleString + "GROUP BY SUBSTR(A.CTUSCNO,1,3),C.CTCAT\r\n" + "ORDER BY CIRCLE,C.CTCAT";
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql, new Object[] { btYear,fromDate, toDate });
+			return jdbcTemplate.queryForList(sql, new Object[] { btYear, fromDate, toDate });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
@@ -2279,6 +2277,7 @@ public class NewReportDao {
 		}
 	}
 
+	// 142 For Relisation PreviousYear
 	public List<Map<String, Object>> getRealisationReportForPreviousYear(HttpServletRequest request) {
 		String circle = request.getParameter("circle");
 		String year = request.getParameter("year");
@@ -2290,18 +2289,16 @@ public class NewReportDao {
 		String circleString = circle.equals(("ALL")) ? "" : "AND substr(A.ctuscno,1,3) = '" + circle + "'";
 
 		try {
-			String sql = "SELECT SUBSTR(A.CTUSCNO,1,3)CIRCLE,C.CTCAT CAT,COUNT(A.NOS)NOS,SUM(NVL(BTBKVAH,0))SALES,\r\n"
-					+ "SUM(NVL(BTCURDEM,0))REVENUE\r\n"
-					+ "FROM CONS C,MASTER.SPDCLMASTER,\r\n"
-					+ "(SELECT SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT,COUNT(*)NOS FROM BILL_HIST,CONS WHERE BTSCNO=CTUSCNO AND TO_DATE(BTBLDT,'DD-MM-YY')=to_date(?,'DD-MM-YYYY') GROUP BY SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT)A,\r\n"
-					+ "(SELECT BTSCNO,SUM(NVL(BTBKVAH,0))BTBKVAH,SUM(NVL(BTCURDEM,0))BTCURDEM FROM BILL_HIST WHERE\r\n"
+			String sql = "SELECT SUBSTR(A.CTUSCNO,1,3)CIRCLE,C.CTCAT CAT,COUNT(A.NOS)NOS,ROUND(SUM(NVL(BTBKVAH,0)+NVL(BTBLCOLNY_HT,0)))SALES,\r\n"
+					+ "ROUND(SUM(NVL(BTCURDEM,0)))REVENUE\r\n" + "FROM CONS C,MASTER.SPDCLMASTER,\r\n"
+					+ "(SELECT SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT,COUNT(*)NOS FROM BILL_HIST,CONS WHERE BTSCNO=CTUSCNO AND TO_DATE(BTBLDT,'DD-MM-YY')=TO_DATE(?,'DD-MM-YYYY')\r\n"
+					+ "GROUP BY SUBSTR(CTUSCNO,1,3),CTUSCNO,CTCAT)A,\r\n"
+					+ "(SELECT BTSCNO,SUM(NVL(BTBKVAH,0))BTBKVAH,SUM(NVL(BTBLCOLNY_HT,0))BTBLCOLNY_HT,SUM(NVL(BTCURDEM,0))BTCURDEM FROM BILL_HIST WHERE\r\n"
 					+ "TO_DATE(BTBLDT,'DD-MM-YY') BETWEEN TO_DATE(?,'DD-MM-YYYY') AND TO_DATE(?,'DD-MM-YYYY') GROUP BY BTSCNO)B\r\n"
-					+ "WHERE C.CTUSCNO=B.BTSCNO AND SUBSTR(CTSECCD,-5)=SECCD \r\n"
-					+ "AND C.CTUSCNO=A.CTUSCNO \r\n" + circleString
-					+ "GROUP BY SUBSTR(A.CTUSCNO,1,3),C.CTCAT\r\n"
-					+ "ORDER BY CIRCLE,C.CTCAT";
+					+ "WHERE C.CTUSCNO=B.BTSCNO AND SUBSTR(CTSECCD,-5)=SECCD \r\n" + "AND C.CTUSCNO=A.CTUSCNO \r\n"
+					+ circleString + "GROUP BY SUBSTR(A.CTUSCNO,1,3),C.CTCAT\r\n" + "ORDER BY CIRCLE,C.CTCAT";
 			log.info(sql);
-			return jdbcTemplate.queryForList(sql, new Object[] {btYear, fromDate, toDate });
+			return jdbcTemplate.queryForList(sql, new Object[] { btYear, fromDate, toDate });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			log.error(e.getMessage());

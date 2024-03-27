@@ -101,8 +101,6 @@ thead>tr>th {
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">S.NO</th>
 							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
-								CODE</th>
-							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
 								NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">CATEGORY</th>
 							<th rowspan="2" style="vertical-align: middle;">USCNO</th>
@@ -133,7 +131,6 @@ thead>tr>th {
 							varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td class="text-right">${mtrblc.CTCAT}</td>
 								<td class="text-right">${mtrblc.USCNO}</td>
