@@ -582,7 +582,7 @@
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT140</span></td>
-					<td><a href="highAndLowGridReport"> Single Service High
+					<td><a href="highAndLowGridReport"> Service Type Wise High
 							Grid _Low Grid Month wise consumption Report</a></td>
 					<td></td>
 				</tr>

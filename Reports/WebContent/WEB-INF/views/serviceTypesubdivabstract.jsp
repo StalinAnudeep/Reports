@@ -127,8 +127,8 @@
 							<th rowspan="2" style="vertical-align: middle;">NOS</th>
 							<th rowspan="2" style="vertical-align: middle;">LOAD</th>
 							<th rowspan="2" style="vertical-align: middle;">REC MD</th>
-							<th rowspan="2" style="vertical-align: middle;">OB</th>
 							<th rowspan="2" style="vertical-align: middle;">SALES</th>
+							<th rowspan="2" style="vertical-align: middle;">OB</th>
 							<th colspan="3" class="text-center">DEMAND</th>
 
 							<th colspan="4" class="text-center">COLLECTION</th>
@@ -160,8 +160,8 @@
 										&service=${mtrblc.SERVTYPE}&fcir=${circle}&year=${year}&month=${month}&fservice=${service}">${mtrblc.NOS}</a></td>
 								<td class="text-right">${mtrblc.LOAD}</td>
 								<td class="text-right">${mtrblc.REC_MD}</td>
-								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.SALES}</td>
+								<td class="text-right">${mtrblc.OB}</td>
 								<td class="text-right">${mtrblc.DEMAND}</td>
 								<td class="text-right">${mtrblc.DRJ}</td>
 								<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
@@ -183,8 +183,8 @@
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.LOAD).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.REC_MD).sum()}</th>
-							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.SALES).sum()}</th>
+							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DEMAND).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.DEMAND).sum()  + acd.stream().map(mtrblc -> mtrblc.DRJ).sum()}</th>

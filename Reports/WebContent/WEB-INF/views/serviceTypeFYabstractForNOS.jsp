@@ -114,8 +114,8 @@ thead>tr>th {
 							<th rowspan="2" style="vertical-align: middle;">NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">LOAD</th>
 							<th rowspan="2" style="vertical-align: middle;">REC MD</th>
-							<th rowspan="2" style="vertical-align: middle;">OB</th>
 							<th rowspan="2" style="vertical-align: middle;">SALES</th>
+							<th rowspan="2" style="vertical-align: middle;">OB</th>
 							<th colspan="3" class="text-center">DEMAND</th>
 
 							<th colspan="4" class="text-center">COLLECTION</th>
@@ -148,9 +148,6 @@ thead>tr>th {
 								<td class="text-left">${mtrblc.CTNAME}</td>
 								<td class="text-right">${mtrblc.LOAD}</td>
 								<td class="text-right">${mtrblc.REC_MD}</td>
-								<td class="text-right">${mtrblc.OB}</td>
-								<td class="text-right">${mtrblc.SALES}</td>
-								<td class="text-right">${mtrblc.DEMAND}</td>
 								<td class="text-right">${mtrblc.DRJ}</td>
 								<td class="text-right">${mtrblc.DEMAND+mtrblc.DRJ}</td>
 								<td class="text-right">${mtrblc.COLL_ARREAR}</td>
