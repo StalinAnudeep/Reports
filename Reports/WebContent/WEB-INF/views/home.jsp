@@ -428,6 +428,13 @@
 					<td></td>
 				</tr>
 
+				<tr>
+					<td><span><img src="./demo/brand/new_gif.gif"
+							style="width: 40px;">HT143</span></td>
+					<td><a href="htServicesReport"> HT Services Information</a></td>
+					<td></td>
+				</tr>
+
 
 
 
@@ -1315,11 +1322,11 @@
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT141</span></td>
-					<td><a href="singleServiceRedingReport"> Single
-							Service Month wise Reading Details Report</a></td>
+					<td><a href="singleServiceRedingReport"> Single Service
+							Month wise Reading Details Report</a></td>
 					<td></td>
 				</tr>
-				
+
 				<!-- <tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT142</span></td>
@@ -1327,12 +1334,12 @@
 							Month Wise Billed_Units Report</a></td>
 					<td></td>
 				</tr> -->
-				
+
 				<tr>
 					<td><span><img src="./demo/brand/new_gif.gif"
 							style="width: 40px;">HT142</span></td>
-					<td><a href="realisationReport"> Circle wise,
-							Average Rate Of Realisation Report</a></td>
+					<td><a href="realisationReport"> Circle wise, Average Rate
+							Of Realisation Report</a></td>
 					<td></td>
 				</tr>
 

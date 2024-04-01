@@ -2307,4 +2307,104 @@ public class NewReportDao {
 		}
 	}
 
+	
+	//143
+	public List<Map<String, Object>> getHtServicesReport(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String fromDate = "01-" + request.getParameter("month") + "-" + request.getParameter("year").substring(2, 4);
+		String toDate =  request.getParameter("month") + "-" + request.getParameter("year").substring(2, 4);
+		String circleString = circle.equals(("ALL")) ? "" : "AND SUBSTR(ctuscno,1,3) = '" + circle + "'";
+
+		try {
+			String sql = "select CIRCLE, SUM(HT1) HT1,SUM( HT2)HT2, SUM(HT3)HT3,SUM( HT4)HT4, SUM(HT5)  HT5 from (\r\n"
+					+ "SELECT CIRCLE,NVL(HT1,0)HT1,NVL(HT2,0)HT2,NVL(HT3,0)HT3,NVL(HT4,0)HT4,NVL(HT5,0)HT5 FROM(\r\n"
+					+ "select substr(ctuscno,1,3)circle,ctcat,count(*)COUNT from cons where \r\n"
+					+ "to_date(ctsupcondt,'DD-MM-YY') between to_date(?,'DD-MM-YY') and LAST_DAY(to_date(?,'MM-YY'))\r\n" + circleString
+					+ "group by substr(ctuscno,1,3),ctcat order by circle,ctcat)\r\n"
+					+ "PIVOT(SUM(COUNT) FOR CTCAT IN('HT1' AS HT1,'HT2' HT2,'HT3' HT3,'HT4' HT4,'HT5' HT5))\r\n"
+					+ "union\r\n"
+					+ "select distinct substr(ctuscno,1,3)CIRCLE, 0 HT1, 0 HT2, 0 HT3,0 HT4, 0 HT5 from cons )\r\n"
+					+ "group by CIRCLE ORDER BY CASE WHEN CIRCLE='VJA' THEN '1' WHEN CIRCLE='GNT' THEN '2' WHEN CIRCLE='CRD' THEN '3' WHEN CIRCLE='ONG' THEN '4' END";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { fromDate, toDate });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	//143
+	public List<Map<String, Object>> getCatWiseServiceDetails(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		String mon = request.getParameter("month");
+		
+		int month = 0;
+		if(request.getParameter("month").equals("12")) {
+			month =  01;
+		}else {
+			month =  Integer.parseInt(request.getParameter("month")) + 01;
+		}
+		
+		String fromDate = "01-" +  Integer. toString(month)  + "-" + request.getParameter("year");
+		String circleString = circle.equals(("ALL")) ? "" : "AND SUBSTR(ctuscno,1,3) = '" + circle + "'";
+
+		try {
+			String sql = "SELECT CIRCLE,NVL(HT1,0)HT1,NVL(HT2,0)HT2,NVL(HT3,0)HT3,NVL(HT4,0)HT4,NVL(HT5,0)HT5 FROM(\r\n"
+					+ "select substr(ctuscno,1,3)circle,ctcat,count(*)COUNT from cons where ctstatus='1' \r\n"
+					+ "AND ctsupcondt<to_date(?,'DD-MM-YYYY')\r\n" + circleString
+					+ "group by substr(ctuscno,1,3),ctcat order by circle,ctcat)\r\n"
+					+ "PIVOT(SUM(COUNT) FOR CTCAT IN('HT1' AS HT1,'HT2' HT2,'HT3' HT3,'HT4' HT4,'HT5' HT5))\r\n"
+					+ "ORDER BY CASE WHEN CIRCLE='VJA' THEN '1' WHEN CIRCLE='GNT' THEN '2' WHEN CIRCLE='CRD' THEN '3' WHEN CIRCLE='ONG' THEN '4' END";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] { fromDate});
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	
+	//143
+	public List<Map<String, Object>> getExistingServiceDetails(HttpServletRequest request) {
+		String circle = request.getParameter("circle");
+		int month = 0;
+		if(request.getParameter("month").equals("12")) {
+			month =  01;
+		}else {
+			month =  Integer.parseInt(request.getParameter("month")) + 01;
+		}
+		
+		String fromDate = "01-" + request.getParameter("month") + "-" + request.getParameter("year").substring(2,4);
+		
+		String toDate = "01-" +  Integer. toString(month)  + "-" + request.getParameter("year");
+		String circleString = circle.equals(("ALL")) ? "" : "AND SUBSTR(ctuscno,1,3) = '" + circle + "'";
+
+		try {
+			String sql = "SELECT CIRCLE,SUM(NVL(LIVE,0))LIVE,SUM(NVL(UDC,0))UDC,SUM(NVL(BILLSTOP,0))BILLSTOP FROM(\r\n"
+					+ "SELECT substr(ctuscno,1,3)circle,status,case when status='01' then 'Live' when status='02' then 'Billstop' when status='03' then 'Udc' end status_desc,\r\n"
+					+ "COUNT(*)COUNT FROM(\r\n"
+					+ "SELECT substr(ctuscno,1,3)circle,CTUSCNO,CTSECCD,\r\n"
+					+ "nvl((select '0'||MDCLKWHSTAT_HT from (select '0'||MDCLKWHSTAT_HT,m.* from mtrdat_hist m union all select '0'||MDCLKWHSTAT_HT,n.* from mtrdat n)\r\n"
+					+ "where TO_DATE(MDMONTH,'DD-MM-YYYY')= TO_DATE(?,'DD-MM-YYYY') and MDCLKWHSTAT_HT=3 and MSCNO=ctuscno),\r\n"
+					+ "           '0'||case when CTSTATUS=0 then 2 else CTSTATUS end) STATUS\r\n"
+					+ "           FROM CONS WHERE ctsupcondt<to_date(?,'DD-MM-YYYY') \r\n" + circleString
+					+ "           ) GROUP BY substr(ctuscno,1,3),STATUS\r\n"
+					+ "           ORDER BY circle,status)\r\n"
+					+ "PIVOT(SUM(COUNT) FOR status_desc IN('Live' AS LIVE,'Udc' AS UDC,'Billstop' AS BILLSTOP))\r\n"
+					+ "GROUP BY CIRCLE\r\n"
+					+ "ORDER BY CASE WHEN CIRCLE='VJA' THEN '1' WHEN CIRCLE='GNT' THEN '2' WHEN CIRCLE='CRD' THEN '3' WHEN CIRCLE='ONG' THEN '4' END";
+			log.info(sql);
+			return jdbcTemplate.queryForList(sql, new Object[] {   fromDate,toDate  });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
 }
