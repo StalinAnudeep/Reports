@@ -84,13 +84,11 @@
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="14">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="16">${title}</th>
 						</tr>
 						<tr>
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">S.NO</th>
-							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
-								CODE</th>
 							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
 								NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">NOS</th>
@@ -120,7 +118,6 @@
 						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td class="text-right"><a
 									href='servicetypeservices?circle=${circle}&fyear=${fyear}&servicetype=${mtrblc.SERVTYPE}&stdesc=${mtrblc.STDESC}'>${mtrblc.NOS}</a></td>
@@ -145,7 +142,7 @@
 					<tfoot>
 						<tr>
 
-							<th colspan="3" class="text-right">Grand Total</th>
+							<th colspan="2" class="text-right">Grand Total</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.NOS).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.OB).sum()}</th>
 							<th class="text-right">${acd.stream().map(mtrblc -> mtrblc.LOAD).sum()}</th>

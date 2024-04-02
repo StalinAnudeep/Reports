@@ -49,6 +49,7 @@
 								<th class="text-center" rowspan="2"
 									style="vertical-align: middle;">S.NO</th>
 								<th rowspan="2" style="vertical-align: middle;">USCNO</th>
+								<th rowspan="2" style="vertical-align: middle;">CAT</th>
 								<th rowspan="2" style="vertical-align: middle;">NAME</th>
 								<th rowspan="2" style="vertical-align: middle;">LOAD</th>
 								<th rowspan="2" style="vertical-align: middle;">REC MD</th>
@@ -78,6 +79,7 @@
 								<tr>
 									<td>${tagStatus.index + 1}</td>
 									<td class="text-left">${mtrblc.CTUSCNO}</td>
+									<td class="text-left">${mtrblc.CTCAT}</td>
 									<td class="text-left">${mtrblc.CTNAME}</td>
 									<td class="text-right">${mtrblc.LOAD}</td>
 									<td class="text-right">${mtrblc.REC_MD}</td>

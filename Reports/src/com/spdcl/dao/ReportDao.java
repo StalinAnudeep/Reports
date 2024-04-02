@@ -2178,7 +2178,7 @@ public class ReportDao {
 
 		if (circle.equalsIgnoreCase("ALL")) {
 			try {
-				String sql = "Select ctuscno,ctname,\r\n" + "sum(case when Mon_Year = '" + emptoyear
+				String sql = "Select ctuscno,ctname,CTCAT,\r\n" + "sum(case when Mon_Year = '" + emptoyear
 						+ "' then Round(Nvl(LOAD,0)) else 0 end ) LOAD,\r\n" + "sum(case when Mon_Year = '" + emptoyear
 						+ "' then Round(Nvl(REC_MD,0)) else 0 end ) REC_MD,\r\n" + "sum(case when Mon_Year = '"
 						+ fmonthYear + "' then Round(Nvl(Tot_Ob,0)+Nvl(Ob_Oth,0)+Nvl(Ob_Cclpc,0)) else 0 end ) Ob,\r\n"
@@ -2190,7 +2190,7 @@ public class ReportDao {
 						+ "' then  round(Nvl(Cbtot,0)+Nvl(Cb_Oth,0)+Nvl(Cb_Cclpc,0)) else 0 end) Cb\r\n"
 						+ "From (select LHH.*,'' STATUS_NEW, '' GOVT_PVT from Ledger_Ht_HIST LHH where to_date(Mon_Year,'MON-YYYY') between to_date(?,'MON-YYYY') and LAST_DAY(to_date(?,'MON-YYYY')) union all select * from accountcopy where to_date(Mon_Year,'MON-YYYY') between to_date(?,'MON-YYYY') and LAST_DAY(to_date(?,'MON-YYYY'))) A,CONS B,servtype C\r\n"
 						+ "Where A.Uscno=B.CTUscno \r\n" + "And b.ctservtype=c.stcode\r\n" + " AND b.CTSERVTYPE =?\r\n"
-						+ " group by ctuscno,ctname\r\n" + "Order By 1,2,3,4";
+						+ " group by ctuscno,ctname,CTCAT\r\n" + "Order By 1,2,3,4";
 				log.info(sql);
 				return jdbcTemplate.queryForList(sql,
 						new Object[] { fmonthYear, tmonthYear, fmonthYear, tmonthYear, servicetype });

@@ -95,16 +95,16 @@ thead>tr>th {
 					style="width: 100%;">
 					<thead>
 						<tr>
-							<th class="bg-primary text-white text-center" colspan="16">${title}</th>
+							<th class="bg-primary text-white text-center" colspan="17">${title}</th>
 						</tr>
 						<tr class="bg-primary text-white text-center">
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">S.NO</th>
 							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
-								CODE</th>
-							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
 								NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">USCNO</th>
+							<th rowspan="2" style="vertical-align: middle;">CAT</th>
+							<th rowspan="2" style="vertical-align: middle;">NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">LOAD</th>
 							<th rowspan="2" style="vertical-align: middle;">REC MD</th>
 							<th rowspan="2" style="vertical-align: middle;">OB</th>
@@ -132,9 +132,10 @@ thead>tr>th {
 							varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>
-								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td class="text-right">${mtrblc.USCNO}</td>
+								<td class="text-left">${mtrblc.CTCAT}</td>
+								<td class="text-left">${mtrblc.CTNAME}</td>
 								<td class="text-right">${mtrblc.LOAD}</td>
 								<td class="text-right">${mtrblc.REC_MD}</td>
 								<td class="text-right">${mtrblc.OB}</td>

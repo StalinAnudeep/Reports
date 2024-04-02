@@ -84,7 +84,6 @@
 							</tr>
 						<tr>
 							<th class="text-center" rowspan="2" style="vertical-align: middle;">S.NO</th>														
-							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE CODE</th>
 							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE NAME</th>	
 							<th rowspan="2" style="vertical-align: middle;">CATEGOERY</th>	
 							<th rowspan="2" style="vertical-align: middle;">NOS</th>		
@@ -113,7 +112,6 @@
 						<c:forEach var="mtrblc" items="${acd}" varStatus="tagStatus">
 							<tr>
 								<td>${tagStatus.index + 1}</td>								
-								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td>${mtrblc.CTCAT}</td>
 								<td class="text-right"><a

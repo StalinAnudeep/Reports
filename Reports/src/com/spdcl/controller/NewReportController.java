@@ -3,6 +3,7 @@ package com.spdcl.controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spdcl.dao.NewReportDao;
+import com.spdcl.model.ConsumerDetails;
+import com.spdcl.model.HtServiceDetails;
+import com.spdcl.model.RelisationDetails;
 import com.spdcl.model.TodDetails;
 
 @Controller
@@ -1324,25 +1328,123 @@ public class NewReportController {
 	}
 
 	// 142
-	@GetMapping("/billedUnitsReport")
-	public String billedUnitsReport() {
-		return "billedUnitsReport";
+	@GetMapping("/realisationReport")
+	public String getRealisationReport() {
+		return "realisationReport";
 	}
 
-	@PostMapping("/billedUnitsReport")
-	public ModelAndView getBilledUnitsReport(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("billedUnitsReport");
+	@PostMapping("/realisationReport")
+	public ModelAndView getRealisationReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("realisationReport");
+		String year = request.getParameter("year");
+		int fromyear = Integer.parseInt(year.split("-")[0]) - 1;
+		int toyear = Integer.parseInt(year.split("-")[1]) - 1;
+		String previousYear = Integer.toString(fromyear) + " - " + Integer.toString(toyear);
+		List<Map<String, Object>> presentFYDetails = newReportDao.getRealisationReport(request);
+		List<Map<String, Object>> previousFYDetails = newReportDao.getRealisationReportForPreviousYear(request);
 		List<Map<String, Object>> billingDetails = newReportDao.getBilledUnitsReport(request);
-		System.out.println(billingDetails);
+
 		String circle = request.getParameter("circle");
-		if (billingDetails.isEmpty()) {
+
+		List<RelisationDetails> list = new ArrayList<RelisationDetails>();
+		for (Map<String, Object> map : presentFYDetails) {
+			list.add(new RelisationDetails(map.get("CIRCLE").toString(), map.get("CAT").toString(),
+					map.get("NOS").toString(), map.get("SALES").toString(), map.get("REVENUE").toString(), null, null,
+					null, null));
+		}
+
+		for (Map<String, Object> mapPY : previousFYDetails) {
+			for (RelisationDetails td : list) {
+
+				if (td.getCyCategory().equals(mapPY.get("CAT").toString())) {
+					td.setPyCategory(mapPY.get("CAT").toString());
+					td.setPyNos(mapPY.get("NOS").toString());
+					td.setPySales(mapPY.get("SALES").toString());
+					td.setPyRevenue(mapPY.get("REVENUE").toString());
+
+				}
+			}
+		}
+
+		System.out.println(list);
+
+		if (list.isEmpty()) {
 			mav.addObject("fail", "NO DATA FOUND");
 		} else {
-			mav.addObject("billingDetails", billingDetails);
+			mav.addObject("list", list);
+			mav.addObject("previousYear", previousYear);
 			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("billingDetails", billingDetails);
 			mav.addObject("year", request.getParameter("year"));
-			mav.addObject("title", "CIRCLE WISE BILLING UNITS REPORT FOR " + (circle.equals("ALL") ? "APCPDCL" : circle)
-					+ "  " + request.getParameter("year"));
+			mav.addObject("title", "Circle wise, Average Rate Of Realisation Report "
+					+ (circle.equals("ALL") ? "APCPDCL" : circle) + "  " + request.getParameter("year"));
+		}
+		return mav;
+	}
+
+	// 143
+	@GetMapping("/htServicesReport")
+	public String getHtServicesReport() {
+		return "htServicesReport";
+	}
+
+	@PostMapping("/htServicesReport")
+	public ModelAndView getHtServicesReport(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("htServicesReport");
+		String mon_year = request.getParameter("month") + "-" + request.getParameter("year");
+		List<Map<String, Object>> releasedServiceDetails = newReportDao.getHtServicesReport(request);
+		List<Map<String, Object>> catWiseServiceDetails = newReportDao.getCatWiseServiceDetails(request);
+		List<Map<String, Object>> serviceDetails = newReportDao.getExistingServiceDetails(request);
+		String circle = request.getParameter("circle");
+		System.out.println(releasedServiceDetails);
+		System.out.println(catWiseServiceDetails);
+		System.out.println(serviceDetails);
+		
+		
+		List<HtServiceDetails> list = new ArrayList<HtServiceDetails>();
+		for (Map<String, Object> releasedDetails : releasedServiceDetails) {
+			list.add(new HtServiceDetails(releasedDetails.get("CIRCLE").toString(), releasedDetails.get("HT1").toString(), releasedDetails.get("HT2").toString(), releasedDetails.get("HT3").toString(), releasedDetails.get("HT4").toString(), releasedDetails.get("HT5").toString(),
+					null, null, null, null, null, null, null, null, null, null));
+		}
+		System.out.println(list);
+
+		for (Map<String, Object> existingDetails : catWiseServiceDetails) {
+			for (HtServiceDetails ht : list) {
+
+				if (ht.getReleasedCircle().equals(existingDetails.get("CIRCLE").toString())) {
+					ht.setExistingCircle(existingDetails.get("CIRCLE").toString());
+					ht.setExistingHt1(existingDetails.get("HT1").toString());
+					ht.setExistingHt2(existingDetails.get("HT2").toString());
+					ht.setExistingHt3(existingDetails.get("HT3").toString());
+					ht.setExistingHt4(existingDetails.get("HT4").toString());
+					ht.setExistingHt5(existingDetails.get("HT5").toString());
+				}
+			}
+		}
+		System.out.println(list);
+		
+		for (Map<String, Object> details : serviceDetails) {
+			for (HtServiceDetails ht : list) {
+
+				if (ht.getReleasedCircle().equals(details.get("CIRCLE").toString())) {
+					ht.setCircle(details.get("CIRCLE").toString());
+					ht.setUDC(details.get("UDC").toString());
+					ht.setBillStop(details.get("BILLSTOP").toString());
+					ht.setLive(details.get("LIVE").toString());
+				}
+			}
+		}
+		
+		System.out.println(list);
+		if (serviceDetails.isEmpty()) {
+			mav.addObject("fail", "NO DATA FOUND");
+		} else {
+			mav.addObject("serviceDetails", serviceDetails);
+			mav.addObject("list", list);
+			mav.addObject("circle", request.getParameter("circle"));
+			mav.addObject("mon_year", mon_year);
+			mav.addObject("title", "HT Services Information For - " + (circle.equals("ALL") ? "APCPDCL" : circle)
+					+ "  " + request.getParameter("month") + " - " + request.getParameter("year"));
 		}
 		return mav;
 	}

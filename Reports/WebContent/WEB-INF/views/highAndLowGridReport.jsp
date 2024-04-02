@@ -24,8 +24,8 @@ font-weight: bold;
 	<form class="card" action="highAndLowGridReport" method="post">
 		<div class="card-body">
 			<h3 class="card-title">
-				<strong><span class="text-danger">HT140</span> - Single
-					Service High Grid _Low Grid Month wise consumption Report</strong>
+				<strong><span class="text-danger">HT140</span> -
+					Service Type Wise High Grid _Low Grid Month wise consumption Report</strong>
 			</h3>
 			<div class="row">
 				<div class="col-md-2">
@@ -58,10 +58,10 @@ font-weight: bold;
 
 				<div class="col-md-4">
 					<div class="form-group">
-						<label class="form-label">GET Single service High&Low Grid
+						<label class="form-label">GET service Type Wise High&Low Grid
 							Report </label>
-						<button type="submit" class="btn btn-primary">GET Single
-							service High&Low Grid Report</button>
+						<button type="submit" class="btn btn-primary">GET
+							service Type Wise High&Low Grid Report</button>
 					</div>
 				</div>
 

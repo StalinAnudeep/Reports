@@ -95,8 +95,7 @@
 							<th class="text-center" rowspan="2"
 								style="vertical-align: middle;">S.NO</th>
 							<th rowspan="2" style="vertical-align: middle;">CIRCLE</th>
-							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
-								CODE</th>
+							
 							<th rowspan="2" style="vertical-align: middle;">SERVICE TYPE
 								NAME</th>
 							<th rowspan="2" style="vertical-align: middle;">NOS</th>
@@ -127,7 +126,6 @@
 							<tr>
 								<td>${tagStatus.index + 1}</td>
 								<td>${mtrblc.CIRCLE}</td>
-								<td>${mtrblc.SERVTYPE}</td>
 								<td>${mtrblc.STDESC}</td>
 								<td class="text-right"><a
 									href="servicetypewiseabstarctForNOS?cir=${mtrblc.CIRCLE}&service=${mtrblc.SERVTYPE}
