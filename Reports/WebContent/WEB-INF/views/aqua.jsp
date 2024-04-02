@@ -53,7 +53,6 @@
                   </div>
                 </div>
               </form>
-        <!-- </div> -->
 	<c:if test="${ not empty fn:trim(error)}">
 		<div id="exist" class="alert alert-danger" role="alert">${error}</div>
 	</c:if>
